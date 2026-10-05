@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Predictive Flood Alert System — Prototype Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root { --bg:#0f1b2a; --panel:#13233a; --text:#e8edf2; --muted:#9db0c4; --accent:#3f8efc; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Georgia, 'Times New Roman', serif; background:var(--bg); color:var(--text); }
+  header { padding:14px 20px; background:var(--panel); border-bottom:1px solid #22354f; }
+  header h1 { margin:0; font-size:18px; letter-spacing:.3px; }
+  header p { margin:4px 0 0; font-size:12.5px; color:var(--muted); }
+  #map { height: calc(100vh - 66px); width:100%; }
+  .legend { background:var(--panel); color:var(--text); padding:10px 12px; border-radius:6px;
+            font-size:12.5px; line-height:1.6; border:1px solid #22354f; }
+  .legend span.dot { display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:6px; }
+  .popup-title { font-weight:bold; font-size:14px; margin-bottom:4px; }
+  .popup-row { font-size:12.5px; margin:2px 0; }
+  .popup-label { color:#555; }
+  .note { background:var(--panel); border:1px solid #22354f; color:var(--muted); font-size:11.5px;
+          padding:8px 10px; border-radius:6px; max-width:230px; }
+  .leaflet-popup-content-wrapper { font-family: Georgia, 'Times New Roman', serif; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Predictive Flood Alert System — Prototype</h1>
+  <p>Team N²M · 1BCP308 Community Project · Showing documented Sept 2022 flood event + May 2022 and contrast zones</p>
+</header>
+<div id="map"></div>
+
+<script>
+const zones = [
+  { name:"RBD Layout (Sarjapur Road)", lat:12.901, lon:77.700, flooded:1, catchment:10.1,
+    cause:"Layout built on/near rajakaluve; raised road levels created a locked low pocket",
+    event:"2022-09-05 (also flooded 2022-05-05)", confidence:"high" },
+  { name:"Wipro Campus (Sarjapur Road)", lat:12.900, lon:77.696, flooded:1, catchment:11.5,
+    cause:"Road divider + tech park construction blocked natural discharge path",
+    event:"2022-09-05", confidence:"high" },
+  { name:"Outer Ring Road (RMZ Ecospace / Saul Kere)", lat:12.927, lon:77.693, flooded:1, catchment:27.9,
+    cause:"Metro rail median wall blocked natural overland spill route",
+    event:"2022-09-05", confidence:"high" },
+  { name:"Epsilon Layout / Yemalur Road", lat:12.933, lon:77.687, flooded:1, catchment:191,
+    cause:"Bridge undersized; wetland filled for STP construction removed a discharge channel",
+    event:"2022-09-05", confidence:"high" },
+  { name:"Borewell Road (Whitefield)", lat:12.969, lon:77.750, flooded:1, catchment:3.3,
+    cause:"Lake breach + demolition of informal stop wall during anti-encroachment drive",
+    event:"2022-09-07", confidence:"high" },
+  { name:"Panathur-Balagere Road", lat:12.939, lon:77.699, flooded:1, catchment:209,
+    cause:"New bridge undersized for ~28% of city's runoff; barricade blocked overland spill",
+    event:"2022-09-05", confidence:"high" },
+  { name:"Malleswaram (contrast)", lat:13.0068, lon:77.5709, flooded:0, catchment:null,
+    cause:"Older, higher-elevation core-city area; not reported as significantly affected",
+    event:"2022-09-05 (same storm, no flooding reported)", confidence:"general knowledge — verify" },
+  { name:"Jayanagar (contrast)", lat:12.9308, lon:77.5838, flooded:0, catchment:null,
+    cause:"Older, higher-elevation core-city area; not reported as significantly affected",
+    event:"2022-09-05 (same storm, no flooding reported)", confidence:"general knowledge — verify" },
+];
+
+const map = L.map('map').setView([12.95, 77.68], 11.3);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+zones.forEach(z => {
+  const color = z.flooded ? '#e04545' : '#3fae5a';
+  const radius = z.catchment ? Math.max(8, Math.min(26, Math.sqrt(z.catchment) * 2.6)) : 9;
+  const marker = L.circleMarker([z.lat, z.lon], {
+    radius, color, weight: 2, fillColor: color, fillOpacity: 0.45
+  }).addTo(map);
+  marker.bindPopup(`
+    <div class="popup-title">${z.name}</div>
+    <div class="popup-row"><span class="popup-label">Status:</span> ${z.flooded ? 'Documented flood zone' : 'Contrast / not flooded'}</div>
+    <div class="popup-row"><span class="popup-label">Event date:</span> ${z.event}</div>
+    ${z.catchment ? `<div class="popup-row"><span class="popup-label">Catchment:</span> ${z.catchment} sq km</div>` : ''}
+    <div class="popup-row"><span class="popup-label">Cause:</span> ${z.cause}</div>
+    <div class="popup-row"><span class="popup-label">Confidence:</span> ${z.confidence}</div>
+  `);
+});
+
+const legend = L.control({ position: 'bottomleft' });
+legend.onAdd = function () {
+  const div = L.DomUtil.create('div', 'legend');
+  div.innerHTML = `
+    <div><span class="dot" style="background:#e04545"></span>Documented flood zone (Sept/May 2022)</div>
+    <div><span class="dot" style="background:#3fae5a"></span>Contrast zone (not flooded, same storm)</div>
+    <div style="margin-top:4px;color:var(--muted)">Marker size ≈ catchment area</div>
+  `;
+  return div;
+};
+legend.addTo(map);
+
+const note = L.control({ position: 'topright' });
+note.onAdd = function () {
+  const div = L.DomUtil.create('div', 'note');
+  div.innerHTML = "This prototype shows documented historical zones. Live rainfall-driven risk scoring from the trained model is the Review 3 milestone.";
+  return div;
+};
+note.addTo(map);
+</script>
+</body>
+</html>
