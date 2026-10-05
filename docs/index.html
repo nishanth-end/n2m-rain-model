@@ -1,104 +1,496 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Predictive Flood Alert System — Prototype Map</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<style>
-  :root { --bg:#0f1b2a; --panel:#13233a; --text:#e8edf2; --muted:#9db0c4; --accent:#3f8efc; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: Georgia, 'Times New Roman', serif; background:var(--bg); color:var(--text); }
-  header { padding:14px 20px; background:var(--panel); border-bottom:1px solid #22354f; }
-  header h1 { margin:0; font-size:18px; letter-spacing:.3px; }
-  header p { margin:4px 0 0; font-size:12.5px; color:var(--muted); }
-  #map { height: calc(100vh - 66px); width:100%; }
-  .legend { background:var(--panel); color:var(--text); padding:10px 12px; border-radius:6px;
-            font-size:12.5px; line-height:1.6; border:1px solid #22354f; }
-  .legend span.dot { display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:6px; }
-  .popup-title { font-weight:bold; font-size:14px; margin-bottom:4px; }
-  .popup-row { font-size:12.5px; margin:2px 0; }
-  .popup-label { color:#555; }
-  .note { background:var(--panel); border:1px solid #22354f; color:var(--muted); font-size:11.5px;
-          padding:8px 10px; border-radius:6px; max-width:230px; }
-  .leaflet-popup-content-wrapper { font-family: Georgia, 'Times New Roman', serif; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map — Predictive Flood Alert System</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="css/app.css" />
+  <style>
+    .map-page-layout {
+      display: flex;
+      flex-direction: row;
+      height: calc(100vh - 105px);
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #map {
+      flex: 1;
+      height: 100%;
+      background: #0b1420;
+    }
+
+    .sidebar-panel {
+      width: 420px;
+      max-width: 100%;
+      height: 100%;
+      background: var(--panel);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .panel-section-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .zone-risk-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .zone-risk-card {
+      background: var(--panel-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .zone-risk-card:hover {
+      border-color: var(--accent);
+      background: #1e3557;
+      transform: translateX(2px);
+    }
+
+    .zone-risk-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .zone-risk-card-name {
+      font-size: 13.5px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .zone-risk-card-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .legend {
+      background: var(--panel);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      line-height: 1.6;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .legend-circle {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 2px solid #ffffff;
+    }
+
+    .note-control {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11.5px;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      max-width: 250px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .leaflet-popup-content-wrapper {
+      font-family: var(--font-serif);
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .leaflet-popup-tip {
+      background: var(--panel);
+    }
+
+    .popup-title {
+      font-weight: bold;
+      font-size: 14.5px;
+      color: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+    }
+
+    .popup-row {
+      font-size: 12px;
+      margin: 3px 0;
+      color: var(--text);
+    }
+
+    .popup-label {
+      color: var(--muted);
+    }
+
+    .top-contrib-list {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dotted var(--border);
+      font-size: 11.5px;
+    }
+
+    .error-banner {
+      background: rgba(224, 69, 69, 0.2);
+      border: 1px solid var(--risk-severe);
+      color: #fca5a5;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+    }
+
+    @media (max-width: 850px) {
+      .map-page-layout {
+        flex-direction: column;
+        height: auto;
+      }
+      #map {
+        height: 480px;
+      }
+      .sidebar-panel {
+        width: 100%;
+        height: auto;
+        border-left: none;
+        border-top: 1px solid var(--border);
+      }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <h1>Predictive Flood Alert System — Prototype</h1>
-  <p>Team N²M · 1BCP308 Community Project · Showing documented Sept 2022 flood event + May 2022 and contrast zones</p>
-</header>
-<div id="map"></div>
 
-<script>
-const zones = [
-  { name:"RBD Layout (Sarjapur Road)", lat:12.901, lon:77.700, flooded:1, catchment:10.1,
-    cause:"Layout built on/near rajakaluve; raised road levels created a locked low pocket",
-    event:"2022-09-05 (also flooded 2022-05-05)", confidence:"high" },
-  { name:"Wipro Campus (Sarjapur Road)", lat:12.900, lon:77.696, flooded:1, catchment:11.5,
-    cause:"Road divider + tech park construction blocked natural discharge path",
-    event:"2022-09-05", confidence:"high" },
-  { name:"Outer Ring Road (RMZ Ecospace / Saul Kere)", lat:12.927, lon:77.693, flooded:1, catchment:27.9,
-    cause:"Metro rail median wall blocked natural overland spill route",
-    event:"2022-09-05", confidence:"high" },
-  { name:"Epsilon Layout / Yemalur Road", lat:12.933, lon:77.687, flooded:1, catchment:191,
-    cause:"Bridge undersized; wetland filled for STP construction removed a discharge channel",
-    event:"2022-09-05", confidence:"high" },
-  { name:"Borewell Road (Whitefield)", lat:12.969, lon:77.750, flooded:1, catchment:3.3,
-    cause:"Lake breach + demolition of informal stop wall during anti-encroachment drive",
-    event:"2022-09-07", confidence:"high" },
-  { name:"Panathur-Balagere Road", lat:12.939, lon:77.699, flooded:1, catchment:209,
-    cause:"New bridge undersized for ~28% of city's runoff; barricade blocked overland spill",
-    event:"2022-09-05", confidence:"high" },
-  { name:"Malleswaram (contrast)", lat:13.0068, lon:77.5709, flooded:0, catchment:null,
-    cause:"Older, higher-elevation core-city area; not reported as significantly affected",
-    event:"2022-09-05 (same storm, no flooding reported)", confidence:"general knowledge — verify" },
-  { name:"Jayanagar (contrast)", lat:12.9308, lon:77.5838, flooded:0, catchment:null,
-    cause:"Older, higher-elevation core-city area; not reported as significantly affected",
-    event:"2022-09-05 (same storm, no flooding reported)", confidence:"general knowledge — verify" },
-];
+  <!-- Persistent Warning Banner for Synthetic Data -->
+  <div id="synthetic-banner-container"></div>
 
-const map = L.map('map').setView([12.95, 77.68], 11.3);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 18, attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
+  <!-- Shared Site Navigation Header -->
+  <header class="site-header">
+    <div class="brand-section">
+      <h1><a href="index.html">Predictive Flood Alert System</a></h1>
+      <p>Team N²M · 1BCP308 Community Project · Bengaluru Flood Risk Intelligence</p>
+    </div>
+    <nav class="main-nav" aria-label="Main Navigation">
+      <a href="index.html" class="active">Map</a>
+      <a href="ml.html">ML Analysis</a>
+      <a href="data.html">Data</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
 
-zones.forEach(z => {
-  const color = z.flooded ? '#e04545' : '#3fae5a';
-  const radius = z.catchment ? Math.max(8, Math.min(26, Math.sqrt(z.catchment) * 2.6)) : 9;
-  const marker = L.circleMarker([z.lat, z.lon], {
-    radius, color, weight: 2, fillColor: color, fillOpacity: 0.45
-  }).addTo(map);
-  marker.bindPopup(`
-    <div class="popup-title">${z.name}</div>
-    <div class="popup-row"><span class="popup-label">Status:</span> ${z.flooded ? 'Documented flood zone' : 'Contrast / not flooded'}</div>
-    <div class="popup-row"><span class="popup-label">Event date:</span> ${z.event}</div>
-    ${z.catchment ? `<div class="popup-row"><span class="popup-label">Catchment:</span> ${z.catchment} sq km</div>` : ''}
-    <div class="popup-row"><span class="popup-label">Cause:</span> ${z.cause}</div>
-    <div class="popup-row"><span class="popup-label">Confidence:</span> ${z.confidence}</div>
-  `);
-});
+  <!-- Interactive Map and Controls Layout -->
+  <div class="map-page-layout">
+    
+    <!-- Left: Leaflet Map Container -->
+    <div id="map" role="region" aria-label="Bengaluru Flood Risk Map"></div>
 
-const legend = L.control({ position: 'bottomleft' });
-legend.onAdd = function () {
-  const div = L.DomUtil.create('div', 'legend');
-  div.innerHTML = `
-    <div><span class="dot" style="background:#e04545"></span>Documented flood zone (Sept/May 2022)</div>
-    <div><span class="dot" style="background:#3fae5a"></span>Contrast zone (not flooded, same storm)</div>
-    <div style="margin-top:4px;color:var(--muted)">Marker size ≈ catchment area</div>
-  `;
-  return div;
-};
-legend.addTo(map);
+    <!-- Right: Rainfall Scorer & Zone Risk Sidebar -->
+    <aside class="sidebar-panel" aria-label="Flood Risk Controls and Ranked Zones">
+      
+      <div>
+        <div class="panel-section-title">
+          <span>City-Wide Rainfall Scenario</span>
+          <button type="button" id="score-btn" class="btn btn-primary btn-sm">Score All Zones</button>
+        </div>
+        <p style="font-size:12px; color:var(--muted); margin:0 0 10px 0;">
+          Adjust 10-day rainfall (mm). Scores update live (300ms debounce) or on clicking Score.
+        </p>
+        
+        <!-- Reusable Rainfall Component Container -->
+        <div id="rainfall-widget"></div>
+      </div>
 
-const note = L.control({ position: 'topright' });
-note.onAdd = function () {
-  const div = L.DomUtil.create('div', 'note');
-  div.innerHTML = "This prototype shows documented historical zones. Live rainfall-driven risk scoring from the trained model is the Review 3 milestone.";
-  return div;
-};
-note.addTo(map);
-</script>
+      <!-- Error message container -->
+      <div id="error-container" style="display:none;" class="error-banner"></div>
+
+      <!-- Sorted Zones by Risk Panel -->
+      <div>
+        <div class="panel-section-title">
+          <span>Zones Ranked by Risk</span>
+          <span id="zone-count-badge" style="font-size:11.5px; color:var(--muted);">8 zones</span>
+        </div>
+        <p style="font-size:11.5px; color:var(--muted); margin:0 0 8px 0;">
+          Click any zone below to center and inspect details:
+        </p>
+        <div id="zones-list" class="zone-risk-list">
+          <div style="font-size:12px; color:var(--muted); padding:10px 0;">Loading zones...</div>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script src="js/common.js"></script>
+  <script>
+    // Map State
+    let map = null;
+    let zonesData = [];
+    let predictionsMap = {}; // zone_id -> prediction result
+    let markerLayerGroup = null;
+    let zoneMarkers = {};    // zone_id -> L.circleMarker
+    let rainfallWidget = null;
+
+    // Initialize Map
+    function initMap() {
+      map = L.map('map').setView([12.945, 77.67], 11.4);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      markerLayerGroup = L.layerGroup().addTo(map);
+
+      // Add Custom Legend
+      const legend = L.control({ position: 'bottomleft' });
+      legend.onAdd = function () {
+        const div = L.DomUtil.create('div', 'legend');
+        div.innerHTML = `
+          <div style="font-weight:bold; margin-bottom:4px; border-bottom:1px solid var(--border); padding-bottom:3px;">Map Legend</div>
+          <div class="legend-item"><span class="legend-circle" style="background:#e04545; border-color:#e04545;"></span> Predicted: Severe Risk</div>
+          <div class="legend-item"><span class="legend-circle" style="background:#e67e22; border-color:#e67e22;"></span> Predicted: High Risk</div>
+          <div class="legend-item"><span class="legend-circle" style="background:#e6b800; border-color:#e6b800;"></span> Predicted: Moderate Risk</div>
+          <div class="legend-item"><span class="legend-circle" style="background:#3fae5a; border-color:#3fae5a;"></span> Predicted: Low Risk</div>
+          <div style="margin-top:6px; padding-top:4px; border-top:1px dotted var(--border);">
+            <div class="legend-item"><span style="display:inline-block; width:13px; height:13px; border-radius:50%; border:3px solid #e04545; background:transparent;"></span> Red Outer Ring = Documented Flood Zone</div>
+            <div class="legend-item"><span style="display:inline-block; width:13px; height:13px; border-radius:50%; border:3px solid #3fae5a; background:transparent;"></span> Green Outer Ring = Contrast Zone (No flood)</div>
+          </div>
+          <div style="margin-top:4px; font-size:11px; color:var(--muted)">Marker radius ≈ catchment area (sq km)</div>
+        `;
+        return div;
+      };
+      legend.addTo(map);
+
+      // Add Informational Review-3 Note
+      const note = L.control({ position: 'topright' });
+      note.onAdd = function () {
+        const div = L.DomUtil.create('div', 'note-control');
+        div.innerHTML = "<strong>Review 3 Prototype:</strong> Live rainfall-driven risk scoring powered by an XGBoost model. Ring colors show documented Sept 2022 ground truth; fills reflect predicted risk.";
+        return div;
+      };
+      note.addTo(map);
+    }
+
+    // Load Zones from Backend API
+    async function loadZones() {
+      const errBox = document.getElementById("error-container");
+      errBox.style.display = "none";
+
+      try {
+        const data = await fetchAPI("/api/zones");
+        zonesData = data.zones || [];
+        
+        // Initial scoring with default preset (storm)
+        await scoreAllZones();
+      } catch (err) {
+        console.error("Failed to load zones:", err);
+        errBox.style.display = "block";
+        errBox.textContent = `Error connecting to backend API: ${err.message}. Scoring disabled.`;
+        document.getElementById("score-btn").disabled = true;
+      }
+    }
+
+    // Call /api/predict_all and refresh markers and ranking
+    async function scoreAllZones() {
+      const errBox = document.getElementById("error-container");
+      errBox.style.display = "none";
+
+      if (!rainfallWidget) return;
+      const rainfall_10d = rainfallWidget.getValues();
+
+      try {
+        const res = await fetchAPI("/api/predict_all", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ rainfall_10d })
+        });
+
+        // Store predictions indexed by zone_id
+        predictionsMap = {};
+        res.predictions.forEach(p => {
+          predictionsMap[p.zone_id] = p;
+        });
+
+        updateMarkers();
+        updateRankingList();
+      } catch (err) {
+        console.error("Scoring failed:", err);
+        errBox.style.display = "block";
+        errBox.textContent = `Scoring error: ${err.message}`;
+      }
+    }
+
+    // Update or create Leaflet markers
+    function updateMarkers() {
+      markerLayerGroup.clearLayers();
+      zoneMarkers = {};
+
+      zonesData.forEach(z => {
+        const pred = predictionsMap[z.id];
+        const riskBand = pred ? pred.risk_band : "Unknown";
+        const meta = getRiskBandMeta(riskBand);
+        
+        // Documented status ring color: Red for documented flood, Green for contrast
+        const borderColor = z.flooded ? '#e04545' : '#3fae5a';
+        const fillColor = meta.color;
+        
+        // Catchment-based radius
+        const radius = z.catchment ? Math.max(9, Math.min(26, Math.sqrt(z.catchment) * 2.6)) : 10;
+
+        const marker = L.circleMarker([z.lat, z.lon], {
+          radius: radius,
+          color: borderColor,        // Documented ground truth ring
+          weight: 3.5,               // Prominent ring border
+          fillColor: fillColor,      // Predicted risk color
+          fillOpacity: 0.85
+        }).addTo(markerLayerGroup);
+
+        zoneMarkers[z.id] = marker;
+
+        // Build popup content
+        let popupHtml = `
+          <div class="popup-title">${escapeHTML(z.name)}</div>
+          <div class="popup-row">
+            <span class="popup-label">Predicted Risk:</span> 
+            <span class="risk-badge ${meta.class}">${escapeHTML(riskBand)}</span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; margin-left:4px;">(Index: ${pred ? pred.risk_score.toFixed(3) : 'N/A'})</span>
+          </div>
+          <div class="popup-row">
+            <span class="popup-label">Ground Truth:</span> 
+            <strong>${z.flooded ? '<span style="color:#f87171">Documented flood zone</span>' : '<span style="color:#4ade80">Contrast zone (No flood)</span>'}</strong>
+          </div>
+          <div class="popup-row"><span class="popup-label">Event Reference:</span> ${escapeHTML(z.event)}</div>
+          ${z.catchment ? `<div class="popup-row"><span class="popup-label">Catchment Area:</span> ${z.catchment} sq km</div>` : ''}
+          <div class="popup-row"><span class="popup-label">Local Cause:</span> ${escapeHTML(z.cause)}</div>
+          <div class="popup-row"><span class="popup-label">Matched Mock Cell:</span> #${z.matched_cell_id} (${z.distance_m} m away)</div>
+        `;
+
+        if (pred && pred.top_contributions && pred.top_contributions.length > 0) {
+          popupHtml += `
+            <div class="top-contrib-list">
+              <div style="font-weight:bold; margin-bottom:3px; color:var(--muted);">Key Model Drivers:</div>
+              ${pred.top_contributions.map(c => `
+                <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
+                  <span>${escapeHTML(c.feature)}:</span>
+                  <span style="font-family:var(--font-mono); color:${c.contribution >= 0 ? '#f87171' : '#4ade80'};">
+                    ${c.contribution >= 0 ? '+' : ''}${c.contribution.toFixed(3)}
+                  </span>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        }
+
+        marker.bindPopup(popupHtml);
+      });
+    }
+
+    // Update the Sidebar Zones list sorted by predicted risk descending
+    function updateRankingList() {
+      const container = document.getElementById("zones-list");
+      if (!container) return;
+
+      // Sort zones by predicted risk_score descending
+      const sorted = [...zonesData].sort((a, b) => {
+        const scoreA = predictionsMap[a.id] ? predictionsMap[a.id].risk_score : -1;
+        const scoreB = predictionsMap[b.id] ? predictionsMap[b.id].risk_score : -1;
+        return scoreB - scoreA;
+      });
+
+      let html = "";
+      sorted.forEach((z, idx) => {
+        const pred = predictionsMap[z.id];
+        const riskBand = pred ? pred.risk_band : "Unknown";
+        const meta = getRiskBandMeta(riskBand);
+        const scoreStr = pred ? pred.risk_score.toFixed(3) : "—";
+        const isDocFlood = z.flooded === 1;
+
+        html += `
+          <div class="zone-risk-card" data-zone-id="${z.id}" tabindex="0" role="button" aria-label="Pan to ${escapeHTML(z.name)}, risk: ${riskBand}">
+            <div class="zone-risk-card-header">
+              <span class="zone-risk-card-name">${idx + 1}. ${escapeHTML(z.name)}</span>
+              <span class="risk-badge ${meta.class}">${escapeHTML(riskBand)}</span>
+            </div>
+            <div class="zone-risk-card-sub">
+              <span>Risk Index: <strong style="font-family:var(--font-mono); color:#ffffff;">${scoreStr}</strong></span>
+              <span>Truth: <strong style="color:${isDocFlood ? '#f87171' : '#4ade80'};">${isDocFlood ? 'Flooded' : 'Contrast'}</strong></span>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      // Add click listeners to cards
+      container.querySelectorAll(".zone-risk-card").forEach(card => {
+        const selectZone = () => {
+          const zId = parseInt(card.getAttribute("data-zone-id"));
+          const z = zonesData.find(item => item.id === zId);
+          const marker = zoneMarkers[zId];
+          if (z && marker) {
+            map.setView([z.lat, z.lon], 13.5, { animate: true });
+            marker.openPopup();
+          }
+        };
+
+        card.addEventListener("click", selectZone);
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            selectZone();
+          }
+        });
+      });
+    }
+
+    // Initialize Page
+    document.addEventListener("DOMContentLoaded", () => {
+      initMap();
+
+      // Render rainfall component inside sidebar
+      rainfallWidget = renderRainfallComponent("rainfall-widget", RAINFALL_PRESETS.storm.values, (values) => {
+        scoreAllZones();
+      });
+
+      // Manual score button trigger
+      document.getElementById("score-btn").addEventListener("click", () => {
+        scoreAllZones();
+      });
+
+      loadZones();
+    });
+  </script>
 </body>
 </html>

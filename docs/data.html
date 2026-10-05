@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Transparency — Predictive Flood Alert System</title>
+  <link rel="stylesheet" href="css/app.css" />
+  <style>
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      background: var(--panel-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 14px;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    .pagination-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 3px 10px;
+      font-size: 12px;
+    }
+
+    .badge-in-model {
+      background: rgba(63, 142, 252, 0.2);
+      border: 1px solid rgba(63, 142, 252, 0.4);
+      color: #93c5fd;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .formula-box {
+      font-family: var(--font-mono);
+      background: #09121c;
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: #93c5fd;
+      font-size: 12px;
+      margin: 8px 0;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Persistent Warning Banner for Synthetic Data -->
+  <div id="synthetic-banner-container"></div>
+
+  <!-- Shared Site Navigation Header -->
+  <header class="site-header">
+    <div class="brand-section">
+      <h1><a href="index.html">Predictive Flood Alert System</a></h1>
+      <p>Team N²M · 1BCP308 Community Project · Bengaluru Flood Risk Intelligence</p>
+    </div>
+    <nav class="main-nav" aria-label="Main Navigation">
+      <a href="index.html">Map</a>
+      <a href="ml.html">ML Analysis</a>
+      <a href="data.html" class="active">Data</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main class="page-container">
+    
+    <!-- Section 1: Dataset Status Card -->
+    <section class="card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 14px;">
+        <div>
+          <h2 style="margin: 0; font-size: 19px; color: #ffffff;">Dataset Status &amp; Provenance</h2>
+          <p style="margin: 4px 0 0; font-size: 13px; color: var(--muted);">Transparency audit of data powering model training and baseline features.</p>
+        </div>
+        <a href="/download/flood_dataset.csv" class="btn btn-primary" download="flood_dataset.csv">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+          Download flood_dataset.csv
+        </a>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-label">Data Mode</div>
+          <div class="stat-value" id="status-synthetic-badge" style="color: #f59e0b; font-size: 20px;">SYNTHETIC</div>
+          <div class="stat-desc">Mock generator enabled</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Observations</div>
+          <div class="stat-value" id="status-row-count">—</div>
+          <div class="stat-desc">Cell-day rows</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Date Coverage</div>
+          <div class="stat-value" id="status-date-range" style="font-size: 17px;">—</div>
+          <div class="stat-desc">Spans ~43 candidate dates</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Positive Flood Rate</div>
+          <div class="stat-value" id="status-flood-rate" style="color: #f87171;">—</div>
+          <div class="stat-desc" id="status-positives-sub">— positive events</div>
+        </div>
+      </div>
+
+      <!-- Breakdown pills -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 10px;">
+        <div style="background: var(--panel-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px;">
+          <div style="font-size: 12px; font-weight: bold; color: #ffffff; margin-bottom: 6px;">Label Evidence Sources:</div>
+          <div class="pill-list" id="label-sources-list">Loading sources...</div>
+        </div>
+        <div style="background: var(--panel-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px;">
+          <div style="font-size: 12px; font-weight: bold; color: #ffffff; margin-bottom: 6px;">Confidence Breakdown:</div>
+          <div class="pill-list" id="label-conf-list">Loading confidences...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: How this data was created -->
+    <section class="card">
+      <h2 class="card-title">How This Synthetic Dataset Was Created</h2>
+      <p style="font-size: 13.5px; color: var(--muted); margin-bottom: 10px;">
+        To unblock full-stack engineering and model integration before the live satellite and gauge pipeline files arrive, a generator script (<span class="mono-cell">model/make_mock_dataset.py</span>) simulates Bengaluru terrain and storm flooding with deterministic seed (<span class="mono-cell">seed = 1</span>).
+      </p>
+      
+      <div style="font-size: 13px; line-height: 1.6; color: var(--text);">
+        <p><strong>1. Spatial Grid:</strong> 600 synthetic cells spanning Bengaluru latitude (12.85° to 13.15°) and longitude (77.45° to 77.80°). Each cell receives realistic physical terrain distributions: elevation (DEM ~900m), slope, Topographic Wetness Index (TWI), HAND, impervious surface fraction (10% to 95%), and proximity to lakes and stormwater channels.</p>
+        <p><strong>2. Storm Windows:</strong> 3 designated historical storm dates (2020-10-20, 2021-11-18, 2022-09-05) receiving heavy gamma-distributed rainfall (<span class="mono-cell">r1 ~ Gamma(2, 25)</span>) plus 40 ordinary background days (<span class="mono-cell">r1 ~ Gamma(1, 6)</span>).</p>
+        <p><strong>3. Underlying Generative Logit:</strong> Flood outcomes are determined by physical interaction between rainfall, wetness, drainage height, and built-up fraction:</p>
+      </div>
+
+      <div class="formula-box">
+        z = 0.05 * rain_3d_mm + 0.25 * twi - 0.35 * hand_m - 0.002 * dist_lake_m + 1.5 * imperv_frac - 5.5<br/>
+        P(flood_label = 1) = 1 / (1 + exp(-z))
+      </div>
+
+      <p style="font-size: 12.5px; color: var(--muted); margin-top: 10px;">
+        <strong>Zero-Code Real Data Drop-in:</strong> When Member 1 provides the real <span class="mono-cell">flood_dataset.csv</span> derived from CHIRPS precipitation, Copernicus DEM, and Sentinel-1 SAR imagery, placing it in <span class="mono-cell">data/flood_dataset.csv</span> immediately switches the entire platform to real data without changing any application code.
+      </p>
+    </section>
+
+    <!-- Section 3: Column Specification Dictionary -->
+    <section class="card">
+      <h2 class="card-title">Specification Column Dictionary</h2>
+      <p class="card-subtitle">
+        Column definitions, physical units, and priorities directly compiled from Member 1's Dataset Specification document (<span class="mono-cell">Flood_Dataset_Specification_for_Member1.docx</span>).
+      </p>
+
+      <div class="table-responsive" style="max-height: 380px; overflow-y: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Column Name</th>
+              <th>Type</th>
+              <th>Unit</th>
+              <th>Description</th>
+              <th>Spec Priority</th>
+              <th>In Model?</th>
+            </tr>
+          </thead>
+          <tbody id="columns-spec-tbody">
+            <tr><td colspan="6" style="color:var(--muted);">Loading column specification...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 4: Per-Column Summary Statistics -->
+    <section class="card">
+      <h2 class="card-title">Per-Column Summary Statistics</h2>
+      <p class="card-subtitle">Computed values (min, mean, max, and missing counts) across all 25,800 dataset rows.</p>
+
+      <div class="table-responsive" style="max-height: 360px; overflow-y: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Column</th>
+              <th>Data Type</th>
+              <th>Min</th>
+              <th>Mean</th>
+              <th>Max</th>
+              <th>Missing Rows</th>
+              <th>Missing %</th>
+            </tr>
+          </thead>
+          <tbody id="summary-stats-tbody">
+            <tr><td colspan="7" style="color:var(--muted);">Calculating summary stats...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 5: Paginated & Filterable Dataset Explorer -->
+    <section class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+        <div>
+          <h2 style="margin: 0; font-size: 18px; color: #ffffff;">Dataset Explorer (Server-Side Paginated)</h2>
+          <p style="margin: 2px 0 0; font-size: 12.5px; color: var(--muted);">Explore observations with live server-side filtering.</p>
+        </div>
+      </div>
+
+      <!-- Filter Controls Bar -->
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label for="filter-flood">Flood Label:</label>
+          <select id="filter-flood">
+            <option value="">All Rows</option>
+            <option value="1">Flooded Only (1)</option>
+            <option value="0">Non-Flooded Only (0)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-date">Date (YYYY-MM-DD):</label>
+          <input type="text" id="filter-date" placeholder="e.g. 2022-09-05" style="width: 130px;" />
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-ward">Ward:</label>
+          <input type="text" id="filter-ward" placeholder="Ward ID" style="width: 80px;" />
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-page-size">Per Page:</label>
+          <select id="filter-page-size">
+            <option value="25">25</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+
+        <button type="button" id="apply-filters-btn" class="btn btn-primary btn-sm">Filter</button>
+        <button type="button" id="reset-filters-btn" class="btn btn-sm">Reset</button>
+      </div>
+
+      <!-- Data Table View -->
+      <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+        <table class="data-table" id="data-explorer-table">
+          <thead id="data-explorer-thead">
+            <tr><th>Loading data...</th></tr>
+          </thead>
+          <tbody id="data-explorer-tbody">
+            <tr><td>Loading observations...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Footer -->
+      <div class="pagination-controls">
+        <span id="page-summary-text">Showing 0 - 0 of 0</span>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" id="prev-page-btn" class="btn btn-sm" disabled>&larr; Previous</button>
+          <span id="page-indicator" style="padding: 4px 8px; font-weight: bold; color: #ffffff;">Page 1</span>
+          <button type="button" id="next-page-btn" class="btn btn-sm" disabled>Next &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    Predictive Flood Alert System · Team N²M · 1BCP308 Community Project · Powered by XGBoost &amp; FastAPI
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script>
+    // State
+    let currentPage = 1;
+    let pageSize = 50;
+    let totalPages = 1;
+    let totalRows = 0;
+
+    // Load Summary & Status
+    async function loadDataSummary() {
+      try {
+        const sum = await fetchAPI("/api/data/summary");
+
+        document.getElementById("status-row-count").textContent = sum.row_count.toLocaleString();
+        document.getElementById("status-date-range").textContent = `${sum.date_range.min.substring(0,10)} to ${sum.date_range.max.substring(0,10)}`;
+        document.getElementById("status-flood-rate").textContent = `${(sum.flood_rate * 100).toFixed(2)}%`;
+        document.getElementById("status-positives-sub").textContent = `${sum.positives.toLocaleString()} positive observations`;
+
+        // Sources pills
+        const srcContainer = document.getElementById("label-sources-list");
+        srcContainer.innerHTML = "";
+        Object.entries(sum.label_source_breakdown).forEach(([k, v]) => {
+          const pill = document.createElement("span");
+          pill.className = "pill-item";
+          pill.textContent = `${k}: ${v.toLocaleString()} (${((v / sum.row_count)*100).toFixed(1)}%)`;
+          srcContainer.appendChild(pill);
+        });
+
+        // Confidence pills
+        const confContainer = document.getElementById("label-conf-list");
+        confContainer.innerHTML = "";
+        Object.entries(sum.label_confidence_breakdown).forEach(([k, v]) => {
+          const pill = document.createElement("span");
+          pill.className = "pill-item";
+          pill.textContent = `${k}: ${v.toLocaleString()} (${((v / sum.row_count)*100).toFixed(1)}%)`;
+          confContainer.appendChild(pill);
+        });
+
+        // Summary Stats Table
+        const statsTbody = document.getElementById("summary-stats-tbody");
+        statsTbody.innerHTML = "";
+        Object.values(sum.column_stats).forEach(col => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td><strong>${escapeHTML(col.name)}</strong></td>
+            <td class="mono-cell">${escapeHTML(col.dtype)}</td>
+            <td class="mono-cell">${col.min !== undefined && col.min !== null ? col.min : '—'}</td>
+            <td class="mono-cell">${col.mean !== undefined && col.mean !== null ? col.mean : '—'}</td>
+            <td class="mono-cell">${col.max !== undefined && col.max !== null ? col.max : '—'}</td>
+            <td class="mono-cell">${col.missing}</td>
+            <td class="mono-cell">${col.missing_pct}%</td>
+          `;
+          statsTbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        console.error("Failed to load data summary:", err);
+      }
+    }
+
+    // Load Column Specification Dictionary
+    async function loadColumnSpec() {
+      try {
+        const spec = await fetchAPI("/api/data/columns");
+        const tbody = document.getElementById("columns-spec-tbody");
+        tbody.innerHTML = "";
+
+        spec.columns.forEach(col => {
+          const tr = document.createElement("tr");
+          const inModelBadge = col.used_in_model 
+            ? `<span class="badge-in-model">YES (Model Feature)</span>` 
+            : `<span style="color:var(--muted); font-size:11px;">No</span>`;
+
+          tr.innerHTML = `
+            <td class="mono-cell" style="font-weight:bold; color:#ffffff;">${escapeHTML(col.name)}</td>
+            <td class="mono-cell">${escapeHTML(col.type)}</td>
+            <td class="mono-cell">${escapeHTML(col.unit)}</td>
+            <td>${escapeHTML(col.description)}</td>
+            <td class="mono-cell">${escapeHTML(col.priority)}</td>
+            <td>${inModelBadge}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Failed to load column spec:", err);
+      }
+    }
+
+    // Load Paginated Rows from /api/data
+    async function fetchRows() {
+      const floodVal = document.getElementById("filter-flood").value;
+      const dateVal = document.getElementById("filter-date").value.trim();
+      const wardVal = document.getElementById("filter-ward").value.trim();
+      pageSize = parseInt(document.getElementById("filter-page-size").value);
+
+      let url = `/api/data?page=${currentPage}&page_size=${pageSize}`;
+      if (floodVal !== "") url += `&flood_label=${encodeURIComponent(floodVal)}`;
+      if (dateVal !== "") url += `&date=${encodeURIComponent(dateVal)}`;
+      if (wardVal !== "") url += `&ward=${encodeURIComponent(wardVal)}`;
+
+      const tbody = document.getElementById("data-explorer-tbody");
+      tbody.innerHTML = `<tr><td colspan="15" style="color:var(--muted); padding:16px;">Loading rows...</td></tr>`;
+
+      try {
+        const res = await fetchAPI(url);
+        totalPages = res.total_pages;
+        totalRows = res.total;
+        const rows = res.rows || [];
+
+        // Build Table Header
+        if (rows.length > 0) {
+          const thead = document.getElementById("data-explorer-thead");
+          const cols = Object.keys(rows[0]);
+          thead.innerHTML = `<tr>${cols.map(c => `<th>${escapeHTML(c)}</th>`).join('')}</tr>`;
+
+          // Build Table Body
+          tbody.innerHTML = rows.map(r => {
+            const isFlood = r.flood_label === 1;
+            const rowHighlight = isFlood ? 'style="background:rgba(224, 69, 69, 0.08);"' : '';
+            return `
+              <tr ${rowHighlight}>
+                ${cols.map(c => {
+                  let val = r[c];
+                  if (typeof val === 'number') {
+                    val = Number.isInteger(val) ? val : val.toFixed(3);
+                  }
+                  if (c === 'flood_label') {
+                    val = val === 1 ? '<strong style="color:#f87171">1 (Flood)</strong>' : '<span style="color:#9db0c4">0</span>';
+                  }
+                  return `<td class="mono-cell">${val !== null && val !== undefined ? val : ''}</td>`;
+                }).join('')}
+              </tr>
+            `;
+          }).join('');
+        } else {
+          tbody.innerHTML = `<tr><td colspan="15" style="color:var(--muted); padding:16px;">No rows matched your filter query.</td></tr>`;
+        }
+
+        // Update Pagination Controls
+        const startRow = totalRows === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+        const endRow = Math.min(totalRows, currentPage * pageSize);
+        document.getElementById("page-summary-text").textContent = `Showing ${startRow} - ${endRow} of ${totalRows.toLocaleString()} rows`;
+        document.getElementById("page-indicator").textContent = `Page ${currentPage} of ${totalPages}`;
+        
+        document.getElementById("prev-page-btn").disabled = currentPage <= 1;
+        document.getElementById("next-page-btn").disabled = currentPage >= totalPages;
+
+      } catch (err) {
+        console.error("Failed to fetch data rows:", err);
+        tbody.innerHTML = `<tr><td colspan="15" style="color:#f87171; padding:16px;">Error loading rows: ${err.message}</td></tr>`;
+      }
+    }
+
+    // Initialize Page
+    document.addEventListener("DOMContentLoaded", () => {
+      loadDataSummary();
+      loadColumnSpec();
+      fetchRows();
+
+      document.getElementById("apply-filters-btn").addEventListener("click", () => {
+        currentPage = 1;
+        fetchRows();
+      });
+
+      document.getElementById("reset-filters-btn").addEventListener("click", () => {
+        document.getElementById("filter-flood").value = "";
+        document.getElementById("filter-date").value = "";
+        document.getElementById("filter-ward").value = "";
+        currentPage = 1;
+        fetchRows();
+      });
+
+      document.getElementById("prev-page-btn").addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
+          fetchRows();
+        }
+      });
+
+      document.getElementById("next-page-btn").addEventListener("click", () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          fetchRows();
+        }
+      });
+
+      document.getElementById("filter-page-size").addEventListener("change", () => {
+        currentPage = 1;
+        fetchRows();
+      });
+    });
+  </script>
+</body>
+</html>

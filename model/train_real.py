@@ -40,6 +40,10 @@ def fit(tr):
     m.fit(tr[FEATURES], tr.flood_label, sample_weight=weights(tr))
     return m
 
+import os
+
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 def metrics(y, p, thr):
     tn, fp, fn, tp = confusion_matrix(y, p >= thr, labels=[0, 1]).ravel()
     return dict(thr=round(float(thr), 2), POD=round(tp / max(tp + fn, 1), 2), FAR=round(fp / max(tp + fp, 1), 2),
@@ -47,10 +51,16 @@ def metrics(y, p, thr):
 
 def pooled_report(name, y, p):
     thr = max(np.arange(0.05, 0.96, 0.05), key=lambda t: metrics(y, p, t)["CSI"])
-    print(f"[{name}] pooled PR-AUC {average_precision_score(y, p):.3f} (chance = {y.mean():.3f}) | best-CSI threshold: {metrics(y, p, thr)}")
+    m = metrics(y, p, thr)
+    pr_auc = float(average_precision_score(y, p))
+    chance = float(y.mean())
+    print(f"[{name}] pooled PR-AUC {pr_auc:.3f} (chance = {chance:.3f}) | best-CSI threshold: {m}")
     print("    (threshold picked on these same predictions -> slightly optimistic; confirm on a final held-out event)")
+    return {"pr_auc": round(pr_auc, 4), "chance": round(chance, 4), "best_threshold": m}
 
 # ---- A) leave-one-event-out: train without the storm (+/-7 days buffer), test on that storm ----
+per_event_results = []
+leave_one_out_report = None
 if len(events) >= 2:
     ys, ps = [], []
     for s, e in events:
@@ -58,9 +68,17 @@ if len(events) >= 2:
         train = df[(df.date < s - pd.Timedelta(days=7)) | (df.date > e + pd.Timedelta(days=7))]
         if test.flood_label.sum() == 0 or train.flood_label.sum() == 0: continue
         p = fit(train).predict_proba(test[FEATURES])[:, 1]
-        print(f"event {s.date()}: PR-AUC {average_precision_score(test.flood_label, p):.3f} (chance {test.flood_label.mean():.3f})")
+        ev_prauc = float(average_precision_score(test.flood_label, p))
+        ev_chance = float(test.flood_label.mean())
+        print(f"event {s.date()}: PR-AUC {ev_prauc:.3f} (chance {ev_chance:.3f})")
+        per_event_results.append({
+            "event_start": s.date().isoformat(),
+            "event_end": e.date().isoformat(),
+            "pr_auc": round(ev_prauc, 4),
+            "chance": round(ev_chance, 4)
+        })
         ys.append(test.flood_label.values); ps.append(p)
-    if ys: pooled_report("leave-one-event-out", np.concatenate(ys), np.concatenate(ps))
+    if ys: leave_one_out_report = pooled_report("leave-one-event-out", np.concatenate(ys), np.concatenate(ps))
 else:
     print("!! Fewer than 2 events: cannot test on a NEW storm. Ask Member 1 for more dated events.")
 
@@ -69,9 +87,51 @@ groups = df["ward"] if "ward" in df else df["cell_id"]
 oof = np.zeros(len(df))
 for tr_i, te_i in GroupKFold(n_splits=5).split(df, groups=groups):
     oof[te_i] = fit(df.iloc[tr_i]).predict_proba(df.iloc[te_i][FEATURES])[:, 1]
-pooled_report("spatial ward-grouped CV", df.flood_label.values, oof)
+spatial_cv_report = pooled_report("spatial ward-grouped CV", df.flood_label.values, oof)
 
 # ---- final model on everything (for the live pipeline), only after you trust the numbers above ----
-final = fit(df); final.save_model("flood_xgb_real.json")
-json.dump(FEATURES, open("features.json", "w"))
+final = fit(df)
+final.save_model(os.path.join(OUT_DIR, "flood_xgb_real.json"))
+json.dump(FEATURES, open(os.path.join(OUT_DIR, "features.json"), "w"), indent=2)
+
+detected_events = [
+    {
+        "start": s.date().isoformat(),
+        "end": e.date().isoformat(),
+        "positives": int(((df.date >= s) & (df.date <= e) & (df.flood_label == 1)).sum())
+    }
+    for s, e in events
+]
+
+all_fi = pd.Series(final.feature_importances_, index=FEATURES).sort_values(ascending=False).round(4).to_dict()
+
+model_report = {
+    "row_count": int(len(df)),
+    "flood_rate": round(float(df.flood_label.mean()), 4),
+    "positives": int(df.flood_label.sum()),
+    "features_used": FEATURES,
+    "min_rain_3d": MIN_RAIN_3D,
+    "conf_weight": CONF_WEIGHT,
+    "xgboost_hyperparameters": {
+        "n_estimators": 200,
+        "max_depth": 3,
+        "learning_rate": 0.05,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "min_child_weight": 3,
+        "scale_pos_weight_formula": "(len(tr) - pos) / max(pos, 1)",
+        "eval_metric": "aucpr"
+    },
+    "detected_events": detected_events,
+    "per_event": per_event_results,
+    "leave_one_event_out": leave_one_out_report,
+    "spatial_cv": spatial_cv_report,
+    "feature_importances": all_fi
+}
+
+with open(os.path.join(OUT_DIR, "model_report.json"), "w") as f:
+    json.dump(model_report, f, indent=2)
+
 print(pd.Series(final.feature_importances_, FEATURES).sort_values(ascending=False).round(3).head(8))
+print(f"Model artifacts and model_report.json saved to {OUT_DIR}")
+

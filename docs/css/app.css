@@ -1,0 +1,570 @@
+/* =========================================================
+   Predictive Flood Alert System - Shared Application Stylesheet
+   Theme: Dark, Professional, Serifs (Georgia)
+   ========================================================= */
+
+:root {
+  --bg: #0f1b2a;
+  --panel: #13233a;
+  --panel-elevated: #182c47;
+  --border: #22354f;
+  --border-light: #2c4465;
+  --text: #e8edf2;
+  --muted: #9db0c4;
+  --accent: #3f8efc;
+  --accent-hover: #5ba0fd;
+  
+  /* Risk band colors */
+  --risk-low: #3fae5a;
+  --risk-mod: #e6b800;
+  --risk-high: #e67e22;
+  --risk-severe: #e04545;
+
+  /* Documented ground-truth ring colors */
+  --gt-flood: #e04545;
+  --gt-contrast: #3fae5a;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-serif);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------------------------------------------------------
+   Synthetic Data Warning Banner (Persistent Across All Pages)
+   --------------------------------------------------------- */
+.synthetic-banner {
+  background: linear-gradient(90deg, #382405 0%, #4a2f07 100%);
+  border-bottom: 1px solid #996213;
+  color: #fed7aa;
+  padding: 9px 18px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  z-index: 1000;
+}
+.synthetic-banner svg {
+  flex-shrink: 0;
+  fill: #f59e0b;
+}
+
+/* ---------------------------------------------------------
+   Site Header & Navigation
+   --------------------------------------------------------- */
+header.site-header {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  z-index: 999;
+}
+
+.brand-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-section h1 {
+  margin: 0;
+  font-size: 19px;
+  letter-spacing: 0.3px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.brand-section h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-section p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+nav.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+nav.main-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+nav.main-nav a:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+nav.main-nav a.active {
+  color: #ffffff;
+  background: var(--panel-elevated);
+  border-color: var(--border-light);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------
+   Main Layout Container
+   --------------------------------------------------------- */
+main.page-container {
+  flex: 1;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+/* ---------------------------------------------------------
+   Cards & Panels
+   --------------------------------------------------------- */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.card-title {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 18px;
+  color: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: -6px;
+  margin-bottom: 14px;
+}
+
+/* ---------------------------------------------------------
+   Buttons & Controls
+   --------------------------------------------------------- */
+button, .btn {
+  font-family: var(--font-serif);
+  font-size: 13.5px;
+  padding: 7px 15px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--panel-elevated);
+  color: var(--text);
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+button:hover, .btn:hover {
+  background: #20395c;
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+button.btn-primary, .btn.btn-primary {
+  background: var(--accent);
+  border-color: #2976df;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+button.btn-primary:hover, .btn.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+button.btn-sm, .btn.btn-sm {
+  padding: 4px 9px;
+  font-size: 12px;
+}
+
+/* Input Fields */
+input[type="number"], input[type="text"], select {
+  font-family: var(--font-serif);
+  background: #0b1420;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(63, 142, 252, 0.2);
+}
+
+/* ---------------------------------------------------------
+   Risk Badges & Bands
+   --------------------------------------------------------- */
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.risk-badge.low {
+  background: rgba(63, 174, 90, 0.18);
+  color: #4ade80;
+  border: 1px solid rgba(63, 174, 90, 0.4);
+}
+
+.risk-badge.moderate {
+  background: rgba(230, 184, 0, 0.18);
+  color: #facc15;
+  border: 1px solid rgba(230, 184, 0, 0.4);
+}
+
+.risk-badge.high {
+  background: rgba(230, 126, 34, 0.18);
+  color: #fb923c;
+  border: 1px solid rgba(230, 126, 34, 0.4);
+}
+
+.risk-badge.severe {
+  background: rgba(224, 69, 69, 0.2);
+  color: #f87171;
+  border: 1px solid rgba(224, 69, 69, 0.45);
+}
+
+.risk-badge.unknown {
+  background: rgba(157, 176, 196, 0.15);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* ---------------------------------------------------------
+   Rainfall 10-Day Grid Component
+   --------------------------------------------------------- */
+.rainfall-component {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.rainfall-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.rainfall-presets-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-right: 4px;
+}
+
+.rainfall-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 640px) {
+  .rainfall-grid {
+    grid-template-columns: repeat(10, 1fr);
+  }
+}
+
+.rain-day-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: center;
+}
+
+.rain-day-cell label {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.rain-day-cell.today label {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.rain-day-cell input {
+  text-align: center;
+  padding: 5px 2px;
+  font-size: 13px;
+  width: 100%;
+}
+
+.rain-summary-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.rain-summary-bar span strong {
+  color: var(--text);
+}
+
+.warning-callout {
+  background: rgba(230, 184, 0, 0.12);
+  border: 1px solid rgba(230, 184, 0, 0.4);
+  color: #fef08a;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  margin-top: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* ---------------------------------------------------------
+   Data Tables
+   --------------------------------------------------------- */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-top: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+table.data-table th, table.data-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+table.data-table th {
+  background: var(--panel-elevated);
+  color: #ffffff;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+table.data-table tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.mono-cell {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* ---------------------------------------------------------
+   Status / Alert Boxes
+   --------------------------------------------------------- */
+.status-box {
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.status-box.error {
+  background: rgba(224, 69, 69, 0.12);
+  border-color: rgba(224, 69, 69, 0.4);
+  color: #fca5a5;
+}
+
+.status-box.info {
+  background: rgba(63, 142, 252, 0.12);
+  border-color: rgba(63, 142, 252, 0.35);
+  color: #bfdbfe;
+}
+
+/* ---------------------------------------------------------
+   Feature Contribution Bar Chart (CSS / SVG)
+   --------------------------------------------------------- */
+.contrib-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 60px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+}
+
+.contrib-name {
+  color: var(--muted);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.contrib-bar-container {
+  position: relative;
+  height: 18px;
+  background: var(--bg);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.contrib-bar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.contrib-bar.positive {
+  background: #e04545;
+}
+
+.contrib-bar.negative {
+  background: #3fae5a;
+}
+
+.contrib-val {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  text-align: right;
+  color: var(--text);
+}
+
+/* ---------------------------------------------------------
+   Metric Badges / Stat Cards
+   --------------------------------------------------------- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: var(--panel-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+}
+
+.stat-label {
+  font-size: 11.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.stat-desc {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ---------------------------------------------------------
+   Footer
+   --------------------------------------------------------- */
+footer.site-footer {
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  padding: 18px 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: auto;
+}
+
+/* ---------------------------------------------------------
+   Responsiveness (down to 360px)
+   --------------------------------------------------------- */
+@media (max-width: 600px) {
+  header.site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+
+  nav.main-nav {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  nav.main-nav a {
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+
+  main.page-container {
+    padding: 14px 12px 36px;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contrib-row {
+    grid-template-columns: 110px 1fr 50px;
+    font-size: 11.5px;
+  }
+}

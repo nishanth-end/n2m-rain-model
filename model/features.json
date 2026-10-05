@@ -1,0 +1,13 @@
+[
+  "rain_1d_mm",
+  "rain_3d_mm",
+  "rain_7d_mm",
+  "elev_m",
+  "slope_deg",
+  "twi",
+  "flow_acc",
+  "imperv_frac",
+  "dist_drain_m",
+  "dist_road_m",
+  "lakes_within_1km"
+]

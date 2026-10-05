@@ -1,0 +1,319 @@
+{
+  "row_count": 15600,
+  "flood_rate": 0.0396,
+  "positives": 618,
+  "features_used": [
+    "rain_1d_mm",
+    "rain_3d_mm",
+    "rain_7d_mm",
+    "elev_m",
+    "slope_deg",
+    "twi",
+    "flow_acc",
+    "imperv_frac",
+    "dist_drain_m",
+    "dist_road_m",
+    "lakes_within_1km"
+  ],
+  "min_rain_3d": 10,
+  "conf_weight": {
+    "high": 1.0,
+    "medium": 0.7,
+    "low": 0.4
+  },
+  "xgboost_hyperparameters": {
+    "n_estimators": 200,
+    "max_depth": 3,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "min_child_weight": 3,
+    "scale_pos_weight_formula": "(len(tr) - pos) / max(pos, 1)",
+    "eval_metric": "aucpr"
+  },
+  "detected_events": [
+    {
+      "start": "2020-06-26",
+      "end": "2020-06-26",
+      "positives": 4
+    },
+    {
+      "start": "2020-10-20",
+      "end": "2020-10-20",
+      "positives": 60
+    },
+    {
+      "start": "2020-12-22",
+      "end": "2020-12-22",
+      "positives": 13
+    },
+    {
+      "start": "2021-03-03",
+      "end": "2021-03-03",
+      "positives": 10
+    },
+    {
+      "start": "2021-04-22",
+      "end": "2021-04-26",
+      "positives": 52
+    },
+    {
+      "start": "2021-05-19",
+      "end": "2021-05-19",
+      "positives": 6
+    },
+    {
+      "start": "2021-08-07",
+      "end": "2021-08-07",
+      "positives": 17
+    },
+    {
+      "start": "2021-08-11",
+      "end": "2021-08-11",
+      "positives": 17
+    },
+    {
+      "start": "2021-10-21",
+      "end": "2021-10-21",
+      "positives": 10
+    },
+    {
+      "start": "2021-11-18",
+      "end": "2021-11-18",
+      "positives": 137
+    },
+    {
+      "start": "2022-02-04",
+      "end": "2022-02-04",
+      "positives": 11
+    },
+    {
+      "start": "2022-04-15",
+      "end": "2022-04-15",
+      "positives": 7
+    },
+    {
+      "start": "2022-05-22",
+      "end": "2022-05-22",
+      "positives": 9
+    },
+    {
+      "start": "2022-06-04",
+      "end": "2022-06-04",
+      "positives": 15
+    },
+    {
+      "start": "2022-06-20",
+      "end": "2022-06-20",
+      "positives": 13
+    },
+    {
+      "start": "2022-07-12",
+      "end": "2022-07-12",
+      "positives": 19
+    },
+    {
+      "start": "2022-09-05",
+      "end": "2022-09-08",
+      "positives": 111
+    },
+    {
+      "start": "2022-12-03",
+      "end": "2022-12-03",
+      "positives": 57
+    },
+    {
+      "start": "2023-01-07",
+      "end": "2023-01-07",
+      "positives": 20
+    },
+    {
+      "start": "2023-01-16",
+      "end": "2023-01-16",
+      "positives": 9
+    },
+    {
+      "start": "2023-03-27",
+      "end": "2023-03-27",
+      "positives": 8
+    },
+    {
+      "start": "2023-04-09",
+      "end": "2023-04-09",
+      "positives": 13
+    }
+  ],
+  "per_event": [
+    {
+      "event_start": "2020-06-26",
+      "event_end": "2020-06-26",
+      "pr_auc": 0.3013,
+      "chance": 0.0067
+    },
+    {
+      "event_start": "2020-10-20",
+      "event_end": "2020-10-20",
+      "pr_auc": 0.1876,
+      "chance": 0.05
+    },
+    {
+      "event_start": "2020-12-22",
+      "event_end": "2020-12-22",
+      "pr_auc": 0.1618,
+      "chance": 0.0217
+    },
+    {
+      "event_start": "2021-03-03",
+      "event_end": "2021-03-03",
+      "pr_auc": 0.1218,
+      "chance": 0.0167
+    },
+    {
+      "event_start": "2021-04-22",
+      "event_end": "2021-04-26",
+      "pr_auc": 0.1515,
+      "chance": 0.0289
+    },
+    {
+      "event_start": "2021-05-19",
+      "event_end": "2021-05-19",
+      "pr_auc": 0.2123,
+      "chance": 0.01
+    },
+    {
+      "event_start": "2021-08-07",
+      "event_end": "2021-08-07",
+      "pr_auc": 0.0683,
+      "chance": 0.0283
+    },
+    {
+      "event_start": "2021-08-11",
+      "event_end": "2021-08-11",
+      "pr_auc": 0.1302,
+      "chance": 0.0283
+    },
+    {
+      "event_start": "2021-10-21",
+      "event_end": "2021-10-21",
+      "pr_auc": 0.2978,
+      "chance": 0.0167
+    },
+    {
+      "event_start": "2021-11-18",
+      "event_end": "2021-11-18",
+      "pr_auc": 0.4783,
+      "chance": 0.2283
+    },
+    {
+      "event_start": "2022-02-04",
+      "event_end": "2022-02-04",
+      "pr_auc": 0.0461,
+      "chance": 0.0183
+    },
+    {
+      "event_start": "2022-04-15",
+      "event_end": "2022-04-15",
+      "pr_auc": 0.0458,
+      "chance": 0.0117
+    },
+    {
+      "event_start": "2022-05-22",
+      "event_end": "2022-05-22",
+      "pr_auc": 0.0335,
+      "chance": 0.015
+    },
+    {
+      "event_start": "2022-06-04",
+      "event_end": "2022-06-04",
+      "pr_auc": 0.0977,
+      "chance": 0.025
+    },
+    {
+      "event_start": "2022-06-20",
+      "event_end": "2022-06-20",
+      "pr_auc": 0.1258,
+      "chance": 0.0217
+    },
+    {
+      "event_start": "2022-07-12",
+      "event_end": "2022-07-12",
+      "pr_auc": 0.1751,
+      "chance": 0.0317
+    },
+    {
+      "event_start": "2022-09-05",
+      "event_end": "2022-09-08",
+      "pr_auc": 0.4187,
+      "chance": 0.0925
+    },
+    {
+      "event_start": "2022-12-03",
+      "event_end": "2022-12-03",
+      "pr_auc": 0.3032,
+      "chance": 0.095
+    },
+    {
+      "event_start": "2023-01-07",
+      "event_end": "2023-01-07",
+      "pr_auc": 0.1724,
+      "chance": 0.0333
+    },
+    {
+      "event_start": "2023-01-16",
+      "event_end": "2023-01-16",
+      "pr_auc": 0.211,
+      "chance": 0.015
+    },
+    {
+      "event_start": "2023-03-27",
+      "event_end": "2023-03-27",
+      "pr_auc": 0.1919,
+      "chance": 0.0133
+    },
+    {
+      "event_start": "2023-04-09",
+      "event_end": "2023-04-09",
+      "pr_auc": 0.0928,
+      "chance": 0.0217
+    }
+  ],
+  "leave_one_event_out": {
+    "pr_auc": 0.2629,
+    "chance": 0.0396,
+    "best_threshold": {
+      "thr": 0.65,
+      "POD": 0.36,
+      "FAR": 0.72,
+      "CSI": 0.19,
+      "TP": 223,
+      "FP": 565,
+      "FN": 395
+    }
+  },
+  "spatial_cv": {
+    "pr_auc": 0.1801,
+    "chance": 0.0396,
+    "best_threshold": {
+      "thr": 0.6,
+      "POD": 0.42,
+      "FAR": 0.81,
+      "CSI": 0.15,
+      "TP": 261,
+      "FP": 1108,
+      "FN": 357
+    }
+  },
+  "feature_importances": {
+    "rain_3d_mm": 0.24770000576972961,
+    "rain_7d_mm": 0.12759999930858612,
+    "rain_1d_mm": 0.1062999963760376,
+    "twi": 0.10580000281333923,
+    "imperv_frac": 0.09619999676942825,
+    "flow_acc": 0.066600002348423,
+    "dist_road_m": 0.054099999368190765,
+    "dist_drain_m": 0.05339999869465828,
+    "elev_m": 0.04989999905228615,
+    "slope_deg": 0.04800000041723251,
+    "lakes_within_1km": 0.04439999908208847
+  }
+}
