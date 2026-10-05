@@ -1,34 +1,50 @@
 /* =========================================================
-   Predictive Flood Alert System - Shared Application Stylesheet
-   Theme: Dark, Professional, Serifs (Georgia)
+   Predictive Flood Alert System — Mapbox Minimalist Dark Design System
+   Inspired by: Mapbox Studio, Uber Movement, and Strava Metro
    ========================================================= */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 :root {
-  --bg: #0f1b2a;
-  --panel: #13233a;
-  --panel-elevated: #182c47;
-  --border: #22354f;
-  --border-light: #2c4465;
-  --text: #e8edf2;
-  --muted: #9db0c4;
-  --accent: #3f8efc;
-  --accent-hover: #5ba0fd;
-  
-  /* Risk band colors */
-  --risk-low: #3fae5a;
-  --risk-mod: #e6b800;
-  --risk-high: #e67e22;
-  --risk-severe: #e04545;
+  /* Surface colors */
+  --bg: #090b0e;
+  --surface: #11141a;
+  --surface-elevated: #161b22;
+  --surface-glass: rgba(17, 20, 26, 0.82);
+  --surface-glass-border: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-focus: rgba(56, 189, 248, 0.45);
 
-  /* Documented ground-truth ring colors */
-  --gt-flood: #e04545;
-  --gt-contrast: #3fae5a;
+  /* Typography colors */
+  --text: #f0f3f6;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --text-dim: #484f58;
 
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --font-serif: Georgia, 'Times New Roman', serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* Accent & Mapbox palette */
+  --accent: #38bdf8;           /* Mapbox sky/cyan */
+  --accent-glow: rgba(56, 189, 248, 0.15);
+  --accent-hover: #7dd3fc;
+
+  /* Geospatial Hazard Bands */
+  --risk-low: #10b981;          /* Emerald */
+  --risk-mod: #f59e0b;          /* Amber */
+  --risk-high: #f97316;         /* Orange */
+  --risk-severe: #ef4444;       /* Crimson */
+
+  /* Ground Truth Indicators */
+  --gt-flood: #ef4444;
+  --gt-contrast: #10b981;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
 }
 
 * {
@@ -38,60 +54,92 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.5;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ---------------------------------------------------------
-   Synthetic Data Warning Banner (Persistent Across All Pages)
+   Subtle Synthetic Data Status Pill (Header or Banner)
    --------------------------------------------------------- */
 .synthetic-banner {
-  background: linear-gradient(90deg, #382405 0%, #4a2f07 100%);
-  border-bottom: 1px solid #996213;
-  color: #fed7aa;
-  padding: 9px 18px;
-  font-size: 13px;
+  background: rgba(245, 158, 11, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  padding: 6px 18px;
+  font-size: 11.5px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
   font-weight: 500;
-  z-index: 1000;
+  letter-spacing: 0.02em;
+  z-index: 1001;
 }
-.synthetic-banner svg {
-  flex-shrink: 0;
-  fill: #f59e0b;
+
+.radar-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #f59e0b;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #f59e0b;
+  display: inline-block;
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
 }
 
 /* ---------------------------------------------------------
-   Site Header & Navigation
+   Mapbox-Style Floating Glass Header
    --------------------------------------------------------- */
 header.site-header {
-  background: var(--panel);
+  background: var(--surface-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  padding: 12px 24px;
+  padding: 10px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 14px;
-  z-index: 999;
+  gap: 12px;
+  z-index: 1000;
 }
 
 .brand-section {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
 }
 
 .brand-section h1 {
   margin: 0;
-  font-size: 19px;
-  letter-spacing: 0.3px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: #ffffff;
 }
 
@@ -100,27 +148,32 @@ header.site-header {
   text-decoration: none;
 }
 
-.brand-section p {
-  margin: 2px 0 0;
-  font-size: 12px;
-  color: var(--muted);
+.brand-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
 }
 
+/* Nav Pills */
 nav.main-nav {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  background: rgba(22, 27, 34, 0.6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  gap: 2px;
 }
 
 nav.main-nav a {
-  color: var(--muted);
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 14px;
-  padding: 6px 14px;
-  border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  transition: all 0.15s ease;
 }
 
 nav.main-nav a:hover {
@@ -130,62 +183,63 @@ nav.main-nav a:hover {
 
 nav.main-nav a.active {
   color: #ffffff;
-  background: var(--panel-elevated);
-  border-color: var(--border-light);
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* ---------------------------------------------------------
-   Main Layout Container
+   Page Layout & Container
    --------------------------------------------------------- */
 main.page-container {
   flex: 1;
-  max-width: 1280px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   padding: 24px 20px 48px;
 }
 
 /* ---------------------------------------------------------
-   Cards & Panels
+   Mapbox-Style Cards & Panels (Ultra-Clean)
    --------------------------------------------------------- */
 .card {
-  background: var(--panel);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 20px;
+  padding: 22px;
   margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .card-title {
   margin-top: 0;
-  margin-bottom: 12px;
-  font-size: 18px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: #ffffff;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 8px;
 }
 
 .card-subtitle {
-  font-size: 13px;
-  color: var(--muted);
-  margin-top: -6px;
-  margin-bottom: 14px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 0;
+  margin-bottom: 16px;
+  line-height: 1.5;
 }
 
 /* ---------------------------------------------------------
-   Buttons & Controls
+   Pill Buttons & Inputs
    --------------------------------------------------------- */
 button, .btn {
-  font-family: var(--font-serif);
-  font-size: 13.5px;
-  padding: 7px 15px;
-  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
   cursor: pointer;
   border: 1px solid var(--border);
-  background: var(--panel-elevated);
-  color: var(--text);
+  background: var(--surface-elevated);
+  color: var(--text-secondary);
   transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
@@ -195,119 +249,149 @@ button, .btn {
 }
 
 button:hover, .btn:hover {
-  background: #20395c;
-  border-color: var(--accent);
+  background: #21262d;
+  border-color: rgba(255, 255, 255, 0.18);
   color: #ffffff;
 }
 
 button.btn-primary, .btn.btn-primary {
   background: var(--accent);
-  border-color: #2976df;
-  color: #ffffff;
+  border-color: var(--accent);
+  color: #090b0e;
   font-weight: 600;
 }
 
 button.btn-primary:hover, .btn.btn-primary:hover {
   background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
 }
 
 button.btn-sm, .btn.btn-sm {
-  padding: 4px 9px;
-  font-size: 12px;
+  padding: 4px 10px;
+  font-size: 11.5px;
 }
 
 /* Input Fields */
 input[type="number"], input[type="text"], select {
-  font-family: var(--font-serif);
-  background: #0b1420;
+  font-family: var(--font-sans);
+  background: #090b0e;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--text);
   padding: 6px 10px;
-  font-size: 13px;
+  font-size: 12.5px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 input:focus, select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(63, 142, 252, 0.2);
+  box-shadow: 0 0 0 2px var(--accent-glow);
 }
 
 /* ---------------------------------------------------------
-   Risk Badges & Bands
+   Risk Badges & Minimalist Status Pips
    --------------------------------------------------------- */
 .risk-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 3px 9px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.2px;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
-.risk-badge.low {
-  background: rgba(63, 174, 90, 0.18);
-  color: #4ade80;
-  border: 1px solid rgba(63, 174, 90, 0.4);
+.risk-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: inline-block;
 }
+
+.risk-badge.low {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+.risk-badge.low::before { background: #10b981; }
 
 .risk-badge.moderate {
-  background: rgba(230, 184, 0, 0.18);
-  color: #facc15;
-  border: 1px solid rgba(230, 184, 0, 0.4);
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.25);
 }
+.risk-badge.moderate::before { background: #f59e0b; }
 
 .risk-badge.high {
-  background: rgba(230, 126, 34, 0.18);
+  background: rgba(249, 115, 22, 0.12);
   color: #fb923c;
-  border: 1px solid rgba(230, 126, 34, 0.4);
+  border: 1px solid rgba(249, 115, 22, 0.25);
 }
+.risk-badge.high::before { background: #f97316; }
 
 .risk-badge.severe {
-  background: rgba(224, 69, 69, 0.2);
+  background: rgba(239, 68, 68, 0.14);
   color: #f87171;
-  border: 1px solid rgba(224, 69, 69, 0.45);
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
+.risk-badge.severe::before { background: #ef4444; }
 
 .risk-badge.unknown {
-  background: rgba(157, 176, 196, 0.15);
-  color: var(--muted);
+  background: rgba(139, 148, 158, 0.1);
+  color: var(--text-muted);
   border: 1px solid var(--border);
 }
+.risk-badge.unknown::before { background: var(--text-muted); }
 
 /* ---------------------------------------------------------
-   Rainfall 10-Day Grid Component
+   Rainfall Scrubber / Component (Mapbox Timeline Style)
    --------------------------------------------------------- */
 .rainfall-component {
-  background: var(--panel);
+  background: var(--surface-elevated);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 16px;
-  margin-bottom: 16px;
+  padding: 14px;
+  margin-bottom: 14px;
 }
 
 .rainfall-presets {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px;
   margin-bottom: 12px;
   align-items: center;
 }
 
 .rainfall-presets-label {
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   margin-right: 4px;
+}
+
+.rainfall-presets button {
+  background: var(--surface);
+  border-color: var(--border-subtle);
+}
+
+.rainfall-presets button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .rainfall-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
 @media (min-width: 640px) {
@@ -324,20 +408,24 @@ input:focus, select:focus {
 }
 
 .rain-day-cell label {
-  font-size: 11px;
-  color: var(--muted);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
 .rain-day-cell.today label {
   color: var(--accent);
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .rain-day-cell input {
   text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
   padding: 5px 2px;
-  font-size: 13px;
+  border-radius: var(--radius-xs);
   width: 100%;
 }
 
@@ -346,13 +434,14 @@ input:focus, select:focus {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: #090b0e;
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  font-size: 12px;
-  color: var(--muted);
+  padding: 6px 12px;
+  font-size: 11.5px;
+  color: var(--text-muted);
   margin-top: 8px;
+  font-family: var(--font-mono);
 }
 
 .rain-summary-bar span strong {
@@ -360,34 +449,34 @@ input:focus, select:focus {
 }
 
 .warning-callout {
-  background: rgba(230, 184, 0, 0.12);
-  border: 1px solid rgba(230, 184, 0, 0.4);
-  color: #fef08a;
-  padding: 8px 12px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+  padding: 6px 10px;
   border-radius: var(--radius-sm);
-  font-size: 12px;
+  font-size: 11px;
   margin-top: 8px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 8px;
 }
 
 /* ---------------------------------------------------------
-   Data Tables
+   Data Tables (High-Density Minimalist Grid)
    --------------------------------------------------------- */
 .table-responsive {
   width: 100%;
   overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  margin-top: 10px;
+  margin-top: 8px;
   -webkit-overflow-scrolling: touch;
 }
 
 table.data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 12.5px;
   text-align: left;
 }
 
@@ -397,57 +486,42 @@ table.data-table th, table.data-table td {
 }
 
 table.data-table th {
-  background: var(--panel-elevated);
-  color: #ffffff;
-  font-weight: 600;
+  background: var(--surface-elevated);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
   white-space: nowrap;
 }
 
 table.data-table tr:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .mono-cell {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11.5px;
+  color: var(--text-secondary);
 }
 
 /* ---------------------------------------------------------
-   Status / Alert Boxes
-   --------------------------------------------------------- */
-.status-box {
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  margin-bottom: 20px;
-  border: 1px solid var(--border);
-}
-
-.status-box.error {
-  background: rgba(224, 69, 69, 0.12);
-  border-color: rgba(224, 69, 69, 0.4);
-  color: #fca5a5;
-}
-
-.status-box.info {
-  background: rgba(63, 142, 252, 0.12);
-  border-color: rgba(63, 142, 252, 0.35);
-  color: #bfdbfe;
-}
-
-/* ---------------------------------------------------------
-   Feature Contribution Bar Chart (CSS / SVG)
+   Feature Contribution Bar Chart (Telemetry Bars)
    --------------------------------------------------------- */
 .contrib-row {
   display: grid;
-  grid-template-columns: 140px 1fr 60px;
+  grid-template-columns: 130px 1fr 65px;
   align-items: center;
   gap: 10px;
-  margin-bottom: 6px;
-  font-size: 12.5px;
+  margin-bottom: 5px;
+  font-size: 12px;
 }
 
 .contrib-name {
-  color: var(--muted);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -455,70 +529,75 @@ table.data-table tr:hover {
 
 .contrib-bar-container {
   position: relative;
-  height: 18px;
-  background: var(--bg);
-  border-radius: 3px;
+  height: 14px;
+  background: #090b0e;
+  border-radius: 2px;
   display: flex;
   align-items: center;
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-subtle);
 }
 
 .contrib-bar {
   height: 100%;
-  border-radius: 2px;
-  transition: width 0.3s ease;
+  border-radius: 1px;
+  transition: width 0.25s ease;
 }
 
 .contrib-bar.positive {
-  background: #e04545;
+  background: var(--risk-severe);
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
 }
 
 .contrib-bar.negative {
-  background: #3fae5a;
+  background: var(--risk-low);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
 }
 
 .contrib-val {
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 11px;
   text-align: right;
   color: var(--text);
 }
 
 /* ---------------------------------------------------------
-   Metric Badges / Stat Cards
+   Metric Badges / Stat Cards (Telemetry Readouts)
    --------------------------------------------------------- */
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 14px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
 .stat-card {
-  background: var(--panel-elevated);
+  background: var(--surface-elevated);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 12px 16px;
+  padding: 12px 14px;
 }
 
 .stat-label {
-  font-size: 11.5px;
-  color: var(--muted);
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.05em;
 }
 
 .stat-value {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: var(--font-mono);
   color: #ffffff;
-  margin-top: 4px;
+  margin-top: 3px;
+  letter-spacing: -0.02em;
 }
 
 .stat-desc {
-  font-size: 11.5px;
-  color: var(--muted);
+  font-size: 11px;
+  color: var(--text-muted);
   margin-top: 2px;
 }
 
@@ -526,33 +605,30 @@ table.data-table tr:hover {
    Footer
    --------------------------------------------------------- */
 footer.site-footer {
-  background: var(--panel);
+  background: var(--surface);
   border-top: 1px solid var(--border);
-  padding: 18px 24px;
+  padding: 14px 24px;
   text-align: center;
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
   margin-top: auto;
 }
 
 /* ---------------------------------------------------------
-   Responsiveness (down to 360px)
+   Responsiveness
    --------------------------------------------------------- */
 @media (max-width: 600px) {
   header.site-header {
     flex-direction: column;
     align-items: flex-start;
-    padding: 12px 16px;
+    padding: 10px 14px;
   }
 
   nav.main-nav {
     width: 100%;
     justify-content: flex-start;
-  }
-
-  nav.main-nav a {
-    padding: 5px 10px;
-    font-size: 13px;
+    overflow-x: auto;
   }
 
   main.page-container {
@@ -561,10 +637,5 @@ footer.site-footer {
 
   .stat-grid {
     grid-template-columns: 1fr;
-  }
-
-  .contrib-row {
-    grid-template-columns: 110px 1fr 50px;
-    font-size: 11.5px;
   }
 }

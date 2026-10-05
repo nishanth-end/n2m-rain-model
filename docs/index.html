@@ -8,55 +8,72 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="css/app.css" />
   <style>
-    .map-page-layout {
+    .map-viewport {
       display: flex;
       flex-direction: row;
-      height: calc(100vh - 105px);
+      height: calc(100vh - 86px);
       width: 100%;
+      position: relative;
       overflow: hidden;
+      background: #090b0e;
     }
 
     #map {
       flex: 1;
       height: 100%;
-      background: #0b1420;
+      background: #090b0e;
     }
 
-    .sidebar-panel {
-      width: 420px;
+    /* Floating / Docked Telemetry Console */
+    .telemetry-sidebar {
+      width: 410px;
       max-width: 100%;
       height: 100%;
-      background: var(--panel);
+      background: var(--surface-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-left: 1px solid var(--border);
       overflow-y: auto;
-      padding: 18px;
+      padding: 16px 18px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
+      z-index: 500;
     }
 
-    .panel-section-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: #ffffff;
-      margin-bottom: 8px;
+    .sidebar-header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 10px;
     }
 
+    .sidebar-title {
+      font-size: 13px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Zone Telemetry Cards */
     .zone-risk-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-top: 6px;
+      gap: 6px;
+      margin-top: 4px;
     }
 
     .zone-risk-card {
-      background: var(--panel-elevated);
-      border: 1px solid var(--border);
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
-      padding: 10px 12px;
+      padding: 9px 12px;
       cursor: pointer;
       transition: all 0.15s ease;
       display: flex;
@@ -66,7 +83,7 @@
 
     .zone-risk-card:hover {
       border-color: var(--accent);
-      background: #1e3557;
+      background: #1c2128;
       transform: translateX(2px);
     }
 
@@ -77,112 +94,139 @@
     }
 
     .zone-risk-card-name {
-      font-size: 13.5px;
-      font-weight: bold;
+      font-size: 12.5px;
+      font-weight: 600;
       color: #ffffff;
     }
 
     .zone-risk-card-sub {
-      font-size: 11.5px;
-      color: var(--muted);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
       display: flex;
       justify-content: space-between;
     }
 
-    .legend {
-      background: var(--panel);
-      color: var(--text);
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 12px;
-      line-height: 1.6;
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    /* Minimalist Map Controls */
+    .leaflet-control-container .leaflet-control {
+      background: var(--surface-glass) !important;
+      backdrop-filter: blur(14px) !important;
+      -webkit-backdrop-filter: blur(14px) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: var(--radius-sm) !important;
+      color: var(--text) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
     }
 
-    .legend-item {
+    .leaflet-bar a {
+      background: transparent !important;
+      color: var(--text) !important;
+      border-bottom: 1px solid var(--border) !important;
+    }
+    .leaflet-bar a:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: var(--accent) !important;
+    }
+
+    .legend-control {
+      padding: 10px 12px;
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+
+    .legend-header {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 3px;
+    }
+
+    .legend-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       margin-bottom: 3px;
+      font-size: 11px;
     }
 
-    .legend-circle {
-      width: 14px;
-      height: 14px;
+    .legend-pip {
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       display: inline-block;
-      border: 2px solid #ffffff;
+      flex-shrink: 0;
     }
 
     .note-control {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 11.5px;
+      max-width: 260px;
       padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      max-width: 250px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
     }
 
+    /* Minimalist Sleek Popups */
     .leaflet-popup-content-wrapper {
-      font-family: var(--font-serif);
-      background: var(--panel);
-      color: var(--text);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-md);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      font-family: var(--font-sans) !important;
+      background: var(--surface-glass) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      color: var(--text) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: var(--radius-md) !important;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65) !important;
+      padding: 2px !important;
     }
 
     .leaflet-popup-tip {
-      background: var(--panel);
+      background: var(--surface) !important;
     }
 
     .popup-title {
-      font-weight: bold;
-      font-size: 14.5px;
+      font-weight: 600;
+      font-size: 13.5px;
       color: #ffffff;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 4px;
       margin-bottom: 6px;
+      letter-spacing: -0.01em;
     }
 
     .popup-row {
-      font-size: 12px;
+      font-size: 11.5px;
       margin: 3px 0;
-      color: var(--text);
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
     }
 
     .popup-label {
-      color: var(--muted);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
 
     .top-contrib-list {
-      margin-top: 6px;
+      margin-top: 8px;
       padding-top: 6px;
-      border-top: 1px dotted var(--border);
-      font-size: 11.5px;
-    }
-
-    .error-banner {
-      background: rgba(224, 69, 69, 0.2);
-      border: 1px solid var(--risk-severe);
-      color: #fca5a5;
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 12px;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 11px;
     }
 
     @media (max-width: 850px) {
-      .map-page-layout {
+      .map-viewport {
         flex-direction: column;
         height: auto;
       }
       #map {
         height: 480px;
       }
-      .sidebar-panel {
+      .telemetry-sidebar {
         width: 100%;
         height: auto;
         border-left: none;
@@ -196,11 +240,14 @@
   <!-- Persistent Warning Banner for Synthetic Data -->
   <div id="synthetic-banner-container"></div>
 
-  <!-- Shared Site Navigation Header -->
+  <!-- Mapbox-Style Minimalist Floating Header -->
   <header class="site-header">
     <div class="brand-section">
-      <h1><a href="index.html">Predictive Flood Alert System</a></h1>
-      <p>Team N²M · 1BCP308 Community Project · Bengaluru Flood Risk Intelligence</p>
+
+      <div>
+        <h1><a href="index.html">Predictive Flood Alert System</a></h1>
+        <div class="brand-sub">BENGALURU GEO-INTELLIGENCE · TEAM N²M</div>
+      </div>
     </div>
     <nav class="main-nav" aria-label="Main Navigation">
       <a href="index.html" class="active">Map</a>
@@ -210,42 +257,45 @@
     </nav>
   </header>
 
-  <!-- Interactive Map and Controls Layout -->
-  <div class="map-page-layout">
+  <!-- Interactive Full-Bleed Map & Telemetry Console -->
+  <div class="map-viewport">
     
-    <!-- Left: Leaflet Map Container -->
-    <div id="map" role="region" aria-label="Bengaluru Flood Risk Map"></div>
+    <!-- Map Canvas -->
+    <div id="map" role="region" aria-label="Bengaluru Flood Hazard Map"></div>
 
-    <!-- Right: Rainfall Scorer & Zone Risk Sidebar -->
-    <aside class="sidebar-panel" aria-label="Flood Risk Controls and Ranked Zones">
+    <!-- Right-Hand Telemetry Drawer -->
+    <aside class="telemetry-sidebar" aria-label="Rainfall Scorer and Risk Rankings">
       
       <div>
-        <div class="panel-section-title">
-          <span>City-Wide Rainfall Scenario</span>
-          <button type="button" id="score-btn" class="btn btn-primary btn-sm">Score All Zones</button>
+        <div class="sidebar-header-row">
+          <span class="sidebar-title">
+            <span class="radar-dot" style="background:#38bdf8; box-shadow:0 0 6px #38bdf8;"></span>
+            Rainfall Scenario
+          </span>
+          <button type="button" id="score-btn" class="btn btn-primary btn-sm">Score</button>
         </div>
-        <p style="font-size:12px; color:var(--muted); margin:0 0 10px 0;">
-          Adjust 10-day rainfall (mm). Scores update live (300ms debounce) or on clicking Score.
+        <p style="font-size:11px; color:var(--text-muted); margin:6px 0 10px 0; font-family:var(--font-mono);">
+          10-day rainfall series (mm). Updates live or on click.
         </p>
         
         <!-- Reusable Rainfall Component Container -->
         <div id="rainfall-widget"></div>
       </div>
 
-      <!-- Error message container -->
-      <div id="error-container" style="display:none;" class="error-banner"></div>
+      <!-- Error banner -->
+      <div id="error-container" style="display:none;" class="warning-callout"></div>
 
       <!-- Sorted Zones by Risk Panel -->
       <div>
-        <div class="panel-section-title">
-          <span>Zones Ranked by Risk</span>
-          <span id="zone-count-badge" style="font-size:11.5px; color:var(--muted);">8 zones</span>
+        <div class="sidebar-header-row">
+          <span class="sidebar-title">Vulnerability Ranking</span>
+          <span id="zone-count-badge" style="font-size:10.5px; font-family:var(--font-mono); color:var(--text-muted);">8 ZONES</span>
         </div>
-        <p style="font-size:11.5px; color:var(--muted); margin:0 0 8px 0;">
-          Click any zone below to center and inspect details:
+        <p style="font-size:11px; color:var(--text-muted); margin:4px 0 8px 0; font-family:var(--font-mono);">
+          Select zone to pan and inspect telemetry:
         </p>
         <div id="zones-list" class="zone-risk-list">
-          <div style="font-size:12px; color:var(--muted); padding:10px 0;">Loading zones...</div>
+          <div style="font-size:11.5px; color:var(--text-muted); padding:10px 0; font-family:var(--font-mono);">INITIALIZING SENSORS...</div>
         </div>
       </div>
 
@@ -255,17 +305,20 @@
 
   <script src="js/common.js"></script>
   <script>
-    // Map State
     let map = null;
     let zonesData = [];
-    let predictionsMap = {}; // zone_id -> prediction result
+    let predictionsMap = {};
     let markerLayerGroup = null;
-    let zoneMarkers = {};    // zone_id -> L.circleMarker
+    let zoneMarkers = {};
     let rainfallWidget = null;
 
-    // Initialize Map
     function initMap() {
-      map = L.map('map').setView([12.945, 77.67], 11.4);
+      map = L.map('map', {
+        zoomControl: true,
+        attributionControl: true
+      }).setView([12.945, 77.67], 11.4);
+
+      // Standard OpenStreetMap tiles (100% free, zero API key required)
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -273,37 +326,35 @@
 
       markerLayerGroup = L.layerGroup().addTo(map);
 
-      // Add Custom Legend
+      // Mapbox-Style Minimalist Legend
       const legend = L.control({ position: 'bottomleft' });
       legend.onAdd = function () {
-        const div = L.DomUtil.create('div', 'legend');
+        const div = L.DomUtil.create('div', 'legend-control');
         div.innerHTML = `
-          <div style="font-weight:bold; margin-bottom:4px; border-bottom:1px solid var(--border); padding-bottom:3px;">Map Legend</div>
-          <div class="legend-item"><span class="legend-circle" style="background:#e04545; border-color:#e04545;"></span> Predicted: Severe Risk</div>
-          <div class="legend-item"><span class="legend-circle" style="background:#e67e22; border-color:#e67e22;"></span> Predicted: High Risk</div>
-          <div class="legend-item"><span class="legend-circle" style="background:#e6b800; border-color:#e6b800;"></span> Predicted: Moderate Risk</div>
-          <div class="legend-item"><span class="legend-circle" style="background:#3fae5a; border-color:#3fae5a;"></span> Predicted: Low Risk</div>
-          <div style="margin-top:6px; padding-top:4px; border-top:1px dotted var(--border);">
-            <div class="legend-item"><span style="display:inline-block; width:13px; height:13px; border-radius:50%; border:3px solid #e04545; background:transparent;"></span> Red Outer Ring = Documented Flood Zone</div>
-            <div class="legend-item"><span style="display:inline-block; width:13px; height:13px; border-radius:50%; border:3px solid #3fae5a; background:transparent;"></span> Green Outer Ring = Contrast Zone (No flood)</div>
+          <div class="legend-header">Hazard Level</div>
+          <div class="legend-row"><span class="legend-pip" style="background:#ef4444; box-shadow:0 0 6px rgba(239,68,68,0.5);"></span> Severe Hazard</div>
+          <div class="legend-row"><span class="legend-pip" style="background:#f97316; box-shadow:0 0 6px rgba(249,115,22,0.5);"></span> High Hazard</div>
+          <div class="legend-row"><span class="legend-pip" style="background:#f59e0b; box-shadow:0 0 6px rgba(245,158,11,0.5);"></span> Moderate Hazard</div>
+          <div class="legend-row"><span class="legend-pip" style="background:#10b981; box-shadow:0 0 6px rgba(16,185,129,0.5);"></span> Low Hazard</div>
+          <div style="margin-top:6px; padding-top:4px; border-top:1px solid var(--border-subtle);">
+            <div class="legend-row"><span style="display:inline-block; width:11px; height:11px; border-radius:50%; border:2px solid #ef4444;"></span> Documented Flood Zone</div>
+            <div class="legend-row"><span style="display:inline-block; width:11px; height:11px; border-radius:50%; border:2px solid #10b981;"></span> Contrast Zone (Dry)</div>
           </div>
-          <div style="margin-top:4px; font-size:11px; color:var(--muted)">Marker radius ≈ catchment area (sq km)</div>
         `;
         return div;
       };
       legend.addTo(map);
 
-      // Add Informational Review-3 Note
+      // Informational HUD Pill
       const note = L.control({ position: 'topright' });
       note.onAdd = function () {
         const div = L.DomUtil.create('div', 'note-control');
-        div.innerHTML = "<strong>Review 3 Prototype:</strong> Live rainfall-driven risk scoring powered by an XGBoost model. Ring colors show documented Sept 2022 ground truth; fills reflect predicted risk.";
+        div.innerHTML = "<span style='color:var(--accent); font-weight:600;'>REVIEW 3 INTELLIGENCE</span><br/>Live precipitation simulation feeding real-time XGBoost hazard engine. Rims show 2022 ground truth; fills reflect predicted index.";
         return div;
       };
       note.addTo(map);
     }
 
-    // Load Zones from Backend API
     async function loadZones() {
       const errBox = document.getElementById("error-container");
       errBox.style.display = "none";
@@ -311,18 +362,15 @@
       try {
         const data = await fetchAPI("/api/zones");
         zonesData = data.zones || [];
-        
-        // Initial scoring with default preset (storm)
         await scoreAllZones();
       } catch (err) {
         console.error("Failed to load zones:", err);
-        errBox.style.display = "block";
-        errBox.textContent = `Error connecting to backend API: ${err.message}. Scoring disabled.`;
+        errBox.style.display = "flex";
+        errBox.textContent = `API disconnected: ${err.message}.`;
         document.getElementById("score-btn").disabled = true;
       }
     }
 
-    // Call /api/predict_all and refresh markers and ranking
     async function scoreAllZones() {
       const errBox = document.getElementById("error-container");
       errBox.style.display = "none";
@@ -337,7 +385,6 @@
           body: JSON.stringify({ rainfall_10d })
         });
 
-        // Store predictions indexed by zone_id
         predictionsMap = {};
         res.predictions.forEach(p => {
           predictionsMap[p.zone_id] = p;
@@ -347,12 +394,11 @@
         updateRankingList();
       } catch (err) {
         console.error("Scoring failed:", err);
-        errBox.style.display = "block";
-        errBox.textContent = `Scoring error: ${err.message}`;
+        errBox.style.display = "flex";
+        errBox.textContent = `Telemetry error: ${err.message}`;
       }
     }
 
-    // Update or create Leaflet markers
     function updateMarkers() {
       markerLayerGroup.clearLayers();
       zoneMarkers = {};
@@ -362,49 +408,54 @@
         const riskBand = pred ? pred.risk_band : "Unknown";
         const meta = getRiskBandMeta(riskBand);
         
-        // Documented status ring color: Red for documented flood, Green for contrast
-        const borderColor = z.flooded ? '#e04545' : '#3fae5a';
+        const borderColor = z.flooded ? '#ef4444' : '#10b981';
         const fillColor = meta.color;
-        
-        // Catchment-based radius
-        const radius = z.catchment ? Math.max(9, Math.min(26, Math.sqrt(z.catchment) * 2.6)) : 10;
+        const radius = z.catchment ? Math.max(9, Math.min(24, Math.sqrt(z.catchment) * 2.5)) : 10;
 
         const marker = L.circleMarker([z.lat, z.lon], {
           radius: radius,
-          color: borderColor,        // Documented ground truth ring
-          weight: 3.5,               // Prominent ring border
-          fillColor: fillColor,      // Predicted risk color
+          color: borderColor,
+          weight: 3,
+          fillColor: fillColor,
           fillOpacity: 0.85
         }).addTo(markerLayerGroup);
 
         zoneMarkers[z.id] = marker;
 
-        // Build popup content
         let popupHtml = `
           <div class="popup-title">${escapeHTML(z.name)}</div>
           <div class="popup-row">
-            <span class="popup-label">Predicted Risk:</span> 
+            <span class="popup-label">Hazard Level:</span> 
             <span class="risk-badge ${meta.class}">${escapeHTML(riskBand)}</span>
-            <span style="font-family:var(--font-mono); font-size:11.5px; margin-left:4px;">(Index: ${pred ? pred.risk_score.toFixed(3) : 'N/A'})</span>
+          </div>
+          <div class="popup-row">
+            <span class="popup-label">Risk Index:</span> 
+            <span style="font-family:var(--font-mono); font-weight:600; color:#ffffff;">${pred ? pred.risk_score.toFixed(3) : 'N/A'}</span>
           </div>
           <div class="popup-row">
             <span class="popup-label">Ground Truth:</span> 
-            <strong>${z.flooded ? '<span style="color:#f87171">Documented flood zone</span>' : '<span style="color:#4ade80">Contrast zone (No flood)</span>'}</strong>
+            <span style="font-weight:600; color:${z.flooded ? '#f87171' : '#34d399'};">
+              ${z.flooded ? 'Documented Flood' : 'Contrast (No Flood)'}
+            </span>
           </div>
-          <div class="popup-row"><span class="popup-label">Event Reference:</span> ${escapeHTML(z.event)}</div>
-          ${z.catchment ? `<div class="popup-row"><span class="popup-label">Catchment Area:</span> ${z.catchment} sq km</div>` : ''}
-          <div class="popup-row"><span class="popup-label">Local Cause:</span> ${escapeHTML(z.cause)}</div>
-          <div class="popup-row"><span class="popup-label">Matched Mock Cell:</span> #${z.matched_cell_id} (${z.distance_m} m away)</div>
+          <div class="popup-row">
+            <span class="popup-label">Catchment Area:</span> 
+            <span style="font-family:var(--font-mono);">${z.catchment ? z.catchment + ' km²' : 'Core Urban'}</span>
+          </div>
+          <div class="popup-row" style="flex-direction:column; gap:2px; margin-top:4px;">
+            <span class="popup-label">Cause:</span>
+            <span style="font-size:11px; color:var(--text-secondary);">${escapeHTML(z.cause)}</span>
+          </div>
         `;
 
         if (pred && pred.top_contributions && pred.top_contributions.length > 0) {
           popupHtml += `
             <div class="top-contrib-list">
-              <div style="font-weight:bold; margin-bottom:3px; color:var(--muted);">Key Model Drivers:</div>
+              <div class="popup-label" style="margin-bottom:4px;">Key Risk Drivers:</div>
               ${pred.top_contributions.map(c => `
-                <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
-                  <span>${escapeHTML(c.feature)}:</span>
-                  <span style="font-family:var(--font-mono); color:${c.contribution >= 0 ? '#f87171' : '#4ade80'};">
+                <div style="display:flex; justify-content:space-between; margin-bottom:2px; font-family:var(--font-mono); font-size:10.5px;">
+                  <span style="color:var(--text-muted);">${escapeHTML(c.feature)}</span>
+                  <span style="color:${c.contribution >= 0 ? '#f87171' : '#34d399'};">
                     ${c.contribution >= 0 ? '+' : ''}${c.contribution.toFixed(3)}
                   </span>
                 </div>
@@ -417,12 +468,10 @@
       });
     }
 
-    // Update the Sidebar Zones list sorted by predicted risk descending
     function updateRankingList() {
       const container = document.getElementById("zones-list");
       if (!container) return;
 
-      // Sort zones by predicted risk_score descending
       const sorted = [...zonesData].sort((a, b) => {
         const scoreA = predictionsMap[a.id] ? predictionsMap[a.id].risk_score : -1;
         const scoreB = predictionsMap[b.id] ? predictionsMap[b.id].risk_score : -1;
@@ -438,14 +487,14 @@
         const isDocFlood = z.flooded === 1;
 
         html += `
-          <div class="zone-risk-card" data-zone-id="${z.id}" tabindex="0" role="button" aria-label="Pan to ${escapeHTML(z.name)}, risk: ${riskBand}">
+          <div class="zone-risk-card" data-zone-id="${z.id}" tabindex="0" role="button" aria-label="${escapeHTML(z.name)}">
             <div class="zone-risk-card-header">
               <span class="zone-risk-card-name">${idx + 1}. ${escapeHTML(z.name)}</span>
               <span class="risk-badge ${meta.class}">${escapeHTML(riskBand)}</span>
             </div>
             <div class="zone-risk-card-sub">
-              <span>Risk Index: <strong style="font-family:var(--font-mono); color:#ffffff;">${scoreStr}</strong></span>
-              <span>Truth: <strong style="color:${isDocFlood ? '#f87171' : '#4ade80'};">${isDocFlood ? 'Flooded' : 'Contrast'}</strong></span>
+              <span>Index: <strong style="color:#ffffff;">${scoreStr}</strong></span>
+              <span>Truth: <strong style="color:${isDocFlood ? '#f87171' : '#34d399'};">${isDocFlood ? 'Flooded' : 'Dry'}</strong></span>
             </div>
           </div>
         `;
@@ -453,7 +502,6 @@
 
       container.innerHTML = html;
 
-      // Add click listeners to cards
       container.querySelectorAll(".zone-risk-card").forEach(card => {
         const selectZone = () => {
           const zId = parseInt(card.getAttribute("data-zone-id"));
@@ -475,16 +523,13 @@
       });
     }
 
-    // Initialize Page
     document.addEventListener("DOMContentLoaded", () => {
       initMap();
 
-      // Render rainfall component inside sidebar
       rainfallWidget = renderRainfallComponent("rainfall-widget", RAINFALL_PRESETS.storm.values, (values) => {
         scoreAllZones();
       });
 
-      // Manual score button trigger
       document.getElementById("score-btn").addEventListener("click", () => {
         scoreAllZones();
       });

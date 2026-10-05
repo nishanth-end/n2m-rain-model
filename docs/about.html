@@ -7,25 +7,27 @@
   <link rel="stylesheet" href="css/app.css" />
   <style>
     .about-section {
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
     .about-section h2 {
-      font-size: 19px;
+      font-size: 15px;
+      font-weight: 600;
       color: #ffffff;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-subtle);
       padding-bottom: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
     }
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-top: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
     }
     .team-card {
-      background: var(--panel-elevated);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      background: var(--surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
       padding: 16px;
       display: flex;
       flex-direction: column;
@@ -33,35 +35,37 @@
       text-align: center;
     }
     .photo-placeholder {
-      width: 80px;
-      height: 80px;
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
-      background: #09121c;
-      border: 2px dashed var(--border-light);
+      background: #090b0e;
+      border: 1px dashed var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 12px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      margin-bottom: 10px;
     }
     .placeholder-tag {
       display: inline-block;
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px dashed rgba(245, 158, 11, 0.5);
-      color: #fef08a;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px dashed rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
       padding: 2px 6px;
-      border-radius: 4px;
+      border-radius: var(--radius-xs);
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11px;
     }
     .callout-box {
-      background: var(--panel-elevated);
-      border-left: 4px solid var(--accent);
-      padding: 14px 18px;
+      background: var(--surface-elevated);
+      border-left: 3px solid var(--accent);
+      padding: 12px 16px;
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      margin: 14px 0;
-      font-size: 13.5px;
+      margin: 12px 0;
+      font-size: 12.5px;
+      color: var(--text-secondary);
     }
   </style>
 </head>
@@ -73,8 +77,11 @@
   <!-- Shared Site Navigation Header -->
   <header class="site-header">
     <div class="brand-section">
-      <h1><a href="index.html">Predictive Flood Alert System</a></h1>
-      <p>Team N²M · 1BCP308 Community Project · Bengaluru Flood Risk Intelligence</p>
+
+      <div>
+        <h1><a href="index.html">Predictive Flood Alert System</a></h1>
+        <div class="brand-sub">BENGALURU GEO-INTELLIGENCE · TEAM N²M</div>
+      </div>
     </div>
     <nav class="main-nav" aria-label="Main Navigation">
       <a href="index.html">Map</a>
@@ -86,38 +93,37 @@
 
   <main class="page-container">
 
-    <!-- Project Overview -->
     <div class="card">
       <div class="about-section">
         <h2>1. Project Summary</h2>
-        <p>
-          The <strong>Predictive Flood Alert System</strong> is an academic community technology project developed under course <strong>1BCP308 Community Project</strong> by <strong>Team N²M</strong>. The platform provides localized flood vulnerability risk scoring across Bengaluru by coupling high-resolution hydrological terrain modeling with storm rainfall forecasts.
+        <p style="font-size:13px; color:var(--text-secondary); line-height:1.6;">
+          The <strong>Predictive Flood Alert System</strong> is an academic community technology project developed under course <strong>1BCP308 Community Project</strong> by <strong>Team N²M</strong>. The platform provides anticipatory flood risk scoring across Bengaluru by coupling high-resolution digital elevation terrain modeling with storm rainfall forecasts through an XGBoost classification engine.
         </p>
         <p><span class="placeholder-tag">[FILL ME: Add 2-3 sentences on the high-level vision, academic department, and long-term societal goals of the project]</span></p>
       </div>
 
       <div class="about-section">
         <h2>2. Problem Statement</h2>
-        <p>
-          Bengaluru has experienced repeated high-impact urban flooding events during monsoon storms (such as September 2022 and May 2022). Urban topography, rapid infrastructural concretization, culvert bottlenecks, and rajakaluve (stormwater canal) modifications make rainfall impact highly localized. While city-wide rain alerts exist, ward-level and neighborhood-level early warnings are critical to save property and protect citizens.
+        <p style="font-size:13px; color:var(--text-secondary); line-height:1.6;">
+          Bengaluru has experienced repeated high-impact urban inundation events during monsoon downpours (such as September 2022 and May 2022). Micro-topography, rapid concretization, culvert bottlenecks, and rajakaluve (stormwater canal) modifications make rainfall impact highly localized. While city-wide rain alerts exist, ward-level and neighborhood-level early warnings are critical to save property and protect citizens.
         </p>
         <p><span class="placeholder-tag">[FILL ME: Detailed local context on specific vulnerable valleys, Koramangala-Challaghatta or Vrishabhavathi basins, and civic pain points]</span></p>
       </div>
 
       <div class="about-section">
-        <h2>3. What the System Does</h2>
-        <p>
+        <h2>3. System Scope &amp; Core Capabilities</h2>
+        <p style="font-size:13px; color:var(--text-secondary); line-height:1.6;">
           Rather than relying solely on rain gauges after water has already accumulated, the system provides anticipatory 24–48 hour flood hazard index scores. It accepts multi-day rainfall sequences, constructs rolling precipitation totals (1-day, 3-day, and 7-day), blends them with physical micro-terrain metrics (elevation, slope, Topographic Wetness Index, and imperviousness), and evaluates risk against an XGBoost model trained on historical flood events.
         </p>
         <p><span class="placeholder-tag">[FILL ME: Specific features of how warnings can be consumed by municipal ward officers, traffic police, or residents]</span></p>
       </div>
 
       <div class="about-section">
-        <h2>4. How It Works (Technical Overview)</h2>
+        <h2>4. Technical Pipeline Architecture</h2>
         <div class="callout-box">
           <strong>Pipeline in Brief:</strong> Gridded precipitation time series + Digital Elevation Model (DEM) hydrological extraction &rarr; Event-based storm clustering &rarr; Sample-weighted XGBoost classifier &rarr; Dual temporal (Leave-One-Event-Out) and spatial (Ward-Grouped CV) validation &rarr; REST API &amp; Interactive Map.
         </div>
-        <p>
+        <p style="font-size:13px; color:var(--text-secondary); line-height:1.6;">
           The system outputs a relative risk index mapped into four actionable hazard tiers: <strong>Low</strong>, <strong>Moderate</strong>, <strong>High</strong>, and <strong>Severe</strong>. Each prediction is accompanied by SHAP feature-level contributions detailing the exact physical factors driving the alert.
         </p>
       </div>
@@ -125,114 +131,104 @@
       <!-- Team Members Grid -->
       <div class="about-section">
         <h2>5. Project Team (Team N²M, 1BCP308 Community Project)</h2>
-        <p>Maintainers and contributors working on data pipeline, machine learning, and civic integration:</p>
+        <p style="font-size:12.5px; color:var(--text-muted);">Maintainers and contributors working on data pipeline, machine learning, and civic integration:</p>
         
         <div class="team-grid">
-          <!-- Member 1 -->
           <div class="team-card">
-            <div class="photo-placeholder">[PHOTO PLACEHOLDER]</div>
-            <strong style="color:#ffffff; font-size:15px;"><span class="placeholder-tag">[FILL ME: Member 1 Name]</span></strong>
-            <span style="font-size:12.5px; color:var(--accent); margin:4px 0;"><span class="placeholder-tag">[FILL ME: Lead Data Engineer / GIS Specialist]</span></span>
-            <span style="font-size:12px; color:var(--muted);"><span class="placeholder-tag">[FILL ME: Email / Contact]</span></span>
-            <p style="font-size:11.5px; color:var(--muted); margin-top:8px;">
-              <span class="placeholder-tag">[FILL ME: Data pipeline, CHIRPS rainfall, Copernicus DEM, Sentinel-1 SAR extraction]</span>
+            <div class="photo-placeholder">[PHOTO]</div>
+            <strong style="color:#ffffff; font-size:14px;"><span class="placeholder-tag">[FILL ME: Member 1 Name]</span></strong>
+            <span style="font-size:11.5px; font-family:var(--font-mono); color:var(--accent); margin:4px 0;"><span class="placeholder-tag">[FILL ME: Lead Data Engineer / GIS]</span></span>
+            <span style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted);"><span class="placeholder-tag">[FILL ME: Email / GitHub]</span></span>
+            <p style="font-size:11px; color:var(--text-muted); margin-top:8px;">
+              <span class="placeholder-tag">[FILL ME: CHIRPS rainfall, Copernicus DEM, Sentinel-1 SAR extraction]</span>
             </p>
           </div>
 
-          <!-- Member 2 -->
           <div class="team-card">
-            <div class="photo-placeholder">[PHOTO PLACEHOLDER]</div>
-            <strong style="color:#ffffff; font-size:15px;"><span class="placeholder-tag">[FILL ME: Member 2 Name]</span></strong>
-            <span style="font-size:12.5px; color:var(--accent); margin:4px 0;"><span class="placeholder-tag">[FILL ME: ML Engineer / Model Development]</span></span>
-            <span style="font-size:12px; color:var(--muted);"><span class="placeholder-tag">[FILL ME: Email / Contact]</span></span>
-            <p style="font-size:11.5px; color:var(--muted); margin-top:8px;">
-              <span class="placeholder-tag">[FILL ME: XGBoost training, evaluation protocol, spatial/event cross-validation]</span>
+            <div class="photo-placeholder">[PHOTO]</div>
+            <strong style="color:#ffffff; font-size:14px;"><span class="placeholder-tag">[FILL ME: Member 2 Name]</span></strong>
+            <span style="font-size:11.5px; font-family:var(--font-mono); color:var(--accent); margin:4px 0;"><span class="placeholder-tag">[FILL ME: ML Engineer / Modeling]</span></span>
+            <span style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted);"><span class="placeholder-tag">[FILL ME: Email / GitHub]</span></span>
+            <p style="font-size:11px; color:var(--text-muted); margin-top:8px;">
+              <span class="placeholder-tag">[FILL ME: XGBoost training, evaluation protocol, spatial/event CV]</span>
             </p>
           </div>
 
-          <!-- Member 3 -->
           <div class="team-card">
-            <div class="photo-placeholder">[PHOTO PLACEHOLDER]</div>
-            <strong style="color:#ffffff; font-size:15px;"><span class="placeholder-tag">[FILL ME: Member 3 Name]</span></strong>
-            <span style="font-size:12.5px; color:var(--accent); margin:4px 0;"><span class="placeholder-tag">[FILL ME: Full-Stack Engineer / UI Developer]</span></span>
-            <span style="font-size:12px; color:var(--muted);"><span class="placeholder-tag">[FILL ME: Email / Contact]</span></span>
-            <p style="font-size:11.5px; color:var(--muted); margin-top:8px;">
+            <div class="photo-placeholder">[PHOTO]</div>
+            <strong style="color:#ffffff; font-size:14px;"><span class="placeholder-tag">[FILL ME: Member 3 Name]</span></strong>
+            <span style="font-size:11.5px; font-family:var(--font-mono); color:var(--accent); margin:4px 0;"><span class="placeholder-tag">[FILL ME: Full-Stack Engineer / UI]</span></span>
+            <span style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted);"><span class="placeholder-tag">[FILL ME: Email / GitHub]</span></span>
+            <p style="font-size:11px; color:var(--text-muted); margin-top:8px;">
               <span class="placeholder-tag">[FILL ME: FastAPI backend, Leaflet geospatial interface, telemetry dashboard]</span>
             </p>
           </div>
 
-          <!-- Member 4 -->
           <div class="team-card">
-            <div class="photo-placeholder">[PHOTO PLACEHOLDER]</div>
-            <strong style="color:#ffffff; font-size:15px;"><span class="placeholder-tag">[FILL ME: Member 4 Name]</span></strong>
-            <span style="font-size:12.5px; color:var(--accent); margin:4px 0;"><span class="placeholder-tag">[FILL ME: Community Liaison / Field Validation]</span></span>
-            <span style="font-size:12px; color:var(--muted);"><span class="placeholder-tag">[FILL ME: Email / Contact]</span></span>
-            <p style="font-size:11.5px; color:var(--muted); margin-top:8px;">
+            <div class="photo-placeholder">[PHOTO]</div>
+            <strong style="color:#ffffff; font-size:14px;"><span class="placeholder-tag">[FILL ME: Member 4 Name]</span></strong>
+            <span style="font-size:11.5px; font-family:var(--font-mono); color:var(--accent); margin:4px 0;"><span class="placeholder-tag">[FILL ME: Community Liaison]</span></span>
+            <span style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted);"><span class="placeholder-tag">[FILL ME: Email / GitHub]</span></span>
+            <p style="font-size:11px; color:var(--text-muted); margin-top:8px;">
               <span class="placeholder-tag">[FILL ME: Ward surveys, ground-truthing documented hotspots, citizen reports]</span>
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Community Involvement -->
       <div class="about-section">
-        <h2>6. Community Involvement &amp; Ground Reporting</h2>
-        <p>
+        <h2>6. Community Involvement &amp; Civic Field Observation</h2>
+        <p style="font-size:13px; color:var(--text-secondary); line-height:1.6;">
           Early warnings are only as accurate as the ground observation networks that validate them. We actively invite residents, ward volunteers, Resident Welfare Associations (RWAs), and civic groups across Bengaluru to collaborate.
         </p>
-        <p><strong>How to contribute:</strong></p>
-        <ul style="font-size: 13px; line-height: 1.6; color: var(--text);">
+        <ul style="font-size: 12.5px; line-height: 1.6; color: var(--text-secondary);">
           <li><span class="placeholder-tag">[FILL ME: Instructions on submitting timestamped waterlogging photos, geotagged rajakaluve overflows, or water depth estimates]</span></li>
           <li><span class="placeholder-tag">[FILL ME: Link or form to Google Form / Telegram / WhatsApp bot for reporting local street inundation]</span></li>
           <li><span class="placeholder-tag">[FILL ME: Guidelines for volunteering as a ward observer during monsoon season]</span></li>
         </ul>
       </div>
 
-      <!-- Data Sources & Credits -->
       <div class="about-section">
         <h2>7. Data Sources &amp; Acknowledgements</h2>
-        <p>This project builds on open scientific data and documented municipal engineering studies:</p>
-        <ul style="font-size: 13px; line-height: 1.6; color: var(--text);">
+        <p style="font-size:12.5px; color:var(--text-muted);">This project builds on open scientific data and documented municipal engineering studies:</p>
+        <ul style="font-size: 12.5px; line-height: 1.6; color: var(--text-secondary);">
           <li><strong>Technical Study:</strong> <em>"Floods at Bengaluru City — A Technical Study"</em> (September 2022 hotspot analysis, rajakaluve breach points, and catchment dimensions).</li>
           <li><strong>Precipitation:</strong> <span class="placeholder-tag">[FILL ME: CHIRPS Gridded Daily Rainfall / KSNDMC Weather Station Network data citation]</span></li>
           <li><strong>Terrain &amp; Elevation:</strong> <span class="placeholder-tag">[FILL ME: Copernicus GLO-30 30m Digital Elevation Model / NASA SRTM citation]</span></li>
           <li><strong>Satellite SAR:</strong> <span class="placeholder-tag">[FILL ME: European Space Agency (ESA) Sentinel-1 Synthetic Aperture Radar via Google Earth Engine]</span></li>
-          <li><strong>Basemap:</strong> &copy; OpenStreetMap contributors under ODbL license.</li>
+          <li><strong>Basemap:</strong> &copy; CartoDB Dark Matter &amp; &copy; OpenStreetMap contributors under ODbL license.</li>
         </ul>
       </div>
 
-      <!-- Project Roadmap -->
       <div class="about-section">
         <h2>8. Project Roadmap &amp; Milestones</h2>
-        <div style="font-size: 13px; line-height: 1.6;">
+        <div style="font-size: 12.5px; line-height: 1.6; color: var(--text-secondary);">
           <p><strong>Review 1 (Foundation):</strong> Problem definition, initial 9-point hotspot dataset, literature review of 2022 Bengaluru floods.</p>
           <p><strong>Review 2 (Architecture):</strong> System design, dataset specification for Member 1, spatial grid definition, and XGBoost training pipeline.</p>
-          <p><strong>Review 3 (Connected Prototype - Current Milestone):</strong> Full-stack connected deployment with real trained ML model, FastAPI REST API, dynamic Leaflet map, live 10-day rainfall scoring with presets, SHAP contribution breakdown, and transparent data audit pages.</p>
+          <p><strong>Review 3 (Connected Prototype - Current):</strong> Full-stack connected deployment with real trained ML model, FastAPI REST API, dynamic Leaflet map, live 10-day rainfall scoring with presets, SHAP contribution breakdown, and transparent data audit pages.</p>
           <p><strong>Review 4 (Operationalization):</strong> <span class="placeholder-tag">[FILL ME: Integration of live Member 1 satellite pipeline, automated IMD/CHIRPS forecast fetching, SMS/push civic notification system]</span></p>
         </div>
       </div>
 
-      <!-- Limitations & Ethics -->
       <div class="about-section">
         <h2>9. Limitations, Ethics &amp; Responsible Use</h2>
-        <p style="font-size: 13px; line-height: 1.6;">
+        <p style="font-size: 12.5px; line-height: 1.6; color: var(--text-secondary);">
           <strong>Disclaimer:</strong> This application is a university research prototype designed for demonstration and educational purposes. Predictions must <strong>never</strong> supersede official directives issued by the Karnataka State Natural Disaster Monitoring Centre (KSNDMC), Bruhat Bengaluru Mahanagara Palike (BBMP), or emergency rescue agencies.
         </p>
-        <p style="font-size: 13px; line-height: 1.6;">
+        <p style="font-size: 12.5px; line-height: 1.6;">
           <span class="placeholder-tag">[FILL ME: Statement on algorithmic fairness across economically diverse wards, handling uncertainty in un-instrumented areas, and data privacy principles]</span>
         </p>
       </div>
 
-      <!-- License & Contact -->
       <div class="about-section">
         <h2>10. License &amp; Contact</h2>
-        <p style="font-size: 13px;">
+        <p style="font-size: 12.5px; color:var(--text-secondary);">
           <strong>License:</strong> <span class="placeholder-tag">[FILL ME: Project Open Source License, e.g. MIT License or Apache 2.0]</span>
         </p>
-        <p style="font-size: 13px;">
+        <p style="font-size: 12.5px; color:var(--text-secondary);">
           <strong>Department &amp; Institution:</strong> <span class="placeholder-tag">[FILL ME: Department Name, College / University Name, Bengaluru, Karnataka, India]</span>
         </p>
-        <p style="font-size: 13px;">
+        <p style="font-size: 12.5px; color:var(--text-secondary);">
           <strong>Contact Email:</strong> <span class="placeholder-tag">[FILL ME: Project maintainer contact email address]</span>
         </p>
       </div>
@@ -242,7 +238,7 @@
   </main>
 
   <footer class="site-footer">
-    Predictive Flood Alert System · Team N²M · 1BCP308 Community Project · Powered by XGBoost &amp; FastAPI
+    PREDICTIVE FLOOD ALERT SYSTEM · TEAM N²M · 1BCP308 COMMUNITY PROJECT
   </footer>
 
   <script src="js/common.js"></script>

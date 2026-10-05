@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Transparency — Predictive Flood Alert System</title>
+  <title>Data Telemetry &amp; Provenance — Predictive Flood Alert System</title>
   <link rel="stylesheet" href="css/app.css" />
   <style>
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
-      background: var(--panel-elevated);
+      background: var(--surface-elevated);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 12px 16px;
+      padding: 10px 14px;
       margin-bottom: 14px;
     }
 
@@ -22,7 +22,9 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 13px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
     }
 
     .pagination-controls {
@@ -31,43 +33,46 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 14px;
-      font-size: 13px;
-      color: var(--muted);
+      margin-top: 12px;
+      font-size: 11.5px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
     }
 
     .pill-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
     }
 
     .pill-item {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 3px 10px;
-      font-size: 12px;
+      background: #090b0e;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 2px 10px;
+      font-size: 11px;
+      font-family: var(--font-mono);
     }
 
     .badge-in-model {
-      background: rgba(63, 142, 252, 0.2);
-      border: 1px solid rgba(63, 142, 252, 0.4);
-      color: #93c5fd;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent);
       padding: 2px 7px;
-      border-radius: 10px;
-      font-size: 11px;
-      font-weight: bold;
+      border-radius: var(--radius-pill);
+      font-size: 10.5px;
+      font-family: var(--font-mono);
+      font-weight: 600;
     }
 
     .formula-box {
       font-family: var(--font-mono);
-      background: #09121c;
-      border: 1px solid var(--border);
+      background: #090b0e;
+      border: 1px solid var(--border-subtle);
       padding: 10px 14px;
       border-radius: var(--radius-sm);
-      color: #93c5fd;
-      font-size: 12px;
+      color: var(--accent);
+      font-size: 11.5px;
       margin: 8px 0;
       overflow-x: auto;
     }
@@ -81,8 +86,11 @@
   <!-- Shared Site Navigation Header -->
   <header class="site-header">
     <div class="brand-section">
-      <h1><a href="index.html">Predictive Flood Alert System</a></h1>
-      <p>Team N²M · 1BCP308 Community Project · Bengaluru Flood Risk Intelligence</p>
+
+      <div>
+        <h1><a href="index.html">Predictive Flood Alert System</a></h1>
+        <div class="brand-sub">BENGALURU GEO-INTELLIGENCE · TEAM N²M</div>
+      </div>
     </div>
     <nav class="main-nav" aria-label="Main Navigation">
       <a href="index.html">Map</a>
@@ -96,51 +104,49 @@
     
     <!-- Section 1: Dataset Status Card -->
     <section class="card">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 14px;">
         <div>
-          <h2 style="margin: 0; font-size: 19px; color: #ffffff;">Dataset Status &amp; Provenance</h2>
-          <p style="margin: 4px 0 0; font-size: 13px; color: var(--muted);">Transparency audit of data powering model training and baseline features.</p>
+          <h2 style="margin: 0; font-size: 16px; color: #ffffff;">Dataset Status &amp; Provenance</h2>
+          <p style="margin: 2px 0 0; font-size: 12px; color: var(--text-muted);">Real-time telemetry and metadata audit of observation vectors.</p>
         </div>
-        <a href="/download/flood_dataset.csv" class="btn btn-primary" download="flood_dataset.csv">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+        <a href="/download/flood_dataset.csv" class="btn btn-primary btn-sm" download="flood_dataset.csv">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
           </svg>
-          Download flood_dataset.csv
+          Export CSV (7.4 MB)
         </a>
       </div>
 
-      <!-- Quick Metrics Grid -->
       <div class="stat-grid">
         <div class="stat-card">
-          <div class="stat-label">Data Mode</div>
-          <div class="stat-value" id="status-synthetic-badge" style="color: #f59e0b; font-size: 20px;">SYNTHETIC</div>
-          <div class="stat-desc">Mock generator enabled</div>
+          <div class="stat-label">Dataset Engine</div>
+          <div class="stat-value" id="status-synthetic-badge" style="color: #f59e0b; font-size: 16px;">SYNTHETIC MATRIX</div>
+          <div class="stat-desc">Review 3 Mock Seed = 1</div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Total Observations</div>
+          <div class="stat-label">Observation Rows</div>
           <div class="stat-value" id="status-row-count">—</div>
-          <div class="stat-desc">Cell-day rows</div>
+          <div class="stat-desc">600 cells × 43 candidate days</div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Date Coverage</div>
-          <div class="stat-value" id="status-date-range" style="font-size: 17px;">—</div>
-          <div class="stat-desc">Spans ~43 candidate dates</div>
+          <div class="stat-label">Temporal Span</div>
+          <div class="stat-value" id="status-date-range" style="font-size: 14px;">—</div>
+          <div class="stat-desc">3 storms + 40 background days</div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Positive Flood Rate</div>
+          <div class="stat-label">Flood Prevalence</div>
           <div class="stat-value" id="status-flood-rate" style="color: #f87171;">—</div>
-          <div class="stat-desc" id="status-positives-sub">— positive events</div>
+          <div class="stat-desc" id="status-positives-sub">— positive cell-days</div>
         </div>
       </div>
 
-      <!-- Breakdown pills -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 10px;">
-        <div style="background: var(--panel-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px;">
-          <div style="font-size: 12px; font-weight: bold; color: #ffffff; margin-bottom: 6px;">Label Evidence Sources:</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 10px;">
+        <div style="background: var(--surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px;">
+          <div style="font-size: 10.5px; font-family:var(--font-mono); color: var(--text-muted); text-transform:uppercase; margin-bottom: 6px;">Ground Truth Evidence Origin:</div>
           <div class="pill-list" id="label-sources-list">Loading sources...</div>
         </div>
-        <div style="background: var(--panel-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px;">
-          <div style="font-size: 12px; font-weight: bold; color: #ffffff; margin-bottom: 6px;">Confidence Breakdown:</div>
+        <div style="background: var(--surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px;">
+          <div style="font-size: 10.5px; font-family:var(--font-mono); color: var(--text-muted); text-transform:uppercase; margin-bottom: 6px;">Label Confidence Stratification:</div>
           <div class="pill-list" id="label-conf-list">Loading confidences...</div>
         </div>
       </div>
@@ -148,15 +154,14 @@
 
     <!-- Section 2: How this data was created -->
     <section class="card">
-      <h2 class="card-title">How This Synthetic Dataset Was Created</h2>
-      <p style="font-size: 13.5px; color: var(--muted); margin-bottom: 10px;">
-        To unblock full-stack engineering and model integration before the live satellite and gauge pipeline files arrive, a generator script (<span class="mono-cell">model/make_mock_dataset.py</span>) simulates Bengaluru terrain and storm flooding with deterministic seed (<span class="mono-cell">seed = 1</span>).
+      <h2 class="card-title">Generative Synthetic Simulation Mechanics</h2>
+      <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 8px;">
+        Generated by <span class="mono-cell">model/make_mock_dataset.py</span> to unblock full-stack engineering and evaluation loops prior to Member 1's real satellite/radar dataset handoff.
       </p>
       
-      <div style="font-size: 13px; line-height: 1.6; color: var(--text);">
-        <p><strong>1. Spatial Grid:</strong> 600 synthetic cells spanning Bengaluru latitude (12.85° to 13.15°) and longitude (77.45° to 77.80°). Each cell receives realistic physical terrain distributions: elevation (DEM ~900m), slope, Topographic Wetness Index (TWI), HAND, impervious surface fraction (10% to 95%), and proximity to lakes and stormwater channels.</p>
-        <p><strong>2. Storm Windows:</strong> 3 designated historical storm dates (2020-10-20, 2021-11-18, 2022-09-05) receiving heavy gamma-distributed rainfall (<span class="mono-cell">r1 ~ Gamma(2, 25)</span>) plus 40 ordinary background days (<span class="mono-cell">r1 ~ Gamma(1, 6)</span>).</p>
-        <p><strong>3. Underlying Generative Logit:</strong> Flood outcomes are determined by physical interaction between rainfall, wetness, drainage height, and built-up fraction:</p>
+      <div style="font-size: 12.5px; line-height: 1.6; color: var(--text-secondary);">
+        <p><strong>Spatial Matrix:</strong> 600 synthetic cells spanning Bengaluru latitude (12.85° to 13.15°) and longitude (77.45° to 77.80°). Realistic topography includes elevation (~900m DEM), slope, Topographic Wetness Index (TWI), HAND, impervious fraction (10% to 95%), and proximity to stormwater channels.</p>
+        <p><strong>Generative Logit:</strong> Ground-truth binary labels are generated by simulated hydrological dynamics:</p>
       </div>
 
       <div class="formula-box">
@@ -164,32 +169,32 @@
         P(flood_label = 1) = 1 / (1 + exp(-z))
       </div>
 
-      <p style="font-size: 12.5px; color: var(--muted); margin-top: 10px;">
-        <strong>Zero-Code Real Data Drop-in:</strong> When Member 1 provides the real <span class="mono-cell">flood_dataset.csv</span> derived from CHIRPS precipitation, Copernicus DEM, and Sentinel-1 SAR imagery, placing it in <span class="mono-cell">data/flood_dataset.csv</span> immediately switches the entire platform to real data without changing any application code.
+      <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+        <strong>Zero-Code Real Data Drop-In:</strong> Dropping the real <span class="mono-cell">flood_dataset.csv</span> into <span class="mono-cell">data/</span> and retraining immediately updates the entire platform with zero code changes.
       </p>
     </section>
 
     <!-- Section 3: Column Specification Dictionary -->
     <section class="card">
-      <h2 class="card-title">Specification Column Dictionary</h2>
+      <h2 class="card-title">Specification Column Schema</h2>
       <p class="card-subtitle">
-        Column definitions, physical units, and priorities directly compiled from Member 1's Dataset Specification document (<span class="mono-cell">Flood_Dataset_Specification_for_Member1.docx</span>).
+        Physical units, ranges, and model usage definitions from the Member 1 Dataset Specification document.
       </p>
 
-      <div class="table-responsive" style="max-height: 380px; overflow-y: auto;">
+      <div class="table-responsive" style="max-height: 340px; overflow-y: auto;">
         <table class="data-table">
           <thead>
             <tr>
-              <th>Column Name</th>
+              <th>Column</th>
               <th>Type</th>
               <th>Unit</th>
               <th>Description</th>
-              <th>Spec Priority</th>
-              <th>In Model?</th>
+              <th>Priority</th>
+              <th>Model Feature</th>
             </tr>
           </thead>
           <tbody id="columns-spec-tbody">
-            <tr><td colspan="6" style="color:var(--muted);">Loading column specification...</td></tr>
+            <tr><td colspan="6" style="color:var(--text-muted);">Loading column schema...</td></tr>
           </tbody>
         </table>
       </div>
@@ -197,24 +202,24 @@
 
     <!-- Section 4: Per-Column Summary Statistics -->
     <section class="card">
-      <h2 class="card-title">Per-Column Summary Statistics</h2>
-      <p class="card-subtitle">Computed values (min, mean, max, and missing counts) across all 25,800 dataset rows.</p>
+      <h2 class="card-title">Per-Column Statistical Distribution</h2>
+      <p class="card-subtitle">Calculated summary bounds across all 25,800 observation rows.</p>
 
-      <div class="table-responsive" style="max-height: 360px; overflow-y: auto;">
+      <div class="table-responsive" style="max-height: 320px; overflow-y: auto;">
         <table class="data-table">
           <thead>
             <tr>
-              <th>Column</th>
+              <th>Feature</th>
               <th>Data Type</th>
               <th>Min</th>
               <th>Mean</th>
               <th>Max</th>
-              <th>Missing Rows</th>
+              <th>Nulls</th>
               <th>Missing %</th>
             </tr>
           </thead>
           <tbody id="summary-stats-tbody">
-            <tr><td colspan="7" style="color:var(--muted);">Calculating summary stats...</td></tr>
+            <tr><td colspan="7" style="color:var(--text-muted);">Calculating stats...</td></tr>
           </tbody>
         </table>
       </div>
@@ -222,36 +227,35 @@
 
     <!-- Section 5: Paginated & Filterable Dataset Explorer -->
     <section class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
         <div>
-          <h2 style="margin: 0; font-size: 18px; color: #ffffff;">Dataset Explorer (Server-Side Paginated)</h2>
-          <p style="margin: 2px 0 0; font-size: 12.5px; color: var(--muted);">Explore observations with live server-side filtering.</p>
+          <h2 style="margin: 0; font-size: 16px; color: #ffffff;">Dataset Explorer</h2>
+          <p style="margin: 2px 0 0; font-size: 12px; color: var(--text-muted);">Server-side paginated and filterable observation matrix.</p>
         </div>
       </div>
 
-      <!-- Filter Controls Bar -->
       <div class="filter-bar">
         <div class="filter-group">
-          <label for="filter-flood">Flood Label:</label>
+          <label for="filter-flood">Label:</label>
           <select id="filter-flood">
-            <option value="">All Rows</option>
-            <option value="1">Flooded Only (1)</option>
-            <option value="0">Non-Flooded Only (0)</option>
+            <option value="">All</option>
+            <option value="1">Flooded (1)</option>
+            <option value="0">Non-Flooded (0)</option>
           </select>
         </div>
 
         <div class="filter-group">
-          <label for="filter-date">Date (YYYY-MM-DD):</label>
-          <input type="text" id="filter-date" placeholder="e.g. 2022-09-05" style="width: 130px;" />
+          <label for="filter-date">Date:</label>
+          <input type="text" id="filter-date" placeholder="YYYY-MM-DD" style="width: 120px;" />
         </div>
 
         <div class="filter-group">
           <label for="filter-ward">Ward:</label>
-          <input type="text" id="filter-ward" placeholder="Ward ID" style="width: 80px;" />
+          <input type="text" id="filter-ward" placeholder="ID" style="width: 60px;" />
         </div>
 
         <div class="filter-group">
-          <label for="filter-page-size">Per Page:</label>
+          <label for="filter-page-size">Size:</label>
           <select id="filter-page-size">
             <option value="25">25</option>
             <option value="50" selected>50</option>
@@ -263,11 +267,10 @@
         <button type="button" id="reset-filters-btn" class="btn btn-sm">Reset</button>
       </div>
 
-      <!-- Data Table View -->
-      <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+      <div class="table-responsive" style="max-height: 440px; overflow-y: auto;">
         <table class="data-table" id="data-explorer-table">
           <thead id="data-explorer-thead">
-            <tr><th>Loading data...</th></tr>
+            <tr><th>Loading...</th></tr>
           </thead>
           <tbody id="data-explorer-tbody">
             <tr><td>Loading observations...</td></tr>
@@ -275,12 +278,11 @@
         </table>
       </div>
 
-      <!-- Pagination Footer -->
       <div class="pagination-controls">
         <span id="page-summary-text">Showing 0 - 0 of 0</span>
-        <div style="display: flex; gap: 8px;">
-          <button type="button" id="prev-page-btn" class="btn btn-sm" disabled>&larr; Previous</button>
-          <span id="page-indicator" style="padding: 4px 8px; font-weight: bold; color: #ffffff;">Page 1</span>
+        <div style="display: flex; gap: 6px;">
+          <button type="button" id="prev-page-btn" class="btn btn-sm" disabled>&larr; Prev</button>
+          <span id="page-indicator" style="padding: 4px 8px; font-weight: 600; color: #ffffff;">Page 1</span>
           <button type="button" id="next-page-btn" class="btn btn-sm" disabled>Next &rarr;</button>
         </div>
       </div>
@@ -289,28 +291,25 @@
   </main>
 
   <footer class="site-footer">
-    Predictive Flood Alert System · Team N²M · 1BCP308 Community Project · Powered by XGBoost &amp; FastAPI
+    PREDICTIVE FLOOD ALERT SYSTEM · TEAM N²M · 1BCP308 COMMUNITY PROJECT
   </footer>
 
   <script src="js/common.js"></script>
   <script>
-    // State
     let currentPage = 1;
     let pageSize = 50;
     let totalPages = 1;
     let totalRows = 0;
 
-    // Load Summary & Status
     async function loadDataSummary() {
       try {
         const sum = await fetchAPI("/api/data/summary");
 
         document.getElementById("status-row-count").textContent = sum.row_count.toLocaleString();
-        document.getElementById("status-date-range").textContent = `${sum.date_range.min.substring(0,10)} to ${sum.date_range.max.substring(0,10)}`;
+        document.getElementById("status-date-range").textContent = `${sum.date_range.min.substring(0,10)} → ${sum.date_range.max.substring(0,10)}`;
         document.getElementById("status-flood-rate").textContent = `${(sum.flood_rate * 100).toFixed(2)}%`;
-        document.getElementById("status-positives-sub").textContent = `${sum.positives.toLocaleString()} positive observations`;
+        document.getElementById("status-positives-sub").textContent = `${sum.positives.toLocaleString()} positive cell-days`;
 
-        // Sources pills
         const srcContainer = document.getElementById("label-sources-list");
         srcContainer.innerHTML = "";
         Object.entries(sum.label_source_breakdown).forEach(([k, v]) => {
@@ -320,7 +319,6 @@
           srcContainer.appendChild(pill);
         });
 
-        // Confidence pills
         const confContainer = document.getElementById("label-conf-list");
         confContainer.innerHTML = "";
         Object.entries(sum.label_confidence_breakdown).forEach(([k, v]) => {
@@ -330,7 +328,6 @@
           confContainer.appendChild(pill);
         });
 
-        // Summary Stats Table
         const statsTbody = document.getElementById("summary-stats-tbody");
         statsTbody.innerHTML = "";
         Object.values(sum.column_stats).forEach(col => {
@@ -352,7 +349,6 @@
       }
     }
 
-    // Load Column Specification Dictionary
     async function loadColumnSpec() {
       try {
         const spec = await fetchAPI("/api/data/columns");
@@ -362,11 +358,11 @@
         spec.columns.forEach(col => {
           const tr = document.createElement("tr");
           const inModelBadge = col.used_in_model 
-            ? `<span class="badge-in-model">YES (Model Feature)</span>` 
-            : `<span style="color:var(--muted); font-size:11px;">No</span>`;
+            ? `<span class="badge-in-model">YES (ACTIVE)</span>` 
+            : `<span style="color:var(--text-muted); font-size:11px; font-family:var(--font-mono);">NO</span>`;
 
           tr.innerHTML = `
-            <td class="mono-cell" style="font-weight:bold; color:#ffffff;">${escapeHTML(col.name)}</td>
+            <td class="mono-cell" style="font-weight:600; color:#ffffff;">${escapeHTML(col.name)}</td>
             <td class="mono-cell">${escapeHTML(col.type)}</td>
             <td class="mono-cell">${escapeHTML(col.unit)}</td>
             <td>${escapeHTML(col.description)}</td>
@@ -380,7 +376,6 @@
       }
     }
 
-    // Load Paginated Rows from /api/data
     async function fetchRows() {
       const floodVal = document.getElementById("filter-flood").value;
       const dateVal = document.getElementById("filter-date").value.trim();
@@ -393,7 +388,7 @@
       if (wardVal !== "") url += `&ward=${encodeURIComponent(wardVal)}`;
 
       const tbody = document.getElementById("data-explorer-tbody");
-      tbody.innerHTML = `<tr><td colspan="15" style="color:var(--muted); padding:16px;">Loading rows...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="15" style="color:var(--text-muted); padding:16px;">Loading observations...</td></tr>`;
 
       try {
         const res = await fetchAPI(url);
@@ -401,16 +396,14 @@
         totalRows = res.total;
         const rows = res.rows || [];
 
-        // Build Table Header
         if (rows.length > 0) {
           const thead = document.getElementById("data-explorer-thead");
           const cols = Object.keys(rows[0]);
           thead.innerHTML = `<tr>${cols.map(c => `<th>${escapeHTML(c)}</th>`).join('')}</tr>`;
 
-          // Build Table Body
           tbody.innerHTML = rows.map(r => {
             const isFlood = r.flood_label === 1;
-            const rowHighlight = isFlood ? 'style="background:rgba(224, 69, 69, 0.08);"' : '';
+            const rowHighlight = isFlood ? 'style="background:rgba(239, 68, 68, 0.08);"' : '';
             return `
               <tr ${rowHighlight}>
                 ${cols.map(c => {
@@ -419,7 +412,7 @@
                     val = Number.isInteger(val) ? val : val.toFixed(3);
                   }
                   if (c === 'flood_label') {
-                    val = val === 1 ? '<strong style="color:#f87171">1 (Flood)</strong>' : '<span style="color:#9db0c4">0</span>';
+                    val = val === 1 ? '<strong style="color:#f87171">1 (Flood)</strong>' : '<span style="color:var(--text-muted)">0</span>';
                   }
                   return `<td class="mono-cell">${val !== null && val !== undefined ? val : ''}</td>`;
                 }).join('')}
@@ -427,13 +420,12 @@
             `;
           }).join('');
         } else {
-          tbody.innerHTML = `<tr><td colspan="15" style="color:var(--muted); padding:16px;">No rows matched your filter query.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="15" style="color:var(--text-muted); padding:16px;">No rows matched query.</td></tr>`;
         }
 
-        // Update Pagination Controls
         const startRow = totalRows === 0 ? 0 : (currentPage - 1) * pageSize + 1;
         const endRow = Math.min(totalRows, currentPage * pageSize);
-        document.getElementById("page-summary-text").textContent = `Showing ${startRow} - ${endRow} of ${totalRows.toLocaleString()} rows`;
+        document.getElementById("page-summary-text").textContent = `Showing ${startRow} - ${endRow} of ${totalRows.toLocaleString()}`;
         document.getElementById("page-indicator").textContent = `Page ${currentPage} of ${totalPages}`;
         
         document.getElementById("prev-page-btn").disabled = currentPage <= 1;
@@ -441,11 +433,10 @@
 
       } catch (err) {
         console.error("Failed to fetch data rows:", err);
-        tbody.innerHTML = `<tr><td colspan="15" style="color:#f87171; padding:16px;">Error loading rows: ${err.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="15" style="color:#f87171; padding:16px;">Error: ${err.message}</td></tr>`;
       }
     }
 
-    // Initialize Page
     document.addEventListener("DOMContentLoaded", () => {
       loadDataSummary();
       loadColumnSpec();

@@ -1,6 +1,6 @@
 /**
  * Common JavaScript for Predictive Flood Alert System
- * Handles API calls, persistent synthetic warnings, navigation, and reusable rainfall controls.
+ * Mapbox Minimalist Dark Design System
  */
 
 // ONE constant for the API base URL. Change here if pointing at a hosted backend.
@@ -47,7 +47,7 @@ async function fetchAPI(endpoint, options = {}) {
   try {
     const res = await fetch(url, options);
     if (!res.ok) {
-      let detail = `Server returned HTTP ${res.status}`;
+      let detail = `HTTP ${res.status}`;
       try {
         const errorData = await res.json();
         if (errorData && errorData.detail) {
@@ -70,21 +70,21 @@ async function fetchAPI(endpoint, options = {}) {
 }
 
 /**
- * Get visual styling parameters for a given risk band
+ * Get visual styling parameters for a given risk band (Mapbox Palette)
  */
 function getRiskBandMeta(band) {
   const b = (band || "").toLowerCase();
   switch (b) {
     case "low":
-      return { color: "#3fae5a", label: "Low", class: "low" };
+      return { color: "#10b981", label: "Low", class: "low" };
     case "moderate":
-      return { color: "#e6b800", label: "Moderate", class: "moderate" };
+      return { color: "#f59e0b", label: "Moderate", class: "moderate" };
     case "high":
-      return { color: "#e67e22", label: "High", class: "high" };
+      return { color: "#f97316", label: "High", class: "high" };
     case "severe":
-      return { color: "#e04545", label: "Severe", class: "severe" };
+      return { color: "#ef4444", label: "Severe", class: "severe" };
     default:
-      return { color: "#9db0c4", label: "Unknown", class: "unknown" };
+      return { color: "#8b949e", label: "Unknown", class: "unknown" };
   }
 }
 
@@ -100,22 +100,17 @@ async function initSyntheticBanner() {
     if (health.is_synthetic) {
       bannerContainer.innerHTML = `
         <div class="synthetic-banner" role="alert">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z"/>
-          </svg>
-          <span><strong>Notice:</strong> Demo model trained on <strong>SYNTHETIC</strong> data — predictions are not real flood forecasts and will not match the documented 2022 floods.</span>
+          <span class="radar-dot"></span>
+          <span><strong>SYNTHETIC DATA MODE:</strong> Trained on simulated terrain &amp; storm matrix for Review 3 demo. Predictions are synthetic demonstrations.</span>
         </div>
       `;
     }
   } catch (e) {
     console.warn("Could not check synthetic data status:", e);
-    // Display banner by default as safety precaution
     bannerContainer.innerHTML = `
       <div class="synthetic-banner" role="alert">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z"/>
-        </svg>
-        <span><strong>Notice:</strong> Demo model trained on <strong>SYNTHETIC</strong> data — predictions are not real flood forecasts and will not match the documented 2022 floods.</span>
+        <span class="radar-dot"></span>
+        <span><strong>SYNTHETIC DATA MODE:</strong> Trained on simulated terrain &amp; storm matrix for Review 3 demo. Predictions are synthetic demonstrations.</span>
       </div>
     `;
   }
@@ -154,11 +149,11 @@ function renderRainfallComponent(containerId, initialValues, onChangeCallback) {
   for (let i = 0; i < 10; i++) {
     const dayOffset = i - 9;
     const isToday = i === 9;
-    const label = isToday ? "Today" : `Day ${dayOffset}`;
+    const label = isToday ? "TODAY" : `D${dayOffset}`;
     daysHtml += `
       <div class="rain-day-cell ${isToday ? 'today' : ''}">
-        <label for="rain-day-${i}">${label}</label>
-        <input type="number" id="rain-day-${i}" data-index="${i}" min="0" max="500" step="1" value="${currentValues[i]}" aria-label="${label} rainfall in mm" />
+        <label for="${containerId}-day-${i}">${label}</label>
+        <input type="number" id="${containerId}-day-${i}" data-index="${i}" min="0" max="500" step="1" value="${currentValues[i]}" aria-label="${label} rainfall in mm" />
       </div>
     `;
   }
@@ -166,25 +161,23 @@ function renderRainfallComponent(containerId, initialValues, onChangeCallback) {
   container.innerHTML = `
     <div class="rainfall-component">
       <div class="rainfall-presets">
-        <span class="rainfall-presets-label">Quick Presets:</span>
-        <button type="button" class="btn btn-sm" data-preset="dry">Dry week</button>
-        <button type="button" class="btn btn-sm" data-preset="light">Light rain</button>
-        <button type="button" class="btn btn-sm" data-preset="storm">Heavy storm</button>
-        <button type="button" class="btn btn-sm" data-preset="sept2022">Sept 2022-style</button>
+        <span class="rainfall-presets-label">Presets:</span>
+        <button type="button" class="btn btn-sm" data-preset="dry">Dry</button>
+        <button type="button" class="btn btn-sm" data-preset="light">Light</button>
+        <button type="button" class="btn btn-sm" data-preset="storm">Storm</button>
+        <button type="button" class="btn btn-sm" data-preset="sept2022">Sept 2022</button>
       </div>
       <div class="rainfall-grid">
         ${daysHtml}
       </div>
       <div class="rain-summary-bar">
-        <span>1-Day: <strong id="${containerId}-sum-1d">0.0</strong> mm</span>
-        <span>3-Day Sum: <strong id="${containerId}-sum-3d">0.0</strong> mm</span>
-        <span>7-Day Sum: <strong id="${containerId}-sum-7d">0.0</strong> mm</span>
-        <span>10-Day Total: <strong id="${containerId}-sum-10d">0.0</strong> mm</span>
+        <span>1D: <strong id="${containerId}-sum-1d">0.0</strong> mm</span>
+        <span>3D: <strong id="${containerId}-sum-3d">0.0</strong> mm</span>
+        <span>7D: <strong id="${containerId}-sum-7d">0.0</strong> mm</span>
+        <span>10D: <strong id="${containerId}-sum-10d">0.0</strong> mm</span>
       </div>
       <div id="${containerId}-warning" class="warning-callout" style="display: none;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z"/>
-        </svg>
+        <span class="radar-dot" style="background:#f59e0b;"></span>
         <span id="${containerId}-warning-text"></span>
       </div>
     </div>
@@ -212,7 +205,7 @@ function renderRainfallComponent(containerId, initialValues, onChangeCallback) {
     if (r3 < 10) {
       if (warnEl && warnText) {
         warnEl.style.display = "flex";
-        warnText.textContent = `3-day rainfall (${r3.toFixed(1)} mm) is below 10 mm. Model was trained only on wet days; scoring will extrapolate.`;
+        warnText.textContent = `3-day rainfall (${r3.toFixed(1)}mm) < 10mm training threshold. Scoring extrapolates.`;
       }
     } else {
       if (warnEl) warnEl.style.display = "none";
@@ -242,7 +235,6 @@ function renderRainfallComponent(containerId, initialValues, onChangeCallback) {
     if (onChangeCallback) onChangeCallback(getValues());
   }
 
-  // Attach preset handlers
   container.querySelectorAll("button[data-preset]").forEach(btn => {
     btn.addEventListener("click", () => {
       const pKey = btn.getAttribute("data-preset");
@@ -252,7 +244,6 @@ function renderRainfallComponent(containerId, initialValues, onChangeCallback) {
     });
   });
 
-  // Debounced input handler
   let debounceTimer = null;
   container.querySelectorAll("input[type='number']").forEach(inp => {
     inp.addEventListener("input", () => {
@@ -273,7 +264,6 @@ function renderRainfallComponent(containerId, initialValues, onChangeCallback) {
   };
 }
 
-// Global initialization on DOM ready
 document.addEventListener("DOMContentLoaded", () => {
   initSyntheticBanner();
   highlightActiveNav();
