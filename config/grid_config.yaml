@@ -1,0 +1,27 @@
+# Grid Configuration for Bengaluru 500 m Full-City Spatial Skeleton
+# Spec: model/spec/Flood_Dataset_Specification_for_Member1.docx
+
+crs: "EPSG:32643"                    # Working Projected CRS (UTM Zone 43N)
+output_crs: "EPSG:4326"               # Centroid / Export CRS (WGS84)
+spacing_m: 500                        # Lattice resolution in meters
+
+boundary_file: "data/raw/bbmp_wards_198.geojson"
+boundary_expected_features: 198
+boundary_delimitation: "2011"
+
+# Rain source configuration
+# Note: Keep in config so changing rain source or pixel size requires a config change + rerun, not a rewrite.
+rain_source: "chirps_daily"
+rain_pixel_size_deg: 0.05
+rain_temporal_def: "utc_day"          # 00:00:00 to 23:59:59 UTC
+
+# Outputs
+output_cells_csv: "data/interim/cells_grid.csv"
+output_cells_geojson: "data/interim/cells_grid.geojson"
+output_rain_pixels_csv: "data/interim/rain_pixels.csv"
+output_preview_html: "reports/grid_preview.html"
+
+# Events
+events_csv: "data/events.csv"
+output_events_with_cells: "data/interim/events_with_cells.csv"
+candidate_events_md: "data/interim/candidate_events.md"

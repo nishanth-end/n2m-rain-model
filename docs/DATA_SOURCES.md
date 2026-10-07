@@ -6,15 +6,18 @@ This document records the provenance, licensing, version, and access details for
 
 ## 1. BBMP Ward Boundaries (City Boundary & Spatial Partitioning)
 
-- **Source / Publisher**: DataMeet Bangalore Community Spatial Repository & OpenCity
-- **Repository URL**: `https://github.com/datameet/bangalore`
-- **Direct Download URL**: `https://raw.githubusercontent.com/datameet/bangalore/master/Wards/BBMP_Wards_2011_Nov.geojson`
+- **Source / Publisher**: DataMeet Municipal Spatial Data Repository
+- **Repository URL**: `https://github.com/datameet/Municipal_Spatial_Data`
+- **Final Download URL**: `https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Bangalore/BBMP_oldWards.geojson`
+- **Local Path**: `data/raw/bbmp_wards_198.geojson`
 - **Delimitation**: BBMP 2011 Delimitation (198 wards)
 - **Geometry Type**: MultiPolygon / Polygon (WGS84, EPSG:4326)
 - **Feature Count**: Exactly 198 wards
-- **Total Area**: ~716 km²
+- **Total Area**: 711.59 km²
+- **Fields Used**: `WARD_NO` (converted from float 1.0–198.0 to integer 1–198), `WARD_NAME`
 - **Access Date**: 2026-10-07
-- **Licence**: Open Database License (ODbL) 1.0 / CC BY-SA 2.5 India
+- **Licence**: Creative Commons Attribution-ShareAlike 2.5 India (http://creativecommons.org/licenses/by-sa/2.5/in/) as stated in `Bangalore/Readme.md` of the DataMeet repository.
+- **Note on Source URL**: The originally proposed URL (`https://raw.githubusercontent.com/datameet/bangalore/master/Wards/BBMP_Wards_2011_Nov.geojson`) returned HTTP 404. With explicit user approval, `BBMP_oldWards.geojson` from `datameet/Municipal_Spatial_Data` was audited, verified, and adopted.
 - **Role in Pipeline**: Defines the boundary for clipping the 500 m UTM lattice and supplies the `ward` identifier for spatial 5-fold cross-validation.
 
 ---
