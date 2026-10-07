@@ -12,7 +12,6 @@ import pytest
 CELLS_CSV = "data/interim/cells_grid.csv"
 RAIN_PIXELS_CSV = "data/interim/rain_pixels.csv"
 EVENTS_CSV = "data/interim/events_with_cells.csv"
-RAW_EVENTS_CSV = "data/events.csv"
 
 @pytest.fixture(scope="module")
 def cells_df():
@@ -43,11 +42,20 @@ def test_unique_integer_cell_id(cells_df):
     assert set(cells_df["cell_id"]) == set(range(len(cells_df))), "cell_id is not contiguous 0 to N-1"
 
 def test_no_null_critical_fields(cells_df):
-    """No NaN values allowed in lat, lon, ward, rain_pixel_id, area_km2."""
-    critical_cols = ["lat", "lon", "ward", "rain_pixel_id", "area_km2", "x_utm", "y_utm"]
+    """No NaN values allowed in lat, lon, ward, rain_pixel_id, area_km2, x_utm, y_utm, lattice_center_x, lattice_center_y."""
+    critical_cols = [
+        "lat", "lon", "ward", "rain_pixel_id", "area_km2",
+        "x_utm", "y_utm", "lattice_center_x", "lattice_center_y"
+    ]
     for col in critical_cols:
         assert col in cells_df.columns, f"Missing column {col}"
         assert cells_df[col].notna().all(), f"Found NaN values in {col}"
+
+def test_centroid_definitions_consistency(cells_df):
+    """For unclipped full cells (area_km2 >= 0.2499), x_utm and y_utm must exactly match lattice_center."""
+    full_cells = cells_df[cells_df["area_km2"] >= 0.2499]
+    assert np.allclose(full_cells["x_utm"], full_cells["lattice_center_x"], atol=0.02)
+    assert np.allclose(full_cells["y_utm"], full_cells["lattice_center_y"], atol=0.02)
 
 def test_wgs84_coordinate_bounds(cells_df):
     """Centroid coordinates must fall strictly within the Bengaluru bounding box (lat 12.7-13.3, lon 77.3-77.9)."""
@@ -64,9 +72,8 @@ def test_cell_area_properties(cells_df):
     assert (cells_df["area_km2"] <= 0.250001).all(), (
         f"Found cell with area > 0.25 km²: max={cells_df['area_km2'].max()}"
     )
-    # Sum of areas must approximate the BBMP boundary area (~711.59 km²)
     total_area = cells_df["area_km2"].sum()
-    assert 700.0 <= total_area <= 720.0, f"Total area {total_area:.2f} km² deviates significantly from ~711.59 km²"
+    assert 700.0 <= total_area <= 720.0, f"Total area {total_area:.2f} km² deviates from ~711.59 km²"
 
 def test_ward_identifiers(cells_df):
     """Ward identifiers must be valid integers between 1 and 198."""
@@ -81,7 +88,6 @@ def test_rain_pixel_linkage(cells_df, rain_pixels_df):
     """Every cell must map to a valid rain_pixel_id present in rain_pixels.csv."""
     assert pd.api.types.is_integer_dtype(cells_df["rain_pixel_id"])
     assert set(cells_df["rain_pixel_id"]).issubset(set(rain_pixels_df["rain_pixel_id"]))
-    # Check that cell counts in rain_pixels_df match cells_df grouping
     counts_from_cells = cells_df.groupby("rain_pixel_id").size().to_dict()
     for _, row in rain_pixels_df.iterrows():
         pid = int(row["rain_pixel_id"])
@@ -90,31 +96,42 @@ def test_rain_pixel_linkage(cells_df, rain_pixels_df):
             f"Pixel {pid} mismatch: rain_pixels says {row['n_cells']}, cells say {expected_count}"
         )
 
-def test_events_mapped_to_cells(cells_df, events_df):
-    """Every documented event in events.csv must map to a valid cell_id in cells_grid.csv."""
+def test_events_strict_pip_matching(cells_df, events_df):
+    """Verifies strict PIP assignment for events without silent snapping."""
     assert len(events_df) == 10, f"Expected 10 events, got {len(events_df)}"
-    assert events_df["cell_id"].notna().all(), "Some events have null cell_id"
-    assert pd.api.types.is_integer_dtype(events_df["cell_id"])
+
+    inside_events = events_df[~events_df["outside_grid"]]
+    outside_events = events_df[events_df["outside_grid"]]
+
+    # Exactly 7 events are inside, 3 are outside
+    assert len(inside_events) == 7
+    assert len(outside_events) == 3
+
+    # Inside events must have valid cell_id and distance <= 353.6m (half diagonal of 500m cell)
+    max_diag = 250.0 * np.sqrt(2.0) + 1.0  # ~354.6m
     valid_ids = set(cells_df["cell_id"])
-    for _, row in events_df.iterrows():
+    for _, row in inside_events.iterrows():
         cid = int(row["cell_id"])
-        assert cid in valid_ids, f"Event {row['event_id']} ({row['place_name']}) mapped to invalid cell {cid}"
-        # Distance must be reasonable (< 1500m)
-        assert row["dist_to_cell_centroid_m"] < 1500.0, (
-            f"Event {row['place_name']} distance {row['dist_to_cell_centroid_m']}m is too large"
+        assert cid in valid_ids
+        assert row["dist_to_cell_centroid_m"] <= max_diag, (
+            f"Inside event {row['place_name']} distance {row['dist_to_cell_centroid_m']} exceeds max diagonal {max_diag}"
         )
+
+    # Outside events must have NA cell_id, outside_grid=True, and valid nearest_cell_id
+    for _, row in outside_events.iterrows():
+        assert pd.isna(row["cell_id"])
+        assert int(row["nearest_cell_id"]) in valid_ids
+        assert row["dist_to_nearest_cell_boundary_m"] > 0
 
 def test_grid_determinism():
     """Running 01_grid.py again must produce identical CSV output."""
-    # Capture current content
     with open(CELLS_CSV, "rb") as f:
         original_bytes = f.read()
 
-    # Re-run pipeline script
     res = subprocess.run([".venv/bin/python", "pipeline/01_grid.py"], capture_output=True, text=True)
     assert res.returncode == 0, f"01_grid.py failed on rerun: {res.stderr}"
 
     with open(CELLS_CSV, "rb") as f:
         rerun_bytes = f.read()
 
-    assert original_bytes == rerun_bytes, "Grid generation is non-deterministic (output bytes differ on rerun)!"
+    assert original_bytes == rerun_bytes, "Grid generation is non-deterministic!"

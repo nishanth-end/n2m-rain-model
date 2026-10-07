@@ -9,6 +9,13 @@ boundary_file: "data/raw/bbmp_wards_198.geojson"
 boundary_expected_features: 198
 boundary_delimitation: "2011"
 
+# Centroid Definitions:
+# - x_utm, y_utm: Geometric centroid (center of mass) of the clipped cell geometry in EPSG:32643 (UTM 43N).
+# - lat, lon: WGS84 coordinates (EPSG:4326) of (x_utm, y_utm).
+# - lattice_center_x, lattice_center_y: Theoretical center of the 500 m unclipped lattice square (lattice_x + 250, lattice_y + 250).
+# Note: For full cells (area_km2 == 0.25), (x_utm, y_utm) == (lattice_center_x, lattice_center_y).
+# For boundary-clipped cells (area_km2 < 0.25), (x_utm, y_utm) is the centroid of the retained interior polygon.
+
 # Rain source configuration
 # Note: Keep in config so changing rain source or pixel size requires a config change + rerun, not a rewrite.
 rain_source: "chirps_daily"

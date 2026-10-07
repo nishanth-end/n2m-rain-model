@@ -73,6 +73,8 @@ def build_grid():
                     cells.append({
                         "lattice_x": int(x),
                         "lattice_y": int(y),
+                        "lattice_center_x": round(x + spacing / 2.0, 2),
+                        "lattice_center_y": round(y + spacing / 2.0, 2),
                         "x_utm": round(c.x, 2),
                         "y_utm": round(c.y, 2),
                         "area_km2": round(clipped.area / 1e6, 6),
@@ -155,7 +157,11 @@ def build_grid():
     print(f"Saved rain pixels to {config['output_rain_pixels_csv']}")
 
     # 2. Write cells_grid.csv
-    cells_csv_cols = ["cell_id", "lat", "lon", "x_utm", "y_utm", "ward", "ward_name", "rain_pixel_id", "area_km2"]
+    cells_csv_cols = [
+        "cell_id", "lat", "lon", "x_utm", "y_utm",
+        "lattice_center_x", "lattice_center_y",
+        "ward", "ward_name", "rain_pixel_id", "area_km2"
+    ]
     gdf_cells[cells_csv_cols].to_csv(config["output_cells_csv"], index=False)
     print(f"Saved {len(gdf_cells)} grid cells to {config['output_cells_csv']}")
 
@@ -191,10 +197,11 @@ def generate_preview_html(gdf_cells_wgs, wards_gdf, rain_pixels_df, events_csv_p
     """Generates a standalone Leaflet visualizer showing cells, wards, rain pixels, and event points."""
     print(f"Generating preview HTML at {out_html_path}...")
 
-    # Load events
+    # Load events (prefer events_with_cells.csv if available)
     events_data = []
-    if os.path.exists(events_csv_path):
-        ev_df = pd.read_csv(events_csv_path)
+    events_source_file = "data/interim/events_with_cells.csv" if os.path.exists("data/interim/events_with_cells.csv") else events_csv_path
+    if os.path.exists(events_source_file):
+        ev_df = pd.read_csv(events_source_file)
         for _, row in ev_df.iterrows():
             events_data.append({
                 "event_id": str(row.get("event_id", "")),
@@ -202,7 +209,10 @@ def generate_preview_html(gdf_cells_wgs, wards_gdf, rain_pixels_df, events_csv_p
                 "lat": float(row.get("lat", 0)),
                 "lon": float(row.get("lon", 0)),
                 "date": str(row.get("start_date", "")),
-                "confidence": str(row.get("label_confidence", ""))
+                "confidence": str(row.get("label_confidence", "")),
+                "outside_grid": bool(row.get("outside_grid", False)),
+                "cell_id": str(row.get("cell_id", "None")),
+                "nearest_cell_id": str(row.get("nearest_cell_id", ""))
             })
 
     # Prepare simplified GeoJSON for preview
@@ -530,19 +540,31 @@ const rainPixelsLayer = L.geoJSON(rainPixelsData, {{
 // 4. Events Layer
 const eventsLayer = L.layerGroup();
 eventsData.forEach(ev => {{
+  const isOutside = ev.outside_grid;
+  const color = isOutside ? '#f97316' : '#ef4444';
   const marker = L.circleMarker([ev.lat, ev.lon], {{
     radius: 7,
-    color: '#ef4444',
-    fillColor: '#ef4444',
+    color: color,
+    fillColor: color,
     fillOpacity: 0.9,
-    weight: 2
+    weight: isOutside ? 2 : 2,
+    dashArray: isOutside ? '3, 3' : null
   }}).addTo(eventsLayer);
 
+  const statusTxt = isOutside
+    ? '<b style=\"color:#f97316;\">Outside 2011 BBMP Grid</b>'
+    : '<b style=\"color:#38bdf8;\">Matched to Cell #' + ev.cell_id + '</b>';
+  const nearestTxt = isOutside
+    ? '<div class=\"popup-row\" style=\"color:var(--muted);font-size:11px;\">Nearest cell: #' + ev.nearest_cell_id + '</div>'
+    : '';
+
   marker.bindPopup(`
-    <strong style="color:#f87171;">${{ev.place_name}}</strong><br>
-    <div class="popup-row"><span class="popup-lbl">Event:</span> ${{ev.event_id}} (${{ev.date}})</div>
-    <div class="popup-row"><span class="popup-lbl">Confidence:</span> ${{ev.confidence}}</div>
-    <div class="popup-row"><span class="popup-lbl">Coord:</span> ${{ev.lat}}, ${{ev.lon}}</div>
+    <strong style=\"color:${{isOutside ? '#fb923c' : '#f87171'}};\">${{ev.place_name}}</strong><br>
+    <div class=\"popup-row\"><span class=\"popup-lbl\">Status:</span> ${{statusTxt}}</div>
+    <div class=\"popup-row\"><span class=\"popup-lbl\">Event:</span> ${{ev.event_id}} (${{ev.date}})</div>
+    <div class=\"popup-row\"><span class=\"popup-lbl\">Confidence:</span> ${{ev.confidence}}</div>
+    <div class=\"popup-row\"><span class=\"popup-lbl\">Coord:</span> ${{ev.lat}}, ${{ev.lon}}</div>
+    ${{nearestTxt}}
   `);
 }});
 eventsLayer.addTo(map);

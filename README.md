@@ -181,10 +181,21 @@ The full column definitions, rules and checks are in the **Flood Dataset Specifi
 
 - **Administrative boundary:** BBMP 2011 delimitation consisting of exactly 198 wards (not the 2020 delimitation of 243 wards), sourced from DataMeet (`data/raw/bbmp_wards_198.geojson`). The verified boundary area is 711.59 km² (compared to the specification's approximate ~716 km²).
 - **Full-city 500 m grid:** 3,026 total cells (2,674 full 0.25 km² cells and 352 clipped boundary cells with true `area_km2`), covering 711.59 km². This lands within the expected 2,500–3,300 test range.
+- **Centroid definitions:**
+  - `(x_utm, y_utm)`: True geometric centroid (center of mass) of the clipped cell geometry in EPSG:32643 (UTM 43N). `(lat, lon)` reports its WGS84 coordinates.
+  - `(lattice_center_x, lattice_center_y)`: Theoretical center of the unclipped 500 m lattice square (`lattice_x + 250, lattice_y + 250`).
+  - For full cells (88.4% of the city), `(x_utm, y_utm) == (lattice_center_x, lattice_center_y)`. For clipped boundary cells, `(x_utm, y_utm)` represents the interior center of mass.
 - **Rainfall definition & temporal alignment:**
   - Day $d$ rainfall is defined on the **UTC day** (00:00:00 to 23:59:59 UTC) from CHIRPS Daily v2.0 (mapped to 37 native 0.05° pixels).
   - Flood labels correspond to local Indian Standard Time (IST, UTC+5:30) observation dates.
   - **Worked example (September 2022 flood):** Heavy rainfall fell primarily during the night of Sunday 4 September through early Monday 5 September 2022 IST. In UTC time, this corresponds to rain on UTC date `2022-09-04` (evening IST) and early `2022-09-05`. The extensive flooding observed across Bellandur, Sarjapur Road, and Whitefield on the morning of 5 September IST is indexed to flood date `2022-09-05`. Multi-day rolling accumulations (`rain_3d_mm`, `rain_7d_mm`) and lag features (`rain_lag1_mm`) explicitly align antecedent evening/overnight rainfall with morning flood outcomes.
+- **Ground truth event linkage & PIP status:**
+  - `data/events.csv` contains 10 rows representing 9 distinct places (RBD Layout appears twice across 2 storms).
+  - **7 rows** fall strictly inside the 2011 BBMP boundary and are mapped via point-in-polygon to **7 distinct grid cells** with centroid distances between 64 m and 262 m ($\le 353.6\text{ m}$ maximum inside a 500 m cell).
+  - **3 rows** (RBD Layout and Wipro Campus on Sarjapur Road) lie outside the 2011 BBMP boundary (445 m and 665 m south of Ward 150) and are explicitly flagged with `outside_grid=True` and `cell_id=NA` (no silent snapping).
+  - **Deduplicated positive cell-days yield:**
+    - Valid inside points (n=7): **16 cell-days** (point cell only) / **123 cell-days** (cell + 8 neighbours).
+    - If all 10 points are considered: **23 cell-days** (point cell only) / **153 cell-days** (cell + 8 neighbours; corrected from the naive non-deduplicated 207 due to spatial overlap between adjacent cells).
 
 ## Documented flood zones
 
