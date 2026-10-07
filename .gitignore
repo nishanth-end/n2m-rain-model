@@ -4,3 +4,8 @@ __pycache__/
 .DS_Store
 *.egg-info/
 .pytest_cache/
+.env
+*.tif
+*.tiff
+data/raw/*
+!data/raw/.gitkeep
