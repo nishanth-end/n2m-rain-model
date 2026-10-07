@@ -138,6 +138,39 @@ def test_census_2011_area_check(cells_df):
     pct_diff = abs(total_area - census_area) / census_area * 100.0
     assert pct_diff <= 1.0, f"Total grid area {total_area:.2f} km² differs by {pct_diff:.2f}% (> 1.0%) from Census 2011 ({census_area} km²)"
 
+def test_neighbour_centres_within_707m_and_lattice_adjacency(cells_df):
+    """Every neighbour in a 3x3 block must have its lattice centre within 707.2 m (500*sqrt(2))."""
+    min_x = cells_df["lattice_center_x"].min() - 250
+    min_y = cells_df["lattice_center_y"].min() - 250
+    spacing = 500.0
+    max_dist = 500.0 * np.sqrt(2.0) + 0.1  # ~707.2 m
+
+    cols = ((cells_df["lattice_center_x"] - 250 - min_x) / spacing).round().astype(int)
+    rows = ((cells_df["lattice_center_y"] - 250 - min_y) / spacing).round().astype(int)
+
+    pos_to_coords = {(c, r): (cx, cy) for (c, r), cx, cy in zip(zip(cols, rows), cells_df["lattice_center_x"], cells_df["lattice_center_y"])}
+    
+    # Test random sample of 200 cells
+    sample_indices = np.random.choice(len(cols), size=min(200, len(cols)), replace=False)
+    for idx in sample_indices:
+        c, r = cols.iloc[idx], rows.iloc[idx]
+        cx, cy = pos_to_coords[(c, r)]
+        for dc in [-1, 0, 1]:
+            for dr in [-1, 0, 1]:
+                nbr_pos = (c + dc, r + dr)
+                if nbr_pos in pos_to_coords:
+                    nx, ny = pos_to_coords[nbr_pos]
+                    dist = np.sqrt((nx - cx)**2 + (ny - cy)**2)
+                    assert dist <= max_dist, f"Neighbour at {nbr_pos} is {dist:.1f} m from ({cx}, {cy}), exceeds {max_dist:.1f} m"
+                    assert abs(nx - cx) == abs(dc) * spacing
+                    assert abs(ny - cy) == abs(dr) * spacing
+
+def test_report_regeneration():
+    """Verifies that pipeline/05_report.py generates reports/stage1_summary.md correctly."""
+    res = subprocess.run([".venv/bin/python", "pipeline/05_report.py"], capture_output=True, text=True)
+    assert res.returncode == 0, f"pipeline/05_report.py failed: {res.stderr}"
+    assert os.path.exists("reports/stage1_summary.md")
+
 def test_grid_determinism():
     """Running 01_grid.py again must produce identical CSV output."""
     with open(CELLS_CSV, "rb") as f:
