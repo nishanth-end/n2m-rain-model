@@ -1,0 +1,7 @@
+feature_name,osm_id,cell_id,ward,ward_name,overlap_area_m2,cell_total_area_km2
+Rainbow Drive Layout,way/101573097,554,150,Bellanduru,16825.1,0.231538
+Rainbow Drive Layout,way/101573097,555,150,Bellanduru,34396.8,0.041012
+Rainbow Drive Layout,way/101573097,608,150,Bellanduru,12069.2,0.249843
+Wipro Corporate Office,way/370327479,607,150,Bellanduru,5642.3,0.25
+Wipro Corporate Office,way/370327479,665,150,Bellanduru,38674.9,0.25
+Wipro Corporate Office,way/370327479,666,150,Bellanduru,46652.7,0.25
