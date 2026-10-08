@@ -73,15 +73,15 @@ E2022_05,RBD Layout (Sarjapur Road),609,neighbour_3x3
 E2022_05,RBD Layout (Sarjapur Road),665,neighbour_3x3
 E2022_05,RBD Layout (Sarjapur Road),666,neighbour_3x3
 E2022_05,RBD Layout (Sarjapur Road),667,neighbour_3x3
-E2021_11,"Yelahanka / Jakkur, North Bengaluru",2882,seed
-E2021_11,"Yelahanka / Jakkur, North Bengaluru",2856,neighbour_3x3
-E2021_11,"Yelahanka / Jakkur, North Bengaluru",2857,neighbour_3x3
-E2021_11,"Yelahanka / Jakkur, North Bengaluru",2858,neighbour_3x3
-E2021_11,"Yelahanka / Jakkur, North Bengaluru",2881,neighbour_3x3
-E2021_11,"Yelahanka / Jakkur, North Bengaluru",2883,neighbour_3x3
-E2021_11,"Yelahanka / Jakkur, North Bengaluru",2902,neighbour_3x3
-E2021_11,"Yelahanka / Jakkur, North Bengaluru",2903,neighbour_3x3
-E2021_11,"Yelahanka / Jakkur, North Bengaluru",2904,neighbour_3x3
+E2021_11,Kendriya Vihar (Yelahanka),2904,seed
+E2021_11,Kendriya Vihar (Yelahanka),2882,neighbour_3x3
+E2021_11,Kendriya Vihar (Yelahanka),2883,neighbour_3x3
+E2021_11,Kendriya Vihar (Yelahanka),2884,neighbour_3x3
+E2021_11,Kendriya Vihar (Yelahanka),2903,neighbour_3x3
+E2021_11,Kendriya Vihar (Yelahanka),2905,neighbour_3x3
+E2021_11,Kendriya Vihar (Yelahanka),2924,neighbour_3x3
+E2021_11,Kendriya Vihar (Yelahanka),2925,neighbour_3x3
+E2021_11,Kendriya Vihar (Yelahanka),2926,neighbour_3x3
 E2017_08,Koramangala 4th Block,897,seed
 E2017_08,Koramangala 4th Block,832,neighbour_3x3
 E2017_08,Koramangala 4th Block,833,neighbour_3x3
@@ -100,3 +100,12 @@ E2017_09,"Hosur-Sarjapur Road / Anugraha Layout, Koramangala",775,neighbour_3x3
 E2017_09,"Hosur-Sarjapur Road / Anugraha Layout, Koramangala",833,neighbour_3x3
 E2017_09,"Hosur-Sarjapur Road / Anugraha Layout, Koramangala",834,neighbour_3x3
 E2017_09,"Hosur-Sarjapur Road / Anugraha Layout, Koramangala",835,neighbour_3x3
+E2023_05,KR Circle Underpass,1478,seed
+E2023_05,KR Circle Underpass,1408,neighbour_3x3
+E2023_05,KR Circle Underpass,1409,neighbour_3x3
+E2023_05,KR Circle Underpass,1410,neighbour_3x3
+E2023_05,KR Circle Underpass,1477,neighbour_3x3
+E2023_05,KR Circle Underpass,1479,neighbour_3x3
+E2023_05,KR Circle Underpass,1545,neighbour_3x3
+E2023_05,KR Circle Underpass,1546,neighbour_3x3
+E2023_05,KR Circle Underpass,1547,neighbour_3x3

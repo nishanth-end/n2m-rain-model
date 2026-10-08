@@ -58,7 +58,8 @@ def generate_summary():
         'E2022_05': 1,
         'E2021_11': 1,
         'E2017_08': 1,
-        'E2017_09': 2
+        'E2017_09': 2,
+        'E2023_05': 1
     }
 
     seeds_df = event_cells[event_cells["role"] == "seed"] if not event_cells.empty else pd.DataFrame()
@@ -106,29 +107,32 @@ def generate_summary():
 | `E2021_11` | 2021-11-21 | 1 day | {per_event_seeds['E2021_11'][0]} | {per_event_seeds['E2021_11'][1]} | **{per_event_seeds['E2021_11'][2]}** |
 | `E2017_08` | 2017-08-15 | 1 day | {per_event_seeds['E2017_08'][0]} | {per_event_seeds['E2017_08'][1]} | **{per_event_seeds['E2017_08'][2]}** |
 | `E2017_09` | 2017-09-27 to 2017-09-28 | 2 days | {per_event_seeds['E2017_09'][0]} | {per_event_seeds['E2017_09'][1]} | **{per_event_seeds['E2017_09'][2]}** |
+| `E2023_05` | 2023-05-21 | 1 day | {per_event_seeds['E2023_05'][0]} | {per_event_seeds['E2023_05'][1]} | **{per_event_seeds['E2023_05'][2]}** |
 | **Total** | | | | | **{tot_seed_days} seed-days** |
 
 ### Spec Target Comparison (Section 4.2)
-- **Minimum Spec Target (100 positive cell-days)**: **{tot_seed_days} / 100 ({tot_seed_days/100:.1%})** — Current verified seeds provide ~34% of minimum volume.
+- **Minimum Spec Target (100 positive cell-days)**: **{tot_seed_days} / 100 ({tot_seed_days/100:.1%})** — Current verified seeds provide {tot_seed_days/100:.1%} of minimum volume.
 - **Good Spec Target (500 positive cell-days)**: **{tot_seed_days} / 500 ({tot_seed_days/500:.1%})** — Additional verified candidate events required to meet target.
 - **Audit Flag (3x3 Topological Buffer)**: Encompasses {nbr_cells_total} unique adjacent cells across events (used strictly for spatial sanity checks; never counted as positives).
 
 ---
 
 ## 3. Ground Truth Verification Summary (`data/events.csv`)
+*(Note: Ward assignments reflect spatial polygon joins from the BBMP 2011 boundary; they repeat our GIS join and are not independently verified).*
 
 | Event ID | Location Name | Primary Seed | Ward | Confidence | Audit Note |
 |---|---|:---:|---|:---:|---|
-| `E2022_09` | RBD Layout (Sarjapur Road) | Cell 555 | #150 | High | Moved to inside centroid (555); CFG_C footprint seeds: [554, 555, 608] |
-| `E2022_09` | Wipro Campus (Sarjapur Road) | Cell 666 | #150 | High | Moved to campus centroid (666); CFG_C footprint seeds: [665, 666] |
-| `E2022_09` | Outer Ring Road (RMZ Ecospace) | Cell 847 | #150 | High | Kept stored coordinate; strictly inside Cell 847 |
-| `E2022_09` | Epsilon Layout / Yemalur Road | Cell 910 | #150 | High | Kept stored coordinate; strictly inside Cell 910 |
-| `E2022_09` | Borewell Road (Whitefield) | Cell 1444 | #84 | High | Kept stored coordinate; strictly inside Cell 1444 |
-| `E2022_09` | Panathur-Balagere Road | Cell 977 | #150 | High | Kept stored coordinate; strictly inside Cell 977 |
-| `E2022_05` | RBD Layout (Sarjapur Road) | Cell 555 | #150 | Medium | Pre-monsoon storm; footprint seeds: [554, 555, 608] |
-| `E2021_11` | Yelahanka / Jakkur | Cell 2882 | #1 | Medium | Kept stored centroid (2882); Kendriya Vihar (Cell 2904) pending approval |
-| `E2017_08` | Koramangala 4th Block | Cell 897 | #151 | Medium | Moved to OSM polygon centroid (897); behind 80 Feet Rd (TNM 2017-10-04) |
-| `E2017_09` | Hosur-Sarjapur / Anugraha | Cell 774 | #173 | Medium | Kept stored coordinate; flagged UNVERIFIED (source URL redirected) |
+| `E2022_09` | RBD Layout (Sarjapur Road) | Cell 555 | Ward 150 | High | Moved to inside centroid (555); CFG_C footprint seeds: [554, 555, 608] |
+| `E2022_09` | Wipro Campus (Sarjapur Road) | Cell 666 | Ward 150 | High | Moved to campus centroid (666); CFG_C footprint seeds: [665, 666] |
+| `E2022_09` | Outer Ring Road (RMZ Ecospace) | Cell 847 | Ward 150 | High | Kept stored coordinate; strictly inside Cell 847 |
+| `E2022_09` | Epsilon Layout / Yemalur Road | Cell 910 | Ward 150 | High | Kept stored coordinate; strictly inside Cell 910 |
+| `E2022_09` | Borewell Road (Whitefield) | Cell 1444 | Ward 84 | High | Kept stored coordinate; strictly inside Cell 1444 |
+| `E2022_09` | Panathur-Balagere Road | Cell 977 | Ward 150 | High | Kept stored coordinate; strictly inside Cell 977 |
+| `E2022_05` | RBD Layout (Sarjapur Road) | Cell 555 | Ward 150 | Medium | Pre-monsoon storm; footprint seeds: [554, 555, 608] |
+| `E2021_11` | Kendriya Vihar (Yelahanka) | Cell 2904 | Ward 1 | Medium | Moved to verified OSM polygon centroid (2904) on Yelahanka Lake edge |
+| `E2017_08` | Koramangala 4th Block | Cell 897 | Ward 151 | Medium | Moved to OSM polygon centroid (897); behind 80 Feet Rd (TNM 2017-10-04) |
+| `E2017_09` | Hosur-Sarjapur / Anugraha | Cell 774 | Ward 173 | Low | Kept stored coordinate; unverified citation URL; lowered to low confidence |
+| `E2023_05` | KR Circle Underpass | Cell 1478 | Ward 110 | Medium | Flooded underpass fatality (21 May 2023); OSM way 49247293 / node 245847492 |
 
 ---
 

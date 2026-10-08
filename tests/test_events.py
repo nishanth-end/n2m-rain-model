@@ -19,7 +19,7 @@ CELLS_GEOJSON = "data/interim/cells_grid.geojson"
 CELLS_CSV = "data/interim/cells_grid.csv"
 
 # Deliberately updated following approved audit decisions (Wipro & RBD footprint seeds, Koramangala move)
-EXPECTED_EVENTS_SHA256 = "0714a91edf2b154cd45b94cbd10c11b3a010472e5172888c2837d5ecbac11e62"
+EXPECTED_EVENTS_SHA256 = "2619b6a0705ebd8bd48b2453995493fb06ee03fb708120587ea79f40318ecbd2"
 
 @pytest.fixture(scope="module")
 def raw_events_df():
@@ -51,16 +51,16 @@ def test_events_csv_hash_guard():
     )
 
 def test_events_summary_counts(upgraded_events_df):
-    """Verifies that all 10 event rows now strictly lie inside the production grid."""
-    assert len(upgraded_events_df) == 10, f"Expected 10 event rows, got {len(upgraded_events_df)}"
-    assert upgraded_events_df["event_id"].nunique() == 5, (
-        f"Expected 5 distinct events, got {upgraded_events_df['event_id'].nunique()}"
+    """Verifies that all 11 event rows strictly lie inside the production grid across 6 events."""
+    assert len(upgraded_events_df) == 11, f"Expected 11 event rows, got {len(upgraded_events_df)}"
+    assert upgraded_events_df["event_id"].nunique() == 6, (
+        f"Expected 6 distinct events, got {upgraded_events_df['event_id'].nunique()}"
     )
 
     inside = upgraded_events_df[~upgraded_events_df["outside_grid"]]
     outside = upgraded_events_df[upgraded_events_df["outside_grid"]]
 
-    assert len(inside) == 10, f"Expected all 10 events strictly inside grid, got {len(inside)}"
+    assert len(inside) == 11, f"Expected all 11 events strictly inside grid, got {len(inside)}"
     assert len(outside) == 0, f"Expected 0 outside events after footprint/centroid corrections, got {len(outside)}"
 
 def test_events_strict_pip_and_distance_bounds(upgraded_events_df, cells_gdf):
@@ -93,7 +93,7 @@ def test_event_cells_roles_and_seeds(event_cells_df):
     """Verifies that event_cells.csv contains valid seed and neighbour_3x3 roles."""
     assert set(event_cells_df["role"].unique()) == {"seed", "neighbour_3x3"}
     seeds = event_cells_df[event_cells_df["role"] == "seed"]
-    assert len(seeds) == 15, f"Expected 15 seed rows across the 10 event records, got {len(seeds)}"
+    assert len(seeds) == 16, f"Expected 16 seed rows across the 11 event records, got {len(seeds)}"
 
     # Check CFG_C footprint seeds presence
     wipro_seeds = set(seeds[seeds["place"] == "Wipro Campus (Sarjapur Road)"]["cell_id"])
@@ -105,14 +105,21 @@ def test_event_cells_roles_and_seeds(event_cells_df):
     kor_seeds = set(seeds[seeds["place"] == "Koramangala 4th Block"]["cell_id"])
     assert kor_seeds == {897}, f"Expected Koramangala seed 897, got {kor_seeds}"
 
+    kv_seeds = set(seeds[seeds["place"] == "Kendriya Vihar (Yelahanka)"]["cell_id"])
+    assert kv_seeds == {2904}, f"Expected Kendriya Vihar seed 2904, got {kv_seeds}"
+
+    kr_seeds = set(seeds[seeds["place"] == "KR Circle Underpass"]["cell_id"])
+    assert kr_seeds == {1478}, f"Expected KR Circle seed 1478, got {kr_seeds}"
+
 def test_seed_only_cell_days_yield(event_cells_df, raw_events_df):
-    """Seed cells alone produce exactly 34 positive cell-days across the 5 historical events."""
+    """Seed cells alone produce exactly 35 positive cell-days across the 6 historical events."""
     durations = {
         'E2022_09': pd.date_range('2022-09-05', '2022-09-07'),
         'E2022_05': pd.date_range('2022-05-05', '2022-05-05'),
         'E2021_11': pd.date_range('2021-11-21', '2021-11-21'),
         'E2017_08': pd.date_range('2017-08-15', '2017-08-15'),
         'E2017_09': pd.date_range('2017-09-27', '2017-09-28'),
+        'E2023_05': pd.date_range('2023-05-21', '2023-05-21'),
     }
     seeds_df = event_cells_df[event_cells_df["role"] == "seed"]
     daily_seed_cells = set()
@@ -124,7 +131,58 @@ def test_seed_only_cell_days_yield(event_cells_df, raw_events_df):
             for s in event_seeds:
                 daily_seed_cells.add((d_str, s))
 
-    assert len(daily_seed_cells) == 34, f"Expected 34 seed-only cell-days, got {len(daily_seed_cells)}"
+    assert len(daily_seed_cells) == 35, f"Expected 35 seed-only cell-days, got {len(daily_seed_cells)}"
+
+def test_toy_spatial_deduplication():
+    """Toy test demonstrating that overlapping 3x3 footprints produce strictly < 18 unique cells."""
+    seed1 = (5, 5)
+    fp1 = {(seed1[0] + dc, seed1[1] + dr) for dc in [-1, 0, 1] for dr in [-1, 0, 1]}
+    assert len(fp1) == 9
+
+    seed_diag = (6, 6)
+    fp_diag = {(seed_diag[0] + dc, seed_diag[1] + dr) for dc in [-1, 0, 1] for dr in [-1, 0, 1]}
+    assert len(fp_diag) == 9
+
+    shared_diag = fp1.intersection(fp_diag)
+    assert len(shared_diag) == 4
+    union_diag = fp1.union(fp_diag)
+    assert len(union_diag) == 14  # 9 + 9 - 4 = 14 < 18
+
+    seed_ortho = (5, 6)
+    fp_ortho = {(seed_ortho[0] + dc, seed_ortho[1] + dr) for dc in [-1, 0, 1] for dr in [-1, 0, 1]}
+    shared_ortho = fp1.intersection(fp_ortho)
+    assert len(shared_ortho) == 6
+    union_ortho = fp1.union(fp_ortho)
+    assert len(union_ortho) == 12  # 9 + 9 - 6 = 12 < 18
+
+def test_footprint_yield_ge_point_yield_on_identical_seeds():
+    """Footprint-based 3x3 expansion yields >= point-based 3x3 expansion on any seed set."""
+    cells = pd.read_csv(CELLS_CSV)
+    id_to_pos = {int(r['cell_id']): (round(r['lattice_center_x']), round(r['lattice_center_y'])) for _, r in cells.iterrows()}
+    pos_to_id = {(round(r['lattice_center_x']), round(r['lattice_center_y'])): int(r['cell_id']) for _, r in cells.iterrows()}
+
+    def get_3x3(cid):
+        x, y = id_to_pos[cid]
+        nbrs = set()
+        for dx in [-500, 0, 500]:
+            for dy in [-500, 0, 500]:
+                p = (x + dx, y + dy)
+                if p in pos_to_id:
+                    nbrs.add(pos_to_id[p])
+        return nbrs
+
+    point_seed = 555
+    footprint_seeds = [554, 555, 608]
+
+    u_point = get_3x3(point_seed)
+    u_footprint = set()
+    for s in footprint_seeds:
+        u_footprint.update(get_3x3(s))
+
+    assert len(u_footprint) >= len(u_point), (
+        f"Footprint yield {len(u_footprint)} is smaller than point yield {len(u_point)}!"
+    )
+    assert u_point.issubset(u_footprint), "Point cells set must be a subset of footprint cells set"
 
 def test_summary_numbers_match_csvs():
     """Verifies that statistics in reports/stage1_summary.md match recomputed values from CSVs."""

@@ -147,9 +147,10 @@ def audit_and_upgrade_events(
         ('E2022_09', 'Borewell Road (Whitefield)', [1444]),
         ('E2022_09', 'Panathur-Balagere Road (near BWSSB STP/Varthur lake)', [977]),
         ('E2022_05', 'RBD Layout (Sarjapur Road)', [554, 555, 608]),
-        ('E2021_11', 'Yelahanka / Jakkur, North Bengaluru', [2882]),
+        ('E2021_11', 'Kendriya Vihar (Yelahanka)', [2904]),
         ('E2017_08', 'Koramangala 4th Block', [897]),
         ('E2017_09', 'Hosur-Sarjapur Road / Anugraha Layout, Koramangala', [774]),
+        ('E2023_05', 'KR Circle Underpass', [1478]),
     ]
 
     event_cells_rows = []
@@ -173,6 +174,7 @@ def audit_and_upgrade_events(
         'E2021_11': pd.date_range('2021-11-21', '2021-11-21'),
         'E2017_08': pd.date_range('2017-08-15', '2017-08-15'),
         'E2017_09': pd.date_range('2017-09-27', '2017-09-28'),
+        'E2023_05': pd.date_range('2023-05-21', '2023-05-21'),
     }
 
     seeds_by_event = {}
