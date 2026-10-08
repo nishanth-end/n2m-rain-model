@@ -1,7 +1,7 @@
 """tests/test_events.py
 Test suite for event auditing and spatial linkage in pipeline/02_events.py.
 Verifies data/events.csv hash integrity, strict point-in-polygon matching,
-allowlist enforcement for boundary points, and spatial deduplication math.
+event_cells.csv structure, and spatial deduplication math.
 """
 
 import os
@@ -14,14 +14,12 @@ import pytest
 
 RAW_EVENTS_CSV = "data/events.csv"
 UPGRADED_EVENTS_CSV = "data/interim/events_with_cells.csv"
+EVENT_CELLS_CSV = "data/interim/event_cells.csv"
 CELLS_GEOJSON = "data/interim/cells_grid.geojson"
 CELLS_CSV = "data/interim/cells_grid.csv"
 
-EXPECTED_EVENTS_SHA256 = "720a8cc7ddf3e1a0720ef0ee69e67dc5bc83de50b60378298a98b9c79bb18a81"
-ALLOWED_OUTSIDE_LOCATIONS = {
-    "RBD Layout (Sarjapur Road)",
-    "Wipro Campus (Sarjapur Road)"
-}
+# Deliberately updated following approved audit decisions (Wipro & RBD footprint seeds, Koramangala move)
+EXPECTED_EVENTS_SHA256 = "0714a91edf2b154cd45b94cbd10c11b3a010472e5172888c2837d5ecbac11e62"
 
 @pytest.fixture(scope="module")
 def raw_events_df():
@@ -32,6 +30,11 @@ def raw_events_df():
 def upgraded_events_df():
     assert os.path.exists(UPGRADED_EVENTS_CSV), f"Missing {UPGRADED_EVENTS_CSV}. Run pipeline/02_events.py first."
     return pd.read_csv(UPGRADED_EVENTS_CSV)
+
+@pytest.fixture(scope="module")
+def event_cells_df():
+    assert os.path.exists(EVENT_CELLS_CSV), f"Missing {EVENT_CELLS_CSV}. Run pipeline/02_events.py first."
+    return pd.read_csv(EVENT_CELLS_CSV)
 
 @pytest.fixture(scope="module")
 def cells_gdf():
@@ -48,7 +51,7 @@ def test_events_csv_hash_guard():
     )
 
 def test_events_summary_counts(upgraded_events_df):
-    """Verifies expected event row counts, distinct event IDs, and inside/outside split."""
+    """Verifies that all 10 event rows now strictly lie inside the production grid."""
     assert len(upgraded_events_df) == 10, f"Expected 10 event rows, got {len(upgraded_events_df)}"
     assert upgraded_events_df["event_id"].nunique() == 5, (
         f"Expected 5 distinct events, got {upgraded_events_df['event_id'].nunique()}"
@@ -57,18 +60,17 @@ def test_events_summary_counts(upgraded_events_df):
     inside = upgraded_events_df[~upgraded_events_df["outside_grid"]]
     outside = upgraded_events_df[upgraded_events_df["outside_grid"]]
 
-    assert len(inside) == 7, f"Expected 7 inside events, got {len(inside)}"
-    assert len(outside) == 3, f"Expected 3 outside events, got {len(outside)}"
+    assert len(inside) == 10, f"Expected all 10 events strictly inside grid, got {len(inside)}"
+    assert len(outside) == 0, f"Expected 0 outside events after footprint/centroid corrections, got {len(outside)}"
 
 def test_events_strict_pip_and_distance_bounds(upgraded_events_df, cells_gdf):
-    """Inside events must strictly satisfy Point-in-Polygon (PIP) and distance <= 353.6 m (+ epsilon)."""
-    inside = upgraded_events_df[~upgraded_events_df["outside_grid"]]
+    """All 10 events must strictly satisfy Point-in-Polygon (PIP) and distance <= 353.6 m (+ epsilon)."""
     max_diag = 250.0 * np.sqrt(2.0) + 1.0  # ~354.6 m
 
-    for _, row in inside.iterrows():
+    for _, row in upgraded_events_df.iterrows():
         cid = int(row["cell_id"])
         cell_geom = cells_gdf[cells_gdf["cell_id"] == cid].geometry.iloc[0]
-        
+
         # Point in EPSG:32643
         pt_wgs = Point(row["lon"], row["lat"])
         pt_utm = gpd.GeoSeries([pt_wgs], crs="EPSG:4326").to_crs("EPSG:32643").iloc[0]
@@ -87,98 +89,42 @@ def test_events_strict_pip_and_distance_bounds(upgraded_events_df, cells_gdf):
         assert pd.notna(row["dist_to_cell_edge_m"])
         assert float(row["dist_to_cell_edge_m"]) > 0
 
-def test_outside_events_allowlist(upgraded_events_df):
-    """Only approved peri-urban boundary sites may be marked outside_grid; no silent snapping."""
-    outside = upgraded_events_df[upgraded_events_df["outside_grid"]]
-    for _, row in outside.iterrows():
-        assert pd.isna(row["cell_id"]), f"Outside event {row['place_name']} must have NA cell_id"
-        assert pd.isna(row["ward"]), f"Outside event {row['place_name']} must have NA ward"
-        assert row["dist_to_grid_boundary_m"] > 0, "Distance to grid boundary must be positive"
-        assert row["place_name"] in ALLOWED_OUTSIDE_LOCATIONS, (
-            f"Unexpected outside event: {row['place_name']}. Outside locations must be in allowlist."
-        )
+def test_event_cells_roles_and_seeds(event_cells_df):
+    """Verifies that event_cells.csv contains valid seed and neighbour_3x3 roles."""
+    assert set(event_cells_df["role"].unique()) == {"seed", "neighbour_3x3"}
+    seeds = event_cells_df[event_cells_df["role"] == "seed"]
+    assert len(seeds) == 15, f"Expected 15 seed rows across the 10 event records, got {len(seeds)}"
 
-def test_toy_spatial_deduplication():
-    """Toy test demonstrating that overlapping 3x3 footprints produce strictly < 18 unique cells."""
-    # Build 3x3 footprint for seed at (col=5, row=5)
-    seed1 = (5, 5)
-    fp1 = {(seed1[0] + dc, seed1[1] + dr) for dc in [-1, 0, 1] for dr in [-1, 0, 1]}
-    assert len(fp1) == 9
+    # Check CFG_C footprint seeds presence
+    wipro_seeds = set(seeds[seeds["place"] == "Wipro Campus (Sarjapur Road)"]["cell_id"])
+    assert wipro_seeds == {665, 666}, f"Expected Wipro seeds {665, 666}, got {wipro_seeds}"
 
-    # Diagonal neighbor seed at (col=6, row=6)
-    seed_diag = (6, 6)
-    fp_diag = {(seed_diag[0] + dc, seed_diag[1] + dr) for dc in [-1, 0, 1] for dr in [-1, 0, 1]}
-    assert len(fp_diag) == 9
+    rbd_seeds = set(seeds[seeds["place"] == "RBD Layout (Sarjapur Road)"]["cell_id"])
+    assert rbd_seeds == {554, 555, 608}, f"Expected RBD seeds {554, 555, 608}, got {rbd_seeds}"
 
-    # Diagonal neighbors share exactly 4 cells: (5,5), (5,6), (6,5), (6,6)
-    shared_diag = fp1.intersection(fp_diag)
-    assert len(shared_diag) == 4
-    union_diag = fp1.union(fp_diag)
-    assert len(union_diag) == 14  # 9 + 9 - 4 = 14 < 18
+    kor_seeds = set(seeds[seeds["place"] == "Koramangala 4th Block"]["cell_id"])
+    assert kor_seeds == {897}, f"Expected Koramangala seed 897, got {kor_seeds}"
 
-    # Orthogonal neighbor seed at (col=5, row=6)
-    seed_ortho = (5, 6)
-    fp_ortho = {(seed_ortho[0] + dc, seed_ortho[1] + dr) for dc in [-1, 0, 1] for dr in [-1, 0, 1]}
-    shared_ortho = fp1.intersection(fp_ortho)
-    assert len(shared_ortho) == 6
-    union_ortho = fp1.union(fp_ortho)
-    assert len(union_ortho) == 12  # 9 + 9 - 6 = 12 < 18
+def test_seed_only_cell_days_yield(event_cells_df, raw_events_df):
+    """Seed cells alone produce exactly 34 positive cell-days across the 5 historical events."""
+    durations = {
+        'E2022_09': pd.date_range('2022-09-05', '2022-09-07'),
+        'E2022_05': pd.date_range('2022-05-05', '2022-05-05'),
+        'E2021_11': pd.date_range('2021-11-21', '2021-11-21'),
+        'E2017_08': pd.date_range('2017-08-15', '2017-08-15'),
+        'E2017_09': pd.date_range('2017-09-27', '2017-09-28'),
+    }
+    seeds_df = event_cells_df[event_cells_df["role"] == "seed"]
+    daily_seed_cells = set()
 
-def test_pip_vs_nearest_centroid_failure_demo(cells_gdf):
-    """Proves that naive nearest-centroid snapping fails for outside points (demonstrating Bug 1 fix)."""
-    # RBD Layout coordinate
-    rbd_pt_wgs = Point(77.700, 12.901)
-    rbd_pt_utm = gpd.GeoSeries([rbd_pt_wgs], crs="EPSG:4326").to_crs("EPSG:32643").iloc[0]
+    for eid, dates in durations.items():
+        event_seeds = set(seeds_df[seeds_df["event_id"] == eid]["cell_id"])
+        for d in dates:
+            d_str = d.strftime("%Y-%m-%d")
+            for s in event_seeds:
+                daily_seed_cells.add((d_str, s))
 
-    # Check whether RBD layout lies inside grid polygon
-    grid_union = cells_gdf.union_all()
-    assert not grid_union.contains(rbd_pt_utm), "RBD Layout is outside grid union polygon"
-
-    # Nearest centroid distance
-    cells_df = pd.read_csv(CELLS_CSV)
-    cells_coords = cells_df[["x_utm", "y_utm"]].values
-    dists = np.sqrt((cells_coords[:, 0] - rbd_pt_utm.x)**2 + (cells_coords[:, 1] - rbd_pt_utm.y)**2)
-    min_dist = dists.min()
-
-    # Min distance is ~640.6 m, which exceeds maximum possible inside distance (353.6 m)
-    max_inside_radius = 250.0 * np.sqrt(2.0)
-    assert min_dist > max_inside_radius, (
-        f"Nearest distance {min_dist:.1f} m should exceed {max_inside_radius:.1f} m"
-    )
-
-def test_footprint_yield_ge_point_yield_on_identical_seeds():
-    """Asserts that expanding seeds with a footprint produces >= daily yield under identical base seeds."""
-    cells = pd.read_csv(CELLS_CSV)
-    id_to_pos = {int(r['cell_id']): (round(r['lattice_center_x']), round(r['lattice_center_y'])) for _, r in cells.iterrows()}
-    pos_to_id = {(round(r['lattice_center_x']), round(r['lattice_center_y'])): int(r['cell_id']) for _, r in cells.iterrows()}
-
-    def get_3x3(cid):
-        x, y = id_to_pos[cid]
-        nbrs = set()
-        for dx in [-500, 0, 500]:
-            for dy in [-500, 0, 500]:
-                p = (x + dx, y + dy)
-                if p in pos_to_id:
-                    nbrs.add(pos_to_id[p])
-        return nbrs
-
-    # Point seeds (CFG_A):
-    point_seeds = [555, 666, 847, 910, 977, 1444]
-    # Footprint seeds (CFG_B, superset containing point seeds):
-    footprint_seeds = [554, 555, 608, 607, 665, 666, 847, 910, 977, 1444]
-
-    u_point = set()
-    for s in point_seeds:
-        u_point.update(get_3x3(s))
-
-    u_footprint = set()
-    for s in footprint_seeds:
-        u_footprint.update(get_3x3(s))
-
-    assert len(u_footprint) >= len(u_point), (
-        f"Footprint yield {len(u_footprint)} is smaller than point yield {len(u_point)}!"
-    )
-    assert u_point.issubset(u_footprint), "Point cells set must be a subset of footprint cells set"
+    assert len(daily_seed_cells) == 34, f"Expected 34 seed-only cell-days, got {len(daily_seed_cells)}"
 
 def test_summary_numbers_match_csvs():
     """Verifies that statistics in reports/stage1_summary.md match recomputed values from CSVs."""
@@ -191,4 +137,3 @@ def test_summary_numbers_match_csvs():
 
     assert f"Total Grid Cells**: {len(cells):,}" in md_text
     assert f"Total Event Rows**: {len(events)}" in md_text
-

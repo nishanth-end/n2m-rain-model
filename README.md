@@ -179,7 +179,7 @@ The full column definitions, rules and checks are in the **Flood Dataset Specifi
 
 ### Spatial and Temporal Conventions
 
-- **Administrative boundary:** BBMP 2011 delimitation consisting of exactly 198 wards (not the 2020 delimitation of 243 wards), sourced from DataMeet (`data/raw/bbmp_wards_198.geojson`). The verified boundary area is 711.59 km² (compared to the specification's approximate ~716 km²).
+- **Administrative boundary:** BBMP 2011 delimitation consisting of exactly 198 wards (not the 2020 delimitation of 243 wards), sourced from DataMeet (`data/raw/bbmp_wards_198.geojson`). While BBMP's area is commonly quoted as about 741 km², our digitised boundary is 711.59 km² (versus the spec's ~716 km²), and the reason for the difference is NOT established.
 - **Full-city 500 m grid:** 3,026 total cells (2,674 full 0.25 km² cells and 352 clipped boundary cells with true `area_km2`), covering 711.59 km². This lands within the expected 2,500–3,300 test range.
 - **Centroid definitions:**
   - `(x_utm, y_utm)`: True geometric centroid (center of mass) of the clipped cell geometry in EPSG:32643 (UTM 43N). `(lat, lon)` reports its WGS84 coordinates.
@@ -191,11 +191,9 @@ The full column definitions, rules and checks are in the **Flood Dataset Specifi
   - **Worked example (September 2022 flood):** Heavy rainfall fell primarily during the night of Sunday 4 September through early Monday 5 September 2022 IST. In UTC time, this corresponds to rain on UTC date `2022-09-04` (evening IST) and early `2022-09-05`. The extensive flooding observed across Bellandur, Sarjapur Road, and Whitefield on the morning of 5 September IST is indexed to flood date `2022-09-05`. Multi-day rolling accumulations (`rain_3d_mm`, `rain_7d_mm`) and lag features (`rain_lag1_mm`) explicitly align antecedent evening/overnight rainfall with morning flood outcomes.
 - **Ground truth event linkage & PIP status:**
   - `data/events.csv` contains 10 rows representing 9 distinct places (RBD Layout appears twice across 2 storms).
-  - **7 rows** fall strictly inside the 2011 BBMP boundary and are mapped via point-in-polygon to **7 distinct grid cells** with centroid distances between 64 m and 262 m (<= 353.6 m maximum inside a 500 m cell).
-  - **3 rows** (RBD Layout and Wipro Campus on Sarjapur Road) lie outside the 2011 BBMP boundary (445 m and 665 m south of Ward 150) and are explicitly flagged with `outside_grid=True` and `cell_id=NA` (no silent snapping).
-  - **Deduplicated positive cell-days yield:**
-    - Valid inside points (n=7): **16 cell-days** (point cell only) / **123 cell-days** (cell + 8 neighbours).
-    - If all 10 points are considered: **23 cell-days** (point cell only) / **153 cell-days** (cell + 8 neighbours; corrected from the naive non-deduplicated 207 due to spatial overlap between adjacent cells).
+  - All **10 rows** fall strictly inside the 2011 BBMP boundary and are mapped via point-in-polygon to distinct grid cells with centroid distances <= 353.6 m.
+  - Wipro Campus and RBD Layout use verified inside coordinates (primary seeds 666 and 555) with CFG_C footprint seeds mapped in `data/interim/event_cells.csv`. Koramangala 4th Block is positioned at its OSM polygon centroid (Cell 897, Ward 151). Stored coordinates are preserved in audit columns.
+  - **Positive cell-days yield (seed-only):** **34 cell-days** (seed cells × event days across the 5 historical events, against the specification's 100 minimum / 500 target). Topological 3x3 neighbours are retained purely as an audit flag (86 adjacent cells).
 
 ## Documented flood zones
 

@@ -2,8 +2,9 @@
 Stage 1b: Audits data/events.csv and maps each documented flood location to its 500 m grid cell.
 Performs strict point-in-polygon (PIP) assignment against cell geometries:
 - Inside grid: outside_grid=False, records matched cell_id, ward, and distance to cell edge/centroid.
-- Outside grid: outside_grid=True, cell_id=NA, records distance to grid boundary.
-Computes true spatially-deduplicated positive cell-days.
+- Generates data/interim/events_with_cells.csv.
+- Generates data/interim/event_cells.csv with (event_id, place, cell_id, role) for seeds and 3x3 topological neighbours.
+- Computes true seed-only positive cell-days.
 
 Usage:
     python pipeline/02_events.py
@@ -19,7 +20,7 @@ def audit_and_upgrade_events(
     cells_path="data/interim/cells_grid.csv",
     cells_geojson_path="data/interim/cells_grid.geojson",
     output_events_path="data/interim/events_with_cells.csv",
-    output_candidate_md="data/interim/candidate_events.md"
+    output_event_cells_path="data/interim/event_cells.csv"
 ):
     print(f"--- Auditing {events_path} ---")
     events = pd.read_csv(events_path)
@@ -30,7 +31,7 @@ def audit_and_upgrade_events(
     # 1. Schema check
     required_cols = [
         "event_id", "start_date", "end_date", "peak_date",
-        "place_name", "lat", "lon", "evidence_type",
+        "place_name", "lat", "lon", "cell_id", "evidence_type",
         "source_citation", "source_url", "accessed_on", "label_confidence", "notes"
     ]
     missing_cols = [c for c in required_cols if c not in events.columns]
@@ -124,160 +125,72 @@ def audit_and_upgrade_events(
     print(f"Saved upgraded events with strict PIP status to {output_events_path}")
 
     # 3. Spatial neighborhood map using lattice (col, row) offsets
-    min_x = cells["lattice_center_x"].min() - 250
-    min_y = cells["lattice_center_y"].min() - 250
-    spacing = 500.0
-    cells["col"] = ((cells["lattice_center_x"] - 250 - min_x) / spacing).round().astype(int)
-    cells["row"] = ((cells["lattice_center_y"] - 250 - min_y) / spacing).round().astype(int)
+    id_to_pos = {int(r['cell_id']): (round(r['lattice_center_x']), round(r['lattice_center_y'])) for _, r in cells.iterrows()}
+    pos_to_id = {(round(r['lattice_center_x']), round(r['lattice_center_y'])): int(r['cell_id']) for _, r in cells.iterrows()}
 
-    cell_lookup = {(r["col"], r["row"]): r["cell_id"] for _, r in cells.iterrows()}
-    id_to_cell = {r["cell_id"]: r for _, r in cells.iterrows()}
+    def get_3x3_cells(cid):
+        x, y = id_to_pos[cid]
+        nbrs = set()
+        for dx in [-500, 0, 500]:
+            for dy in [-500, 0, 500]:
+                p = (x + dx, y + dy)
+                if p in pos_to_id:
+                    nbrs.add(pos_to_id[p])
+        return nbrs
 
-    def get_3x3_cells(col, row):
-        nbrs = []
-        for dc in [-1, 0, 1]:
-            for dr in [-1, 0, 1]:
-                pos = (col + dc, row + dr)
-                if pos in cell_lookup:
-                    nbrs.append(cell_lookup[pos])
-        return set(nbrs)
+    # Footprint / multiple seeds mapping per decision A3
+    event_place_seeds = [
+        ('E2022_09', 'RBD Layout (Sarjapur Road)', [554, 555, 608]),
+        ('E2022_09', 'Wipro Campus (Sarjapur Road)', [665, 666]),
+        ('E2022_09', 'Outer Ring Road (RMZ Ecospace / Saul Kere reach)', [847]),
+        ('E2022_09', 'Epsilon Layout / Yemalur Road (ORR Kadubeesanahalli bridge)', [910]),
+        ('E2022_09', 'Borewell Road (Whitefield)', [1444]),
+        ('E2022_09', 'Panathur-Balagere Road (near BWSSB STP/Varthur lake)', [977]),
+        ('E2022_05', 'RBD Layout (Sarjapur Road)', [554, 555, 608]),
+        ('E2021_11', 'Yelahanka / Jakkur, North Bengaluru', [2882]),
+        ('E2017_08', 'Koramangala 4th Block', [897]),
+        ('E2017_09', 'Hosur-Sarjapur Road / Anugraha Layout, Koramangala', [774]),
+    ]
 
-    neighbors = {}
-    for _, r in cells.iterrows():
-        neighbors[int(r["cell_id"])] = get_3x3_cells(r["col"], r["row"])
+    event_cells_rows = []
+    for eid, place, seeds in event_place_seeds:
+        all_nbrs = set()
+        for s in seeds:
+            event_cells_rows.append({'event_id': eid, 'place': place, 'cell_id': s, 'role': 'seed'})
+            all_nbrs.update(get_3x3_cells(s))
+        for n in sorted(all_nbrs - set(seeds)):
+            event_cells_rows.append({'event_id': eid, 'place': place, 'cell_id': n, 'role': 'neighbour_3x3'})
 
-    # Deduplicated positive cell-days calculation
-    daily_cells_a_inside = set()
-    daily_cells_b_inside = set()
-    daily_cells_a_all = set()
-    daily_cells_b_all = set()
+    df_event_cells = pd.DataFrame(event_cells_rows)
+    df_event_cells.to_csv(output_event_cells_path, index=False)
+    print(f"Saved event cells with roles (seeds and neighbours) to {output_event_cells_path}")
 
-    for _, row in events_upgraded.iterrows():
-        dates = pd.date_range(row["start_date"], row["end_date"])
-        is_inside = not row["outside_grid"]
-        cid = int(row["cell_id"]) if is_inside else int(row["nearest_cell_id"])
-        nbrs = neighbors[cid]
+    # Compute seed-only cell-days
+    daily_seed_cells = set()
+    durations = {
+        'E2022_09': pd.date_range('2022-09-05', '2022-09-07'),
+        'E2022_05': pd.date_range('2022-05-05', '2022-05-05'),
+        'E2021_11': pd.date_range('2021-11-21', '2021-11-21'),
+        'E2017_08': pd.date_range('2017-08-15', '2017-08-15'),
+        'E2017_09': pd.date_range('2017-09-27', '2017-09-28'),
+    }
 
+    seeds_by_event = {}
+    for eid, place, seeds in event_place_seeds:
+        seeds_by_event.setdefault(eid, set()).update(seeds)
+
+    for eid, dates in durations.items():
+        seeds = seeds_by_event.get(eid, set())
         for d in dates:
             d_str = d.strftime("%Y-%m-%d")
-            daily_cells_a_all.add((d_str, cid))
-            for n in nbrs:
-                daily_cells_b_all.add((d_str, n))
+            for s in seeds:
+                daily_seed_cells.add((d_str, s))
 
-            if is_inside:
-                daily_cells_a_inside.add((d_str, cid))
-                for n in nbrs:
-                    daily_cells_b_inside.add((d_str, n))
-
-    print("\n--- Positive Cell-Days Yield (Spatially Deduplicated) ---")
-    print(f"Strict Inside Events (n=7 across 4 events):")
-    print(f"  - Assumption (a) [Point cell only]: {len(daily_cells_a_inside)} cell-days")
-    print(f"  - Assumption (b) [Cell + 8 neighbours]: {len(daily_cells_b_inside)} cell-days")
-    print(f"All 10 Events (if outside points were snapped):")
-    print(f"  - Assumption (a) [Point cell only]: {len(daily_cells_a_all)} cell-days")
-    print(f"  - Assumption (b) [Cell + 8 neighbours]: {len(daily_cells_b_all)} cell-days")
-
-    # Update candidate_events.md
-    generate_candidate_events_md(
-        output_candidate_md, events_upgraded,
-        len(daily_cells_a_inside), len(daily_cells_b_inside),
-        len(daily_cells_a_all), len(daily_cells_b_all)
-    )
+    print("\n--- Positive Cell-Days Yield (Seed Cells Only) ---")
+    print(f"Total Seed-Only Positive Cell-Days: {len(daily_seed_cells)}")
+    print(f"Spec Targets: Minimum >= 100 ({len(daily_seed_cells)}/100 = {len(daily_seed_cells)/100:.1%}); Target >= 500 ({len(daily_seed_cells)}/500 = {len(daily_seed_cells)/500:.1%})")
 
     return events_upgraded
-
-def generate_candidate_events_md(out_path, events_upgraded, inside_a, inside_b, all_a, all_b):
-    content = f"""# Candidate Flood Events Register and Audit
-
-**File Purpose**: Records integrity audit of `data/events.csv`, strict point-in-polygon (PIP) verification, deduplicated positive cell-days volume analysis, and candidate historical events for team review.
-**Rule**: NEVER add candidate events to `data/events.csv` without explicit Member 1 and Member 2 review and verification.
-
----
-
-## 1. Audit of Current `data/events.csv` (Strict PIP Verification)
-
-- **Total Rows**: {len(events_upgraded)} rows
-- **Distinct Locations**: {events_upgraded['place_name'].nunique()} unique names / {len(events_upgraded[['lat', 'lon']].drop_duplicates())} unique coordinates
-- **Points Strictly Inside Grid Footprint**: {len(events_upgraded[~events_upgraded['outside_grid']])} rows
-- **Points Outside Grid Footprint**: {len(events_upgraded[events_upgraded['outside_grid']])} rows (RBD Layout and Wipro Campus)
-- **Distinct Cells (Inside points)**: {events_upgraded.loc[~events_upgraded['outside_grid'], 'cell_id'].nunique()} cells
-- **Dates Covered**: 2017-08-15 to 2022-09-07
-
-### Verification Table
-
-| Event ID | Date Window | Location Name | PIP Inside? | Cell ID | Ward | Dist to Centroid (m) | Dist to Lattice Center (m) | Dist to Cell Edge (m) | Dist to Grid Boundary (m) |
-|---|---|---|---|---|---|---|---|---|---|
-"""
-    for _, r in events_upgraded.iterrows():
-        inside_txt = "YES" if not r["outside_grid"] else "**NO (OUTSIDE)**"
-        cid_txt = f"**{r['cell_id']}**" if not r["outside_grid"] else f"*(nearest {r['nearest_cell_id']})*"
-        ward_txt = f"#{r['ward']} ({r['ward_name']})" if not r["outside_grid"] else "*(outside BBMP)*"
-        edge_txt = f"{r['dist_to_cell_edge_m']} m" if pd.notna(r['dist_to_cell_edge_m']) else "n/a"
-        bnd_txt = f"{r['dist_to_grid_boundary_m']} m" if pd.notna(r['dist_to_grid_boundary_m']) else "n/a"
-        content += f"| `{r['event_id']}` | {r['start_date']} to {r['end_date']} | {r['place_name']} | {inside_txt} | {cid_txt} | {ward_txt} | {r['dist_to_cell_centroid_m']} m | {r['dist_to_lattice_center_m']} m | {edge_txt} | {bnd_txt} |\n"
-
-    content += f"""
-### Root Cause for Outside Points (RBD Layout and Wipro Campus):
-- **Diagnosis**: Combination of genuine municipal boundary exclusion and hand-rounded coordinates.
-- **Boundary Reality**: In the 2011 BBMP 198-ward delimitation, Ward 150 (Bellanduru) terminates along Sarjapur Road. Physical gated layouts south of Sarjapur Road (Rainbow Drive Layout, Halanayakanahalli, Junnasandra) fell in Anekal Taluk panchayat jurisdiction.
-- **Coordinate Precision**: Hand-entered coordinates (12.901, 77.700) and (12.900, 77.696) place the points 444.9 m and 665.2 m south of the Ward 150 border. Independent OSM Nominatim geocoding locates the entrance of Rainbow Drive Layout at 12.9062, 77.6868, which is 5.6 m south of the BBMP border.
-- **Action Taken**: Flagged with `outside_grid=True` and `cell_id=NA`. No silent snapping.
-
----
-
-## 2. Positive Cell-Days Yield vs. Spec Targets (Spatially Deduplicated)
-
-- **Spec Requirement (Section 4.2)**: Minimum at least 100 positive cell-days; target good at least 500 positive cell-days.
-
-### Yield Matrix
-
-| Evaluation Scope | Assumption (a): Single Point Cell | Assumption (b): Cell + 8 Neighbours |
-|---|---|---|
-| **Strict Inside Points Only (n=7)** | **{inside_a} cell-days** | **{inside_b} cell-days** |
-| **All 10 Points (if outside points snapped)** | **{all_a} cell-days** | **{all_b} cell-days** |
-| *Naive non-deduplicated arithmetic* | *23 cell-days* | *207 cell-days (INVALID: double-counted)* |
-
-### Deduplication Proof and Lattice Structure
-- In `E2022_09`, seed cells 847 and 910 have lattice offset (d_col=-1, d_row=+1). As diagonal neighbours, their 3x3 footprints share exactly 4 cells: [846, 847, 910, 911].
-- Seeds 847 and 977 share 2 cells [911, 912]; seeds 910 and 977 share 2 cells [911, 976]. Cell 911 is shared across three blocks.
-- Net unique cells per day in `E2022_09` under (b) inside-only: 29 cells. Over 3 days: 29 * 3 = 87 cell-days.
-- Adding outside snapped cells 557 and 558 (which share 4 cells with each other) adds 8 cells/day, totaling 37 cells/day * 3 days = 111 cell-days.
-
----
-
-## 3. Candidate Additional Historical Flood Events (Audit and Status)
-
-### Candidate 1: Kendriya Vihar / Yelahanka Lake Overflow (Nov 2021)
-- **Primary Source**: The Hindu (22 Nov 2021). "Heavy rain submerges Kendriya Vihar apartments in Yelahanka; boats deployed". URL: https://www.thehindu.com/news/cities/bangalore/heavy-rain-floods-several-areas-in-bengaluru/article37628863.ece
-- **Flood Date**: 2021-11-21 to 2021-11-22
-- **Location**: Kendriya Vihar, Bellahalli / Kogilu Road, Yelahanka (approx 13.116, 77.587)
-- **Audit Status**: **SAME-CLUSTER / DUPLICATE** of existing event `E2021_11` (Yelahanka / Jakkur, 2021-11-21). Located ~2.2 km from the stored Jakkur point in the same storm basin. Adding this would duplicate the Nov 2021 event storm signal rather than provide an independent event.
-
-### Candidate 2: Rainbow Drive / ORR Inundation (Aug 2022)
-- **Primary Source**: Deccan Herald (30 Aug 2022). "Floods return to ORR, Rainbow Drive Layout after overnight rain". URL: https://www.deccanherald.com/city/top-bengaluru-stories/floods-return-to-orr-rainbow-drive-layout-after-overnight-rain-1140643.html
-- **Flood Date**: 2022-08-29 to 2022-08-31
-- **Location**: Rainbow Drive Layout (12.906, 77.687) and ORR Ecospace (12.927, 77.693)
-- **Audit Status**: **NEW EVENT (different date), but SAME GEOGRAPHIC CLUSTER**. Pre-monsoon downpour 6 days before the Sep 5 storm. Rainbow Drive remains outside the 2011 boundary; ORR Ecospace matches Cell 847.
-
-### Candidate 3: Shivajinagar / Central Deluge (Oct 2022)
-- **Primary Source**: Indian Express (20 Oct 2022). "Bengaluru rain: Shivajinagar waterlogged, traffic snarls across city". URL: https://indianexpress.com/article/cities/bangalore/bengaluru-rain-traffic-snarls-waterlogging-october-8219462/
-- **Flood Date**: 2022-10-19 to 2022-10-20
-- **Location**: Russell Market / Shivajinagar bus terminus (approx 12.985, 77.605)
-- **Audit Status**: **VERIFIED NEW EVENT and NEW GEOGRAPHY**. Distinct storm in central core.
-- **Grid Match**: Point-in-polygon matches **Cell 1618** (Ward 110: Sampangiram Nagar).
-- **Yield Added**: +2 cell-days under (a); +18 cell-days under (b) (isolated cell, 0 overlap with Bellandur).
-
-### Candidate 4: KR Circle Underpass Flash Flood (May 2023)
-- **Primary Source**: BBC News (22 May 2023). "Bengaluru rain: Tech worker dies after car submerges in waterlogged underpass". URL: https://www.bbc.com/news/world-asia-india-65671148
-- **Flood Date**: 2023-05-21
-- **Location**: KR Circle Underpass (approx 12.975, 77.589)
-- **Audit Status**: **VERIFIED NEW EVENT and NEW GEOGRAPHY**. Pre-monsoon flash flood in central underpass.
-- **Grid Match**: Point-in-polygon matches **Cell 1478** (Ward 110: Sampangiram Nagar).
-- **Yield Added**: +1 cell-day under (a); +9 cell-days under (b) (isolated cell, 0 overlap).
-"""
-    with open(out_path, "w") as f:
-        f.write(content)
-    print(f"Saved candidate events and audit notes to {out_path}")
 
 if __name__ == "__main__":
     audit_and_upgrade_events()
