@@ -64,8 +64,22 @@ This document records the provenance, licensing, version, and access details for
   - Indian Express (11 May 2022): RBD Layout pre-monsoon shower waterlogging.
 - **Role in Pipeline**: Ground truth observations catalogued in `data/events.csv`.
 
-### TODO: Hydrological Conditioning for Spatial Label Propagation
-- **Context**: In Stage 1b, Assumption (b) expands the positive flood label from the matched 500 m cell to its 8 immediate topological neighbours (3x3 footprint of ~1.5 km x 1.5 km).
-- **Requirement for Stage 2**: Direct topological 3x3 expansion assumes isotropic flood spread across all adjacent terrain. In Stage 2 (static feature integration), this expansion must be conditioned on Digital Elevation Model (DEM) hydrological connectivity:
-  1. Cells with elevated ridge or upstream topography relative to the event point should be excluded.
-  2. Only contiguous valley/depression cells with high Topographic Wetness Index (TWI) or flow accumulation within the catchment should inherit positive labels.
+### Neighbour Expansion Note
+- **Rule**: Per project specification, positive labels are strictly SEED cells × event days. Topological 3x3 neighbours are retained solely as an audit flag and never conditioned on DEM, elevation, or model features.
+
+---
+
+## 4. Digital Elevation Model (Copernicus DEM GLO-30)
+
+- **Product**: Copernicus DEM Global 30m (GLO-30), 2021 release
+- **Provider**: European Space Agency (ESA) / Airbus Defence and Space
+- **Access Route**: Public AWS Open Data Registry (`https://copernicus-dem-30m.s3.amazonaws.com/` / `s3://copernicus-dem-30m/`), free HTTP Cloud-Optimized GeoTIFF (COG) access without authentication.
+  - Relevant 1°x1° tiles covering Bengaluru:
+    - `Copernicus_DSM_COG_10_N12_00_E077_00_DEM` (Southern Bengaluru, 12°N–13°N, 77°E–78°E)
+    - `Copernicus_DSM_COG_10_N13_00_E077_00_DEM` (Northern Bengaluru, 13°N–14°N, 77°E–78°E)
+- **Licence**: Worldwide free, full and open access under the Copernicus Sentinel Data Policy / Copernicus DEM Policy (attribution: "Copernicus DEM 2021, © Airbus DS / European Space Agency").
+- **Nature of Product**: Digital Surface Model (DSM). Captures reflective top surfaces (canopy, rooflines, road overpasses) rather than bare-earth terrain (DTM).
+- **Urban Hydrological Implications**:
+  - Buildings and elevated transport flyovers act as artificial topographic dams, artificially interrupting overland drainage paths and generating spurious sinks in depression-filling algorithms.
+  - Topographic Wetness Index (TWI) and Flow Accumulation can falsely divert runoff away from actual urban street corridors into synthetic bypass paths.
+  - Hydro-conditioning (carving mapped drainage alignments through digital walls and filling micro-pits) is necessary before computing HAND or flow accumulation.
