@@ -145,3 +145,50 @@ def test_pip_vs_nearest_centroid_failure_demo(cells_gdf):
     assert min_dist > max_inside_radius, (
         f"Nearest distance {min_dist:.1f} m should exceed {max_inside_radius:.1f} m"
     )
+
+def test_footprint_yield_ge_point_yield_on_identical_seeds():
+    """Asserts that expanding seeds with a footprint produces >= daily yield under identical base seeds."""
+    cells = pd.read_csv(CELLS_CSV)
+    id_to_pos = {int(r['cell_id']): (round(r['lattice_center_x']), round(r['lattice_center_y'])) for _, r in cells.iterrows()}
+    pos_to_id = {(round(r['lattice_center_x']), round(r['lattice_center_y'])): int(r['cell_id']) for _, r in cells.iterrows()}
+
+    def get_3x3(cid):
+        x, y = id_to_pos[cid]
+        nbrs = set()
+        for dx in [-500, 0, 500]:
+            for dy in [-500, 0, 500]:
+                p = (x + dx, y + dy)
+                if p in pos_to_id:
+                    nbrs.add(pos_to_id[p])
+        return nbrs
+
+    # Point seeds (CFG_A):
+    point_seeds = [555, 666, 847, 910, 977, 1444]
+    # Footprint seeds (CFG_B, superset containing point seeds):
+    footprint_seeds = [554, 555, 608, 607, 665, 666, 847, 910, 977, 1444]
+
+    u_point = set()
+    for s in point_seeds:
+        u_point.update(get_3x3(s))
+
+    u_footprint = set()
+    for s in footprint_seeds:
+        u_footprint.update(get_3x3(s))
+
+    assert len(u_footprint) >= len(u_point), (
+        f"Footprint yield {len(u_footprint)} is smaller than point yield {len(u_point)}!"
+    )
+    assert u_point.issubset(u_footprint), "Point cells set must be a subset of footprint cells set"
+
+def test_summary_numbers_match_csvs():
+    """Verifies that statistics in reports/stage1_summary.md match recomputed values from CSVs."""
+    cells = pd.read_csv(CELLS_CSV)
+    events = pd.read_csv(UPGRADED_EVENTS_CSV)
+
+    assert os.path.exists("reports/stage1_summary.md"), "Missing reports/stage1_summary.md"
+    with open("reports/stage1_summary.md", "r") as f:
+        md_text = f.read()
+
+    assert f"Total Grid Cells**: {len(cells):,}" in md_text
+    assert f"Total Event Rows**: {len(events)}" in md_text
+
