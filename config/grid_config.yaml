@@ -21,6 +21,11 @@ boundary_delimitation: "2011"
 rain_source: "chirps_daily"
 rain_pixel_size_deg: 0.05
 rain_temporal_def: "utc_day"          # 00:00:00 to 23:59:59 UTC
+study_years: [2017, 2021, 2022, 2023] # Spec 4.2: years containing events
+study_start_month_day: "05-01"        # Wet season start: 1 May
+study_end_month_day: "11-30"          # Wet season end: 30 November
+buffer_days: 30                       # Pre-buffer for rain_30d rolling sum
+buffer_start_month_day: "04-01"       # 1 April (exactly 30 days prior buffer)
 
 # Outputs
 output_cells_csv: "data/interim/cells_grid.csv"

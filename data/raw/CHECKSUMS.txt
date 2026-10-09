@@ -1,4 +1,0 @@
-# Checksums for raw input datasets in data/raw/
-# Format: <SHA-256>  <byte_count>  <retrieval_date>  <filename>  <source_url>
-
-06263e1a1e72fc58844a635c0b95e490962321e8489b476f2379771ce5128633  1881095  2026-10-07  bbmp_wards_198.geojson  https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Bangalore/BBMP_oldWards.geojson

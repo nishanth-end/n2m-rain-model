@@ -1,0 +1,29 @@
+PASS  required columns present 
+PASS  no duplicate (cell_id, date)
+PASS  every date has all 3026 cells (0 incomplete days)
+PASS  no missing rain
+PASS  no missing static features
+PASS  rain_1d <= rain_3d <= rain_7d
+PASS  rain_3d == rain_1d + lag1 + lag2
+PASS  static features constant per cell
+PASS  flood_label only 0/1
+PASS  label_source values allowed
+PASS  label_confidence values allowed
+PASS  day_sampling_weight >= 1
+PASS  175 positive rows
+PASS  every positive has a label_source
+PASS  every positive has an event_id
+PASS  at least 3 distinct events (found 5)
+PASS  no forbidden columns 
+
+rows: 1764158 | cells: 3026 | days: 583 | date range: 2017-05-07 to 2023-11-09
+flood rate (all rows): 0.0001
+positives per event:
+event_id
+E2017_08      9
+E2021_11      9
+E2022_05      7
+E2022_09    141
+E2023_05      9
+
+FAILED CHECKS: 0

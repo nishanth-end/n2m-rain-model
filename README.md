@@ -179,7 +179,7 @@ The full column definitions, rules and checks are in the **Flood Dataset Specifi
 
 ### Spatial and Temporal Conventions
 
-- **Administrative boundary:** BBMP 2011 delimitation consisting of exactly 198 wards (not the 2020 delimitation of 243 wards), sourced from DataMeet (`data/raw/bbmp_wards_198.geojson`). While BBMP's area is commonly quoted as about 741 km², our digitised boundary is 711.59 km² (versus the spec's ~716 km²), and the reason for the difference is NOT established.
+- **Administrative boundary:** BBMP 2011 delimitation consisting of exactly 198 wards (not the 2020 delimitation of 243 wards), sourced from DataMeet (`data/raw/bbmp_wards_198.geojson`). The digitised polygon boundary area is 711.59 km²; earlier colloquial citations of 741 km² or 716 km² are unsupported by primary boundary vector files and have been removed. This boundary area (711.59 km²) is not independently verified against physical BBMP cadastral surveys.
 - **Full-city 500 m grid:** 3,026 total cells (2,674 full 0.25 km² cells and 352 clipped boundary cells with true `area_km2`), covering 711.59 km². This lands within the expected 2,500–3,300 test range.
 - **Centroid definitions:**
   - `(x_utm, y_utm)`: True geometric centroid (center of mass) of the clipped cell geometry in EPSG:32643 (UTM 43N). `(lat, lon)` reports its WGS84 coordinates.
@@ -190,10 +190,12 @@ The full column definitions, rules and checks are in the **Flood Dataset Specifi
   - Flood labels correspond to local Indian Standard Time (IST, UTC+5:30) observation dates.
   - **Worked example (September 2022 flood):** Heavy rainfall fell primarily during the night of Sunday 4 September through early Monday 5 September 2022 IST. In UTC time, this corresponds to rain on UTC date `2022-09-04` (evening IST) and early `2022-09-05`. The extensive flooding observed across Bellandur, Sarjapur Road, and Whitefield on the morning of 5 September IST is indexed to flood date `2022-09-05`. Multi-day rolling accumulations (`rain_3d_mm`, `rain_7d_mm`) and lag features (`rain_lag1_mm`) explicitly align antecedent evening/overnight rainfall with morning flood outcomes.
 - **Ground truth event linkage & PIP status:**
-  - `data/events.csv` contains 10 rows representing 9 distinct places (RBD Layout appears twice across 2 storms).
-  - All **10 rows** fall strictly inside the 2011 BBMP boundary and are mapped via point-in-polygon to distinct grid cells with centroid distances <= 353.6 m.
+  - `data/events.csv` contains 11 rows representing 10 distinct places across 6 events (RBD Layout appears twice across 2 storms; 6 rows in E2022_09, 1 in E2022_05, 1 in E2021_11, 1 in E2017_08, 1 in E2017_09, 1 in E2023_05).
+  - All **11 rows** fall strictly inside the 2011 BBMP boundary and are mapped via point-in-polygon to distinct grid cells with centroid distances <= 353.6 m.
   - Wipro Campus and RBD Layout use verified inside coordinates (primary seeds 666 and 555) with CFG_C footprint seeds mapped in `data/interim/event_cells.csv`. Koramangala 4th Block is positioned at its OSM polygon centroid (Cell 897, Ward 151). Stored coordinates are preserved in audit columns.
-  - **Positive cell-days yield (seed-only):** **34 cell-days** (seed cells × event days across the 5 historical events, against the specification's 100 minimum / 500 target). Topological 3x3 neighbours are retained purely as an audit flag (86 adjacent cells).
+  - **Honesty on News Quotes:** Earlier candidate citations attributed to The Hindu, Times of India, Indian Express, and BBC returned HTTP 404 or were not found verbatim upon independent retrieval; they were NOT found and must be completely ignored. Only sources directly retrieved and logged in `data/interim/source_check_log.csv` are accepted.
+  - **Ward verification caveat:** Ward numbers and names reported for events are derived strictly from our polygon intersection with the DataMeet BBMP 2011 shapefile; they repeat our GIS join and are not independently verified.
+  - **Positive cell-days yield (seed-only):** **35 cell-days** (seed cells × event days across the 6 historical events, against the specification's 100 minimum / 500 target). Topological 3x3 neighbours are retired as a yield and retained purely as an audit flag (73 adjacent cells).
 
 ## Documented flood zones
 
@@ -249,6 +251,7 @@ The two contrast zones come from general knowledge and are marked "verify". They
 
 ## License and contact
 
-**License:** *to be chosen by the team (for example MIT for code and CC BY 4.0 for documentation).*
+**License:** *to be chosen by the team (for example MIT for code and CC BY 4.0 for documentation).*  
+*(Note: In documentation and data registers, dataset licence references denote the official licence name and canonical URL link, not verbatim legal text copied from external dataset pages).*
 
 **Contact:** open an issue on this repository, or reach the maintainers through their GitHub profiles above.

@@ -147,7 +147,7 @@ def audit_and_upgrade_events(
         ('E2022_09', 'Borewell Road (Whitefield)', [1444]),
         ('E2022_09', 'Panathur-Balagere Road (near BWSSB STP/Varthur lake)', [977]),
         ('E2022_05', 'RBD Layout (Sarjapur Road)', [554, 555, 608]),
-        ('E2021_11', 'Kendriya Vihar (Yelahanka)', [2904]),
+        ('E2021_11', 'Yelahanka / Jakkur, North Bengaluru', [2882]),
         ('E2017_08', 'Koramangala 4th Block', [897]),
         ('E2017_09', 'Hosur-Sarjapur Road / Anugraha Layout, Koramangala', [774]),
         ('E2023_05', 'KR Circle Underpass', [1478]),

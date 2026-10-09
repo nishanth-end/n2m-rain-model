@@ -19,7 +19,7 @@ CELLS_GEOJSON = "data/interim/cells_grid.geojson"
 CELLS_CSV = "data/interim/cells_grid.csv"
 
 # Deliberately updated following approved audit decisions (Wipro & RBD footprint seeds, Koramangala move)
-EXPECTED_EVENTS_SHA256 = "2619b6a0705ebd8bd48b2453995493fb06ee03fb708120587ea79f40318ecbd2"
+EXPECTED_EVENTS_SHA256 = "b0b0d2fae0f1f7bdf4190d2270abb62e700177990f3468da8ebb08d2ddcc77a0"
 
 @pytest.fixture(scope="module")
 def raw_events_df():
@@ -105,8 +105,8 @@ def test_event_cells_roles_and_seeds(event_cells_df):
     kor_seeds = set(seeds[seeds["place"] == "Koramangala 4th Block"]["cell_id"])
     assert kor_seeds == {897}, f"Expected Koramangala seed 897, got {kor_seeds}"
 
-    kv_seeds = set(seeds[seeds["place"] == "Kendriya Vihar (Yelahanka)"]["cell_id"])
-    assert kv_seeds == {2904}, f"Expected Kendriya Vihar seed 2904, got {kv_seeds}"
+    kv_seeds = set(seeds[seeds["place"] == "Yelahanka / Jakkur, North Bengaluru"]["cell_id"])
+    assert kv_seeds == {2882}, f"Expected Kendriya Vihar seed 2882, got {kv_seeds}"
 
     kr_seeds = set(seeds[seeds["place"] == "KR Circle Underpass"]["cell_id"])
     assert kr_seeds == {1478}, f"Expected KR Circle seed 1478, got {kr_seeds}"
@@ -195,3 +195,21 @@ def test_summary_numbers_match_csvs():
 
     assert f"Total Grid Cells**: {len(cells):,}" in md_text
     assert f"Total Event Rows**: {len(events)}" in md_text
+
+def test_evidence_quotes_verbatim_match():
+    """Verifies that every VERIFIED evidence quote is a verbatim substring of its saved source file."""
+    log_csv = "data/interim/source_check_log.csv"
+    assert os.path.exists(log_csv), f"Missing {log_csv}"
+    df = pd.read_csv(log_csv)
+
+    for _, row in df.iterrows():
+        if row["verdict"] == "VERIFIED":
+            fname = row["local_file"]
+            quote = str(row["evidence_quote_under_15_words"])
+            fpath = os.path.join("data/raw/sources", fname)
+            assert os.path.exists(fpath), f"Missing saved source file: {fpath}"
+            with open(fpath, "r", encoding="utf-8", errors="ignore") as f:
+                content = f.read()
+            assert quote in content, (
+                f"Evidence quote '{quote}' not found verbatim in saved source {fname}!"
+            )

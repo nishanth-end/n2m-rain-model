@@ -129,10 +129,10 @@ def generate_summary():
 | `E2022_09` | Borewell Road (Whitefield) | Cell 1444 | Ward 84 | High | Kept stored coordinate; strictly inside Cell 1444 |
 | `E2022_09` | Panathur-Balagere Road | Cell 977 | Ward 150 | High | Kept stored coordinate; strictly inside Cell 977 |
 | `E2022_05` | RBD Layout (Sarjapur Road) | Cell 555 | Ward 150 | Medium | Pre-monsoon storm; footprint seeds: [554, 555, 608] |
-| `E2021_11` | Kendriya Vihar (Yelahanka) | Cell 2904 | Ward 1 | Medium | Moved to verified OSM polygon centroid (2904) on Yelahanka Lake edge |
+| `E2021_11` | Yelahanka / Jakkur (Kendriya Vihar) | Cell 2882 | Ward 1 | Low | Kept stored point (2882); condition (ii) origin unexplained; move to 2904 proposed |
 | `E2017_08` | Koramangala 4th Block | Cell 897 | Ward 151 | Medium | Moved to OSM polygon centroid (897); behind 80 Feet Rd (TNM 2017-10-04) |
-| `E2017_09` | Hosur-Sarjapur / Anugraha | Cell 774 | Ward 173 | Low | Kept stored coordinate; unverified citation URL; lowered to low confidence |
-| `E2023_05` | KR Circle Underpass | Cell 1478 | Ward 110 | Medium | Flooded underpass fatality (21 May 2023); OSM way 49247293 / node 245847492 |
+| `E2017_09` | Hosur-Sarjapur / Anugraha | Cell 774 | Ward 173 | Medium | Kept stored coordinate; citation URL unverified (redirected); proposal: low |
+| `E2023_05` | KR Circle Underpass | Cell 1478 | Ward 110 | Medium | Flooded underpass fatality (21 May 2023); junction way 1096077212 proxy |
 
 ---
 
