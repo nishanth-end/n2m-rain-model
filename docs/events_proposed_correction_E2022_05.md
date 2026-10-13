@@ -11,19 +11,23 @@
 
 ## 1. Justification and Evidence
 
-1. **Current Mismatch**:
+1. **Current Sourcing & Article Content**:
    - In `delivery/events.csv`, `E2022_05` is listed as occurring on `2022-05-05` at RBD Layout (Sarjapur Road).
-   - In CHIRPS satellite observations at Pixel 12 (covering RBD Layout, Cell 555), precipitation on `2022-05-05` was only **7.37 mm** (`rain_1d_mm`), with zero flooding reported across the city.
-   - The citation provided in `delivery/events.csv` is an *Indian Express* article dated 18 May 2022 titled *"Bengaluru: RBD layout to get new drain to flush out rainwater to Sarjapur culvert"* (`https://indianexpress.com/article/cities/bangalore/bengaluru-rbd-layout-new-drain-rainwater-sarjapur-culvert-7924521/`).
-   - The article discusses civic action taken *following* the severe pre-monsoon storm of **17–18 May 2022**, where Bengaluru recorded heavy downpours inundating RBD Layout, Silk Board, and Hosur Road. The mention of "May 5" in earlier draft notes referred to an initial complaint letter date, not the catastrophic storm.
+   - The citation provided in `delivery/events.csv` is *The Indian Express* article dated 18 May 2022 titled *"Bengaluru: RBD layout to get new drain to flush out rainwater to Sarjapur culvert"* (`https://indianexpress.com/article/cities/bangalore/bengaluru-rbd-layout-new-drain-rainwater-sarjapur-culvert-7924521/`).
+   - In the opened article text, there is no sentence explicitly stating a flood date of May 5. The article text notes:
+     - *"Aravind Limbavali, MLA of Mahadevapura constituency, along with civic officials visited the layout on Tuesday."* (Tuesday was 17 May 2022).
+     - *"Residents of the RBD layout had written to Limbavali on May 10 apprising him of the flooding problem in their area."*
+     - *"Notably, The Indian Express had highlighted the plight of the residents in its report on May 11."*
+   - The earlier commit `6a9158f` in the repo cited an unlinked `"Indian Express, 11 May 2022"`, which was replaced in commit `b604767` with the live 18 May follow-up article (7924521).
 
-2. **Meteorological Reality (17–18 May 2022 Storm)**:
-   - On **17 May 2022**, CHIRPS recorded **34.02 mm** at Pixel 12 (and up to **51.52 mm** city-wide peak at Pixel 23), producing a 3-day rolling accumulation of **66.86 mm** (`EP_12` in `high_rain_episodes.csv`).
-   - News reports from 18 May 2022 confirm widespread inundation across Sarjapur Road and RBD Layout stranded residents and prompted the BBMP Chief Commissioner's site inspection.
+2. **Meteorological Context (17–18 May 2022)**:
+   - On **17 May 2022**, CHIRPS recorded **34.02 mm** at Pixel 12 (and a city-wide peak of **51.52 mm** at Pixel 23), producing a 3-day rolling accumulation of **66.86 mm** (`EP_12` in `high_rain_episodes.csv`).
+   - On **5 May 2022**, CHIRPS recorded **7.37 mm** at Pixel 12.
+   - Because neither the 18 May article nor a second live independent source explicitly dates the inundation event to 17–18 May, `CAND_2022_05_17_CORR` is marked `UNVERIFIED` per strict multi-source verification standards.
 
 3. **Current Delivery Dataset State**:
    - In `delivery/flood_dataset.parquet` and `delivery/flood_dataset_event_windows.csv`, the 7 positive labels for `E2022_05` currently sit on **`2022-05-05`** because the pipeline generated labels strictly from the dates recorded in `events.csv`.
-   - On `2022-05-05`, the model sees `flood_label = 1` paired with `rain_1d_mm = 7.37 mm`, creating a false-association artifact.
+   - `data/events.csv` and `delivery/events.csv` remain unaltered per project safety rules.
 
 ---
 
