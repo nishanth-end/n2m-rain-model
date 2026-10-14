@@ -1,0 +1,601 @@
+Title: Live Content
+
+Description: Fetched live
+
+Source: https://citizenmatters.in/city/bengaluru/page/69/
+
+---
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bengaluru Archives - Page 69 of 722 - Citizen Matters</title>
+  <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+	<!-- This site is optimized with the Yoast SEO Premium plugin v28.6 (Yoast SEO v28.6) - https://yoast.com/product/yoast-seo-premium-wordpress/ -->
+	<link rel="canonical" href="https://citizenmatters.in/city/bengaluru/page/69/" />
+	<link rel="prev" href="https://citizenmatters.in/city/bengaluru/page/68/" />
+	<link rel="next" href="https://citizenmatters.in/city/bengaluru/page/70/" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Bengaluru Archives" />
+	<meta property="og:url" content="https://citizenmatters.in/city/bengaluru/" />
+	<meta property="og:site_name" content="Citizen Matters" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https:\/\/schema.org","@graph":[{"@type":"CollectionPage","@id":"https:\/\/citizenmatters.in\/city\/bengaluru\/","url":"https:\/\/citizenmatters.in\/city\/bengaluru\/page\/69\/","name":"Bengaluru Archives - Page 69 of 722 - Citizen Matters","isPartOf":{"@id":"https:\/\/citizenmatters.in\/#website"},"primaryImageOfPage":{"@id":"https:\/\/citizenmatters.in\/city\/bengaluru\/page\/69\/#primaryimage"},"image":{"@id":"https:\/\/citizenmatters.in\/city\/bengaluru\/page\/69\/#primaryimage"},"thumbnailUrl":"https:\/\/images-citizenmatters.sgp1.digitaloceanspaces.com\/wp-content\/uploads-new\/2024\/02\/money-wallet.jpg","breadcrumb":{"@id":"https:\/\/citizenmatters.in\/city\/bengaluru\/page\/69\/#breadcrumb"},"inLanguage":"en-US"},{"@type":"ImageObject","inLanguage":"en-US","@id":"https:\/\/citizenmatters.in\/city\/bengaluru\/page\/69\/#primaryimage","url":"https:\/\/images-citizenmatters.sgp1.digitaloceanspaces.com\/wp-content\/uploads-new\/2024\/02\/money-wallet.jpg","contentUrl":"https:\/\/images-citizenmatters.sgp1.digitaloceanspaces.com\/wp-content\/uploads-new\/2024\/02\/money-wallet.jpg","width":1280,"height":720,"caption":"Representative image. All the taxes we pay in our cities, go to one of the three tiers of Government. But how is it distributed? Pic courtesy: Pixabay"},{"@type":"BreadcrumbList","@id":"https:\/\/citizenmatters.in\/city\/bengaluru\/page\/69\/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https:\/\/citizenmatters.in\/"},{"@type":"ListItem","position":2,"name":"Bengaluru"}]},{"@type":"WebSite","@id":"https:\/\/citizenmatters.in\/#website","url":"https:\/\/citizenmatters.in\/","name":"Citizen Matters","description":"Better Cities, Better Lives","publisher":{"@id":"https:\/\/citizenmatters.in\/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https:\/\/citizenmatters.in\/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"en-US"},{"@type":"Organization","@id":"https:\/\/citizenmatters.in\/#organization","name":"Citizen Matters","url":"https:\/\/citizenmatters.in\/","logo":{"@type":"ImageObject","inLanguage":"en-US","@id":"https:\/\/citizenmatters.in\/#\/schema\/logo\/image\/","url":"https:\/\/images.citizenmatters.in\/wp-content\/uploads-new\/2024\/03\/cropped-CITIZEN-MATTERS-Favicon.jpg?strip=all&lossy=1&ssl=1","contentUrl":"https:\/\/images.citizenmatters.in\/wp-content\/uploads-new\/2024\/03\/cropped-CITIZEN-MATTERS-Favicon.jpg?strip=all&lossy=1&ssl=1","width":512,"height":512,"caption":"Citizen Matters"},"image":{"@id":"https:\/\/citizenmatters.in\/#\/schema\/logo\/image\/"},"sameAs":["https:\/\/www.facebook.com\/citizenmattersbengaluru","https:\/\/www.instagram.com\/citizenmatters\/","https:\/\/www.youtube.com\/channel\/UC3FCPDAYkYSh4WDc2x4t8Ww"],"legalName":"Oorvani Foundation"}]}</script>
+	<!-- / Yoast SEO Premium plugin. -->
+
+
+<script>
+window.koko_analytics = {"url":"https:\/\/citizenmatters.in\/","site_url":"https:\/\/citizenmatters.in","post_id":0,"path":"\/city\/bengaluru\/page\/69\/","method":"fingerprint","use_cookie":false};
+</script>
+<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+<link rel="alternate" type="application/rss+xml" title="Citizen Matters &raquo; Bengaluru City Feed" href="https://citizenmatters.in/city/bengaluru/feed/" />
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id="wp-block-library-inline-css">
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}:root .has-text-align-center{text-align:center}:root .has-text-align-left{text-align:left}:root .has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{word-wrap:normal!important;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style^=border-color],[style*=";border-color"],[style*="; border-color"]){border-style:solid}html :where([style^=border-top-color],[style*=";border-top-color"],[style*="; border-top-color"]){border-top-style:solid}html :where([style^=border-right-color],[style*=";border-right-color"],[style*="; border-right-color"]){border-right-style:solid}html :where([style^=border-bottom-color],[style*=";border-bottom-color"],[style*="; border-bottom-color"]){border-bottom-style:solid}html :where([style^=border-left-color],[style*=";border-left-color"],[style*="; border-left-color"]){border-left-style:solid}html :where([style^=border-width],[style*=";border-width"],[style*="; border-width"]){border-style:solid}html :where([style^=border-top-width],[style*=";border-top-width"],[style*="; border-top-width"]){border-top-style:solid}html :where([style^=border-right-width],[style*=";border-right-width"],[style*="; border-right-width"]){border-right-style:solid}html :where([style^=border-bottom-width],[style*=";border-bottom-width"],[style*="; border-bottom-width"]){border-bottom-style:solid}html :where([style^=border-left-width],[style*=";border-left-width"],[style*="; border-left-width"]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=/wp-includes/css/dist/block-library/common.min.css */
+</style>
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--cm-peach: #f8be8c;--wp--preset--color--cm-orange: #fe6d4b;--wp--preset--color--cm-rust: #b13f06;--wp--preset--color--cm-darkbrown: #420c14;--wp--preset--color--cm-yellow: #dfab01;--wp--preset--color--cm-darkolive: #506d37;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}.wp-block-button{--wp--preset--dimension--25: 25%;--wp--preset--dimension--50: 50%;--wp--preset--dimension--75: 75%;--wp--preset--dimension--100: 100%;}:where(body) { margin: 0; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-cm-peach-color{color: var(--wp--preset--color--cm-peach) !important;}.has-cm-orange-color{color: var(--wp--preset--color--cm-orange) !important;}.has-cm-rust-color{color: var(--wp--preset--color--cm-rust) !important;}.has-cm-darkbrown-color{color: var(--wp--preset--color--cm-darkbrown) !important;}.has-cm-yellow-color{color: var(--wp--preset--color--cm-yellow) !important;}.has-cm-darkolive-color{color: var(--wp--preset--color--cm-darkolive) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-cm-peach-background-color{background-color: var(--wp--preset--color--cm-peach) !important;}.has-cm-orange-background-color{background-color: var(--wp--preset--color--cm-orange) !important;}.has-cm-rust-background-color{background-color: var(--wp--preset--color--cm-rust) !important;}.has-cm-darkbrown-background-color{background-color: var(--wp--preset--color--cm-darkbrown) !important;}.has-cm-yellow-background-color{background-color: var(--wp--preset--color--cm-yellow) !important;}.has-cm-darkolive-background-color{background-color: var(--wp--preset--color--cm-darkolive) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-cm-peach-border-color{border-color: var(--wp--preset--color--cm-peach) !important;}.has-cm-orange-border-color{border-color: var(--wp--preset--color--cm-orange) !important;}.has-cm-rust-border-color{border-color: var(--wp--preset--color--cm-rust) !important;}.has-cm-darkbrown-border-color{border-color: var(--wp--preset--color--cm-darkbrown) !important;}.has-cm-yellow-border-color{border-color: var(--wp--preset--color--cm-yellow) !important;}.has-cm-darkolive-border-color{border-color: var(--wp--preset--color--cm-darkolive) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='orbit-main-css' href='https://citizenmatters.in/wp-content/plugins/orbit-bundle/dist/css/main.css?ver=1791968747' media='all' />
+<link rel='stylesheet' id='orbit-common-css' href='https://citizenmatters.in/wp-content/plugins/orbit-bundle/dist/css/common.css?ver=1791968747' media='all' />
+<link rel='stylesheet' id='font-awesome-css' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css' media='all' />
+<link rel='stylesheet' id='czm-core-css-css' href='https://citizenmatters.in/wp-content/themes/citizen-matters-wp-theme/css/main.css?ver=1.3.1' media='all' />
+<link rel='stylesheet' id='sib-front-css-css' href='https://citizenmatters.in/wp-content/plugins/mailin/css/mailin-front.css?ver=7.1.2' media='all' />
+<script id="jquery-core-js" src="https://citizenmatters.in/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+<script id="jquery-migrate-js" src="https://citizenmatters.in/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
+<script id="sib-front-js-js-extra">
+var sibErrMsg = {"invalidMail":"Please fill out valid email address","requiredField":"Please fill out required fields","invalidDateFormat":"Please fill out valid date format","invalidSMSFormat":"Please fill out valid phone number"};
+var ajax_sib_front_object = {"ajax_url":"https://citizenmatters.in/wp-admin/admin-ajax.php","ajax_nonce":"3623db2f5c","flag_url":"https://citizenmatters.in/wp-content/plugins/mailin/img/flags/"};
+//# sourceURL=sib-front-js-js-extra
+</script>
+<script id="sib-front-js-js" src="https://citizenmatters.in/wp-content/plugins/mailin/js/mailin-front.js?ver=1783011855"></script>
+<link rel="https://api.w.org/" href="https://citizenmatters.in/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://citizenmatters.in/wp-json/wp/v2/city/11" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://citizenmatters.in/xmlrpc.php?rsd" />
+<!-- HFCM by 99 Robots - Snippet # 1: Google Analytics -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1D0THDGDCZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1D0THDGDCZ');
+</script>
+
+<!-- /end HFCM by 99 Robots -->
+<noscript><style>.lazyload[data-src]{display:none !important;}</style></noscript><style>.lazyload{background-image:none !important;}.lazyload:before{background-image:none !important;}</style><link rel="icon" href="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/cropped-CITIZEN-MATTERS-Favicon-32x32.jpg" sizes="32x32" />
+<link rel="icon" href="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/cropped-CITIZEN-MATTERS-Favicon-192x192.jpg" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/cropped-CITIZEN-MATTERS-Favicon-180x180.jpg" />
+<meta name="msapplication-TileImage" content="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/cropped-CITIZEN-MATTERS-Favicon-270x270.jpg" />
+<link rel='stylesheet' id='so-css-citizen-matters-wp-theme-css' href='https://citizenmatters.in/wp-content/uploads/so-css/so-css-citizen-matters-wp-theme.css?ver=1750581957' media='all' />
+<link rel='stylesheet' id='sow-image-default-8b5b6f678277-css' href='https://citizenmatters.in/wp-content/uploads/siteorigin-widgets/sow-image-default-8b5b6f678277.css?ver=7.1.2' media='all' />
+<link rel='stylesheet' id='sow-social-media-buttons-flat-d9caffb950c8-css' href='https://citizenmatters.in/wp-content/uploads/siteorigin-widgets/sow-social-media-buttons-flat-d9caffb950c8.css?ver=7.1.2' media='all' />
+<link rel='stylesheet' id='siteorigin-widget-icon-font-fontawesome-css' href='https://citizenmatters.in/wp-content/plugins/so-widgets-bundle/icons/fontawesome/style.css?ver=1790818086&#038;ver=7.1.2' media='all' />
+<link rel='stylesheet' id='siteorigin-panels-front-css' href='https://citizenmatters.in/wp-content/plugins/siteorigin-panels/css/front-flex.min.css?ver=2.36.1' media='all' />
+
+</head>
+<body class="archive paged tax-city term-bengaluru term-11 paged-69 wp-theme-citizen-matters-wp-theme">
+  <div id="site">
+
+    <header>
+      <!-- Navigation Bar -->
+      <nav id="mobile-nav">
+	<div class="mobile-nav-inner">
+		<div class="mobile-nav-header">
+			<a href="https://citizenmatters.in" class="czm-site-logo"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Citizen Matters Text Logo with all letters in capital and the first i of citizen in the shape of candle" data-src="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/CITIZEN-MATTERS-Logo.jpg" decoding="async" class="lazyload"><noscript><img src="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/CITIZEN-MATTERS-Logo.jpg" alt="Citizen Matters Text Logo with all letters in capital and the first i of citizen in the shape of candle" data-eio="l"></noscript></a>			<button id="close-mobile-nav" type="button" aria-label="Close Sidebar Menu">
+				<i class="fas fa-times" aria-hidden="true"></i>
+			</button>
+		</div>
+		<ul id="sidebar-menu" class="menu"><li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-39992" class="czm-cities-menu menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-39992 dropdown"><a title="Cities" href="#" class="dropdown-toggle" aria-haspopup="true">Cities <span id="czm-menu-toggler"><i class="fas fa-angle-down"></i></span></a>
+<ul role="menu" class=" dropdown-menu" >
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-39993" class="menu-item menu-item-type-taxonomy menu-item-object-city current-menu-item menu-item-39993 active"><a title="Bengaluru" href="https://citizenmatters.in/city/bengaluru/">Bengaluru</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-39994" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-39994"><a title="Chennai" href="https://citizenmatters.in/city/chennai/">Chennai</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-39995" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-39995"><a title="Mumbai" href="https://citizenmatters.in/city/mumbai/">Mumbai</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-39996" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-39996"><a title="Delhi / NCR" href="https://citizenmatters.in/city/delhi-ncr/">Delhi / NCR</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-39997" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-39997"><a title="Hyderabad" href="https://citizenmatters.in/city/hyderabad/">Hyderabad</a></li>
+</ul>
+</li>
+<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-39998" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-39998 dropdown"><a title="Topics" href="#" class="dropdown-toggle" aria-haspopup="true">Topics <span id="czm-menu-toggler"><i class="fas fa-angle-down"></i></span></a>
+<ul role="menu" class=" dropdown-menu" >
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40001" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40001"><a title="Civic" href="https://citizenmatters.in/topic/civic/">Civic</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40002" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40002"><a title="Commute" href="https://citizenmatters.in/topic/commute/">Commute</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40003" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40003"><a title="Economy" href="https://citizenmatters.in/topic/economy/">Economy</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40004" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40004"><a title="Education" href="https://citizenmatters.in/topic/education/">Education</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40005" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40005"><a title="Environment" href="https://citizenmatters.in/topic/environment/">Environment</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40006" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40006"><a title="Governance" href="https://citizenmatters.in/topic/governance/">Governance</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40007" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40007"><a title="Health" href="https://citizenmatters.in/topic/health/">Health</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40008" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40008"><a title="Infrastructure" href="https://citizenmatters.in/topic/infrastructure/">Infrastructure</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-39999" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-39999"><a title="Waste" href="https://citizenmatters.in/topic/waste-management/">Waste</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40000" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40000"><a title="Water" href="https://citizenmatters.in/topic/water-supply/">Water</a></li>
+</ul>
+</li>
+<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40009" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-40009 dropdown"><a title="Sections" href="#" class="dropdown-toggle" aria-haspopup="true">Sections <span id="czm-menu-toggler"><i class="fas fa-angle-down"></i></span></a>
+<ul role="menu" class=" dropdown-menu" >
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40010" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40010"><a title="In Focus" href="https://citizenmatters.in/section/genre-in-focus/">In Focus</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40012" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40012"><a title="Explainers" href="https://citizenmatters.in/section/genre-explainers/">Explainers</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40011" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40011"><a title="Solutions" href="https://citizenmatters.in/section/genre-solutions/">Solutions</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40013" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40013"><a title="Citizen Journalism" href="https://citizenmatters.in/section/citizen-journalism/">Citizen Journalism</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40014" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40014"><a title="Voices" href="https://citizenmatters.in/section/genre-voices/">Voices</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40015" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40015"><a title="Data Stories" href="https://citizenmatters.in/section/data/">Data Stories</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-70089" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-70089"><a title="Special Projects ►" href="https://citizenmatters.in/special-projects/">Special Projects ►</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-75679" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-75679"><a title="INFO HUB: Bengaluru Property" href="https://citizenmatters.in/bengaluru-property-hub/">INFO HUB: Bengaluru Property</a></li>
+</ul>
+</li>
+<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40017" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40017"><a title="Submit Article" href="https://citizenmatters.in/submit/">Submit Article</a></li>
+<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40016" class="czm-btn-donate menu-item menu-item-type-post_type menu-item-object-page menu-item-40016"><a title="Donate" href="https://citizenmatters.in/donate/">Donate</a></li>
+</ul>	</div>
+	<div class="czm-social-icons-wrapper">
+  <span class="czm-social-icons-headline">Follow us on:</span>
+  <ul class="czm-social-icons list-unstyled">
+          <li>
+        <a href="https://www.instagram.com/citizenmatters/" rel="noopener nofollow" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram" aria-hidden="true"></i>
+        </a>
+      </li>
+          <li>
+        <a href="https://www.facebook.com/citizenmattersbengaluru" rel="noopener nofollow" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook-f" aria-hidden="true"></i>
+        </a>
+      </li>
+          <li>
+        <a href="https://www.linkedin.com/company/citizen-matters/" rel="noopener nofollow" target="_blank" aria-label="Linkedin">
+          <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+        </a>
+      </li>
+          <li>
+        <a href="https://www.youtube.com/channel/UC3FCPDAYkYSh4WDc2x4t8Ww" rel="noopener nofollow" target="_blank" aria-label="Youtube">
+          <i class="fab fa-youtube" aria-hidden="true"></i>
+        </a>
+      </li>
+      </ul>
+</div>
+</nav>
+<nav id="czm-navigation" class="navbar">
+  <div id="primary-navbar-container" class="container-fluid">
+    <a href="https://citizenmatters.in" class="czm-site-logo"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Citizen Matters Text Logo with all letters in capital and the first i of citizen in the shape of candle" data-src="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/CITIZEN-MATTERS-Logo.jpg" decoding="async" class="lazyload"><noscript><img src="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/CITIZEN-MATTERS-Logo.jpg" alt="Citizen Matters Text Logo with all letters in capital and the first i of citizen in the shape of candle" data-eio="l"></noscript></a>    <ul id="desktop-header" class="menu"><li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="czm-cities-menu menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-39992 dropdown"><a title="Cities" href="#" class="dropdown-toggle" aria-haspopup="true">Cities <span id="czm-menu-toggler"><i class="fas fa-angle-down"></i></span></a>
+<ul role="menu" class=" dropdown-menu" >
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-city current-menu-item menu-item-39993 active"><a title="Bengaluru" href="https://citizenmatters.in/city/bengaluru/">Bengaluru</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-39994"><a title="Chennai" href="https://citizenmatters.in/city/chennai/">Chennai</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-39995"><a title="Mumbai" href="https://citizenmatters.in/city/mumbai/">Mumbai</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-39996"><a title="Delhi / NCR" href="https://citizenmatters.in/city/delhi-ncr/">Delhi / NCR</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-39997"><a title="Hyderabad" href="https://citizenmatters.in/city/hyderabad/">Hyderabad</a></li>
+</ul>
+</li>
+<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-39998 dropdown"><a title="Topics" href="#" class="dropdown-toggle" aria-haspopup="true">Topics <span id="czm-menu-toggler"><i class="fas fa-angle-down"></i></span></a>
+<ul role="menu" class=" dropdown-menu" >
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40001"><a title="Civic" href="https://citizenmatters.in/topic/civic/">Civic</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40002"><a title="Commute" href="https://citizenmatters.in/topic/commute/">Commute</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40003"><a title="Economy" href="https://citizenmatters.in/topic/economy/">Economy</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40004"><a title="Education" href="https://citizenmatters.in/topic/education/">Education</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40005"><a title="Environment" href="https://citizenmatters.in/topic/environment/">Environment</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40006"><a title="Governance" href="https://citizenmatters.in/topic/governance/">Governance</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40007"><a title="Health" href="https://citizenmatters.in/topic/health/">Health</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40008"><a title="Infrastructure" href="https://citizenmatters.in/topic/infrastructure/">Infrastructure</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-39999"><a title="Waste" href="https://citizenmatters.in/topic/waste-management/">Waste</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-40000"><a title="Water" href="https://citizenmatters.in/topic/water-supply/">Water</a></li>
+</ul>
+</li>
+<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-40009 dropdown"><a title="Sections" href="#" class="dropdown-toggle" aria-haspopup="true">Sections <span id="czm-menu-toggler"><i class="fas fa-angle-down"></i></span></a>
+<ul role="menu" class=" dropdown-menu" >
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40010"><a title="In Focus" href="https://citizenmatters.in/section/genre-in-focus/">In Focus</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40012"><a title="Explainers" href="https://citizenmatters.in/section/genre-explainers/">Explainers</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40011"><a title="Solutions" href="https://citizenmatters.in/section/genre-solutions/">Solutions</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40013"><a title="Citizen Journalism" href="https://citizenmatters.in/section/citizen-journalism/">Citizen Journalism</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40014"><a title="Voices" href="https://citizenmatters.in/section/genre-voices/">Voices</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40015"><a title="Data Stories" href="https://citizenmatters.in/section/data/">Data Stories</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-70089"><a title="Special Projects ►" href="https://citizenmatters.in/special-projects/">Special Projects ►</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-75679"><a title="INFO HUB: Bengaluru Property" href="https://citizenmatters.in/bengaluru-property-hub/">INFO HUB: Bengaluru Property</a></li>
+</ul>
+</li>
+<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40017"><a title="Submit Article" href="https://citizenmatters.in/submit/">Submit Article</a></li>
+<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" class="czm-btn-donate menu-item menu-item-type-post_type menu-item-object-page menu-item-40016"><a title="Donate" href="https://citizenmatters.in/donate/">Donate</a></li>
+</ul>    <div class="navbar-buttons">
+      <ul id="mobile-header" class="menu"><li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40025" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-40025 dropdown"><a title="Cities" href="#" class="dropdown-toggle" aria-haspopup="true">Cities <span id="czm-menu-toggler"><i class="fas fa-angle-down"></i></span></a>
+<ul role="menu" class=" dropdown-menu" >
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40026" class="menu-item menu-item-type-taxonomy menu-item-object-city current-menu-item menu-item-40026 active"><a title="Bengaluru" href="https://citizenmatters.in/city/bengaluru/">Bengaluru</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40027" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-40027"><a title="Chennai" href="https://citizenmatters.in/city/chennai/">Chennai</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40028" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-40028"><a title="Mumbai" href="https://citizenmatters.in/city/mumbai/">Mumbai</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40029" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-40029"><a title="Delhi / NCR" href="https://citizenmatters.in/city/delhi-ncr/">Delhi / NCR</a></li>
+	<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement" id="menu-item-40030" class="menu-item menu-item-type-taxonomy menu-item-object-city menu-item-40030"><a title="Hyderabad" href="https://citizenmatters.in/city/hyderabad/">Hyderabad</a></li>
+</ul>
+</li>
+</ul>      <button class="nav-search" title="Search">
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </button>
+      <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+    </header>
+
+    <!-- Content Section -->
+    <main>
+<div class="container archive-page">
+  <div class="czm-page-headline-wrap">
+    <h1 class="page-title text-center">
+      City: <span>Bengaluru</span>          </h1>
+  </div>
+        <div class="articles-post-list">
+          <article class="post-list-item">
+        <div class="list-item-header">
+  <div class="list-item-header-inner">
+    <h4 class="title"><a href="https://citizenmatters.in/centre-state-taxation-finance-commission-local-development-bbmp/">Bengaluru, here is where all the taxes you pay end up</a></h4>
+    <div class="post-meta">
+      <span class="coauthors-link">by <a href="https://citizenmatters.in/author/srinivasalavilli/" title="Posts by Srinivas Alavilli" class="author url fn" rel="author">Srinivas Alavilli</a></span>      <span class="dot"></span>
+      <span class="post-date">October 24, 2022</span>
+    </div>
+  </div>
+  <div class="orbit-thumbnail-bg lazyload" style="" data-back="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/money-wallet.jpg">
+    <a href="https://citizenmatters.in/centre-state-taxation-finance-commission-local-development-bbmp/"></a>
+  </div>
+</div>
+<div class="list-item-body">
+  <p class="post-excerpt">An infographic by Mint (@livemint) went viral in Bengaluru as the frustration of taxpayers found collective expression on social media. Most people are unaware of what happens to the taxes they pay. Who actually gets that money and how does it get used by the government? Direct tax collection in Metro, FY2021-22. Pic courtesy: Twitter thread by Srinivas Alavilli First things first: All the taxes we pay in our cities, go to one of the three tiers of Government. Union Government (Government of India)State Government (Government of Karnataka, Maharashtra etc.)City Government (Bengaluru Corporation BBMP or Mumbai Corporation BMC etc.) Tax&hellip;</p>
+  <a href="https://citizenmatters.in/centre-state-taxation-finance-commission-local-development-bbmp/" class="read-more font-roboto">Read more <i class="fas fa-angle-right" aria-hidden="true"></i></a>
+</div>
+      </article>
+          <article class="post-list-item">
+        <div class="list-item-header">
+  <div class="list-item-header-inner">
+    <h4 class="title"><a href="https://citizenmatters.in/bengaluru-buzz-rains-potholes-fire-rescue-app-auto-seat-belt-rules/">Bengaluru Buzz: Record rains in a decade | Pothole fixing contract discontinued&#8230;and more</a></h4>
+    <div class="post-meta">
+      <span class="coauthors-link">by <a href="https://citizenmatters.in/author/newsdesk/" title="Posts by News Desk" class="author url fn" rel="author">News Desk</a></span>      <span class="dot"></span>
+      <span class="post-date">October 22, 2022</span>
+    </div>
+  </div>
+  <div class="orbit-thumbnail-bg lazyload" style="" data-back="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/90-m-ladder.jpg">
+    <a href="https://citizenmatters.in/bengaluru-buzz-rains-potholes-fire-rescue-app-auto-seat-belt-rules/"></a>
+  </div>
+</div>
+<div class="list-item-body">
+  <p class="post-excerpt">Record rainfall, yellow alert This year the city had the highest total annual rainfall in a decade, but it has now set a new record. The IMD (India Meteorological Department) said that till October 17, 2022, there were 171 cms of rainfall, while on the following day, Tuesday, there was a new record of 174 cms. Expert sources said the fluctuations in the rains are not new and are already at a scale of 30-50%. They have been caused by human interference, rise in carbon dioxide levels and temperatures. Poor planning has led to flooding in the Bengaluru-Mysuru expressway. Due&hellip;</p>
+  <a href="https://citizenmatters.in/bengaluru-buzz-rains-potholes-fire-rescue-app-auto-seat-belt-rules/" class="read-more font-roboto">Read more <i class="fas fa-angle-right" aria-hidden="true"></i></a>
+</div>
+      </article>
+          <article class="post-list-item">
+        <div class="list-item-header">
+  <div class="list-item-header-inner">
+    <h4 class="title"><a href="https://citizenmatters.in/bengaluru-walks-explainer-series-why-bengaluru-floods-gradient/">Part 3: Why some parts of Bengaluru flood — The gradient factor</a></h4>
+    <div class="post-meta">
+      <span class="coauthors-link">by <a href="https://citizenmatters.in/author/newsdesk/" title="Posts by News Desk" class="author url fn" rel="author">News Desk</a></span>      <span class="dot"></span>
+      <span class="post-date">October 21, 2022</span>
+    </div>
+  </div>
+  <div class="orbit-thumbnail-bg lazyload" style="" data-back="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/Rainbow-Drive-flooding-KPSingh-Aug2022.jpeg">
+    <a href="https://citizenmatters.in/bengaluru-walks-explainer-series-why-bengaluru-floods-gradient/"></a>
+  </div>
+</div>
+<div class="list-item-body">
+  <p class="post-excerpt">As a 'yellow alert' has been issued, yet again, in Bengaluru, citizens search for answers on the reasons for the severe floods this year. One such explainer is by Arun Pai, founder of Bangalore Walks. In a series of videos, titled 'Floodsplaining' posted on the Bangalore Walks YouTube channel, Arun Pai deep dives into questions on the causes of the floods. He does not pass any value judgements and focuses on the scientific reasons for the severe floods. His videos are based on his extensive research, including talking to experts, reading on the topic, and gaining insights by going around&hellip;</p>
+  <a href="https://citizenmatters.in/bengaluru-walks-explainer-series-why-bengaluru-floods-gradient/" class="read-more font-roboto">Read more <i class="fas fa-angle-right" aria-hidden="true"></i></a>
+</div>
+      </article>
+          <article class="post-list-item">
+        <div class="list-item-header">
+  <div class="list-item-header-inner">
+    <h4 class="title"><a href="https://citizenmatters.in/rti-section-41b-bengaluru-bbmp-bda-bmtc-disclosures/">How current are disclosures by civic authorities under RTI Section 4(1)(b)? No one knows!</a></h4>
+    <div class="post-meta">
+      <span class="coauthors-link">by <a href="https://citizenmatters.in/author/pragathir/" title="Posts by Pragathi Ravi" class="author url fn" rel="author">Pragathi Ravi</a></span>      <span class="dot"></span>
+      <span class="post-date">October 20, 2022</span>
+    </div>
+  </div>
+  <div class="orbit-thumbnail-bg lazyload" style="" data-back="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/RTI_Section41b_namratanarendra.jpg">
+    <a href="https://citizenmatters.in/rti-section-41b-bengaluru-bbmp-bda-bmtc-disclosures/"></a>
+  </div>
+</div>
+<div class="list-item-body">
+  <p class="post-excerpt">The Right to Information Act of 2005 allows individuals to seek information from elected governing bodies. However, another facet under Section 4(1)(b) of the Act signifies the disclosure of particulars of organisations, including their functions and duties.&nbsp;This includes details concerning the duties and functions, roles and responsibilities of its officers and employees and the decision-making process of the organisation. Section 2 of the RTI Act defines public authorities as “any authority or body or institution of self-government established or constituted by or under the Constitution, any other law made by Parliament, any other law made by the State Legislature and&hellip;</p>
+  <a href="https://citizenmatters.in/rti-section-41b-bengaluru-bbmp-bda-bmtc-disclosures/" class="read-more font-roboto">Read more <i class="fas fa-angle-right" aria-hidden="true"></i></a>
+</div>
+      </article>
+          <article class="post-list-item">
+        <div class="list-item-header">
+  <div class="list-item-header-inner">
+    <h4 class="title"><a href="https://citizenmatters.in/why-certain-areas-in-bengaluru-flood-part-2/">Part 2: Why Bengaluru floods — Understanding history and location</a></h4>
+    <div class="post-meta">
+      <span class="coauthors-link">by <a href="https://citizenmatters.in/author/newsdesk/" title="Posts by News Desk" class="author url fn" rel="author">News Desk</a></span>      <span class="dot"></span>
+      <span class="post-date">October 19, 2022</span>
+    </div>
+  </div>
+  <div class="orbit-thumbnail-bg lazyload" style="" data-back="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/ORR-FrontOf-RMZ-Ecospace-4.jpg">
+    <a href="https://citizenmatters.in/why-certain-areas-in-bengaluru-flood-part-2/"></a>
+  </div>
+</div>
+<div class="list-item-body">
+  <p class="post-excerpt">In a previous article, Citizen Matters summarised and republished the first in the YouTube series of Arun Pai's video explainers on why Bengaluru floods to provide insights on the reasons for the city experiencing its worst floods in September this year. In episode one of the series, Arun Pai explains how elevation determines why certain parts of Bengaluru flood. The second and third episodes in the "Floodsplaining" "series respectively explain how our ancestors captured and utilised rain water and how some locations in the city are more vulnerable to floods. Arun Pai, founder of Bangalore Walks, uses interactive maps, history&hellip;</p>
+  <a href="https://citizenmatters.in/why-certain-areas-in-bengaluru-flood-part-2/" class="read-more font-roboto">Read more <i class="fas fa-angle-right" aria-hidden="true"></i></a>
+</div>
+      </article>
+          <article class="post-list-item">
+        <div class="list-item-header">
+  <div class="list-item-header-inner">
+    <h4 class="title"><a href="https://citizenmatters.in/bengalurus-economic-and-labour-geography-the-case-for-integrating-the-economy-into-urban-planning/">Mapping Bengaluru’s economic geography: Why urban planners need more economic and labour market information</a></h4>
+    <div class="post-meta">
+      <span class="coauthors-link">by <a href="https://citizenmatters.in/author/herrygulabani/" title="Posts by Herry Gulabani" class="author url fn" rel="author">Herry Gulabani</a>, <a href="https://citizenmatters.in/author/shriyaanand/" title="Posts by Shriya Anand" class="author url fn" rel="author">Shriya Anand</a>, <a href="https://citizenmatters.in/author/violalewis/" title="Posts by Viola Lewis" class="author url fn" rel="author">Viola Lewis</a> and <a href="https://citizenmatters.in/author/soorajraveendran/" title="Posts by Sooraj Raveendran" class="author url fn" rel="author">Sooraj Raveendran</a></span>      <span class="dot"></span>
+      <span class="post-date">October 18, 2022</span>
+    </div>
+  </div>
+  <div class="orbit-thumbnail-bg lazyload" style="" data-back="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/Bangalore_-scaled-e1665974924105.jpg">
+    <a href="https://citizenmatters.in/bengalurus-economic-and-labour-geography-the-case-for-integrating-the-economy-into-urban-planning/"></a>
+  </div>
+</div>
+<div class="list-item-body">
+  <p class="post-excerpt">There is an emerging policy consensus around promoting cities as engines of economic growth (XV Finance Commission, 2020, pg. 169). NITI Aayog, in its May 2022 report, proposed developing comprehensive economic plans for Indian cities. The 74th amendment also allows Urban Local Bodies to integrate and implement economic development schemes through the master plan. Cities across the world use economic data to understand and identify target areas for investment in transportation or economic infrastructure (for example, Sao Paulo) or setting up targeted investment funds (such as London’s Regeneration Fund and Growing Places Fund) or improving poor neighbourhoods’ access to better&hellip;</p>
+  <a href="https://citizenmatters.in/bengalurus-economic-and-labour-geography-the-case-for-integrating-the-economy-into-urban-planning/" class="read-more font-roboto">Read more <i class="fas fa-angle-right" aria-hidden="true"></i></a>
+</div>
+      </article>
+          <article class="post-list-item">
+        <div class="list-item-header">
+  <div class="list-item-header-inner">
+    <h4 class="title"><a href="https://citizenmatters.in/bbmp-elections-karnataka-high-court-reservations/">HC orders BBMP elections by Dec 31, but reservation issue yet to be resolved</a></h4>
+    <div class="post-meta">
+      <span class="coauthors-link">by <a href="https://citizenmatters.in/author/pragathir/" title="Posts by Pragathi Ravi" class="author url fn" rel="author">Pragathi Ravi</a></span>      <span class="dot"></span>
+      <span class="post-date">October 17, 2022</span>
+    </div>
+  </div>
+  <div class="orbit-thumbnail-bg lazyload" style="" data-back="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/BBMP_commissioner_oct2022_twitterBBMP.jpg">
+    <a href="https://citizenmatters.in/bbmp-elections-karnataka-high-court-reservations/"></a>
+  </div>
+</div>
+<div class="list-item-body">
+  <p class="post-excerpt">It has been a little over two years since the urban local body in Bengaluru had an elected body of representatives. While cases pending in Supreme Court have been cited as a reason for the delaying the BBMP elections, the absence of elected corporators at the local level has meant that MLAs have been calling the shots even for local level initiatives. Reports have tracked how the role of ward committees is being chipped away leading to lack of accountability and eventually translating to citizens losing whatever little say they had in matters pertaining to urban service delivery and civic&hellip;</p>
+  <a href="https://citizenmatters.in/bbmp-elections-karnataka-high-court-reservations/" class="read-more font-roboto">Read more <i class="fas fa-angle-right" aria-hidden="true"></i></a>
+</div>
+      </article>
+          <article class="post-list-item">
+        <div class="list-item-header">
+  <div class="list-item-header-inner">
+    <h4 class="title"><a href="https://citizenmatters.in/public-event-bengaluru-ward-samiti-balaga-samaavesha/">Public event: Bengaluru Ward Samiti Balaga Samaavesha</a></h4>
+    <div class="post-meta">
+      <span class="coauthors-link">by <a href="https://citizenmatters.in/author/newsdesk/" title="Posts by News Desk" class="author url fn" rel="author">News Desk</a></span>      <span class="dot"></span>
+      <span class="post-date">October 15, 2022</span>
+    </div>
+  </div>
+  <div class="orbit-thumbnail-bg lazyload" style="" data-back="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/ward-committee-meeting.jpg">
+    <a href="https://citizenmatters.in/public-event-bengaluru-ward-samiti-balaga-samaavesha/"></a>
+  </div>
+</div>
+<div class="list-item-body">
+  <p class="post-excerpt">The Bengaluru Ward Samiti Balaga has extended a public invitation to the second Bengaluru Ward Samiti Balaga Samaavesha to be held on October 16th (Sunday) at Government Arts College, next to Civil Court complex, from 10 am. The main objective of the Balaga is to strengthen the ward committees of Bengaluru by working together and collaborating with the BBMP and other civic agencies. BBMP elections are still pending (likely to happen before December 31st per Court orders), but we are glad to report more ward committee meetings are happening now than before our May 28th meeting. However, in many meetings,&hellip;</p>
+  <a href="https://citizenmatters.in/public-event-bengaluru-ward-samiti-balaga-samaavesha/" class="read-more font-roboto">Read more <i class="fas fa-angle-right" aria-hidden="true"></i></a>
+</div>
+      </article>
+          <article class="post-list-item">
+        <div class="list-item-header">
+  <div class="list-item-header-inner">
+    <h4 class="title"><a href="https://citizenmatters.in/bengaluru-buzz-oct-8th-to-14th/">Bengaluru Buzz: First anti-conversion case | Talks over Ola and Uber auto rates&#8230; and more</a></h4>
+    <div class="post-meta">
+      <span class="coauthors-link">by <a href="https://citizenmatters.in/author/newsdesk/" title="Posts by News Desk" class="author url fn" rel="author">News Desk</a></span>      <span class="dot"></span>
+      <span class="post-date">October 15, 2022</span>
+    </div>
+  </div>
+  <div class="orbit-thumbnail-bg lazyload" style="" data-back="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/800px-Auto-rickshaws.jpg">
+    <a href="https://citizenmatters.in/bengaluru-buzz-oct-8th-to-14th/"></a>
+  </div>
+</div>
+<div class="list-item-body">
+  <p class="post-excerpt">First anti-conversion case registered The first case under the 'anti-conversion' law or the Karnataka Right to Protection of Right to Freedom of Religion Act, 2022, was registered by the Yeshwanthpur police. A girl, who is a major, was allegedly converted to Islam and married a youth she is in love with. The girl’s mother complained to the police, who arrested the youth, even before recording the girl’s statement on the issue.&nbsp;Opponents to the arrest said that the couple had married in Penukonda (Andhra Pradesh), where the law is not in place. Moreover, the girl is a major and was not&hellip;</p>
+  <a href="https://citizenmatters.in/bengaluru-buzz-oct-8th-to-14th/" class="read-more font-roboto">Read more <i class="fas fa-angle-right" aria-hidden="true"></i></a>
+</div>
+      </article>
+          <article class="post-list-item">
+        <div class="list-item-header">
+  <div class="list-item-header-inner">
+    <h4 class="title"><a href="https://citizenmatters.in/bengaluru-flooding-areas-simple-explanation-video/">Why certain areas in Bengaluru flood: A simple video explainer</a></h4>
+    <div class="post-meta">
+      <span class="coauthors-link">by <a href="https://citizenmatters.in/author/newsdesk/" title="Posts by News Desk" class="author url fn" rel="author">News Desk</a></span>      <span class="dot"></span>
+      <span class="post-date">October 14, 2022</span>
+    </div>
+  </div>
+  <div class="orbit-thumbnail-bg lazyload" style="" data-back="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/02/floods_bengaluru_sept22_aicctu.jpg">
+    <a href="https://citizenmatters.in/bengaluru-flooding-areas-simple-explanation-video/"></a>
+  </div>
+</div>
+<div class="list-item-body">
+  <p class="post-excerpt">Bengaluru witnessed one of its worst floods in September this year. The city received more than 800mm rain, since June. Heavy rains led to flooding of many parts of the city in the east, southeast, and northeast, inundating neighbourhoods and houses and damaging vehicles. Tractors and boats were used to evacuate people from homes in flooded neighbourhoods. Bengaluru's IT corridor was among the worst affected. Large swathes of the city were flooded, normal life was disrupted, and the apathy of the authorities raised many questions.&nbsp; In search of answers Several reasons have been cited for the flooding: from rapid and&hellip;</p>
+  <a href="https://citizenmatters.in/bengaluru-flooding-areas-simple-explanation-video/" class="read-more font-roboto">Read more <i class="fas fa-angle-right" aria-hidden="true"></i></a>
+</div>
+      </article>
+      </div>
+  <div class="archive-pagination font-roboto">
+ 
+	<nav class="navigation pagination" aria-label="Posts pagination">
+		<h2 class="screen-reader-text">Posts pagination</h2>
+		<div class="nav-links"><a class="prev page-numbers" href="https://citizenmatters.in/city/bengaluru/page/68/"><i class="fas fa-angle-left" aria-hidden="true"></i></a>
+<a class="page-numbers" href="https://citizenmatters.in/city/bengaluru/">1</a>
+<span class="page-numbers dots">&hellip;</span>
+<a class="page-numbers" href="https://citizenmatters.in/city/bengaluru/page/68/">68</a>
+<span aria-current="page" class="page-numbers current">69</span>
+<a class="page-numbers" href="https://citizenmatters.in/city/bengaluru/page/70/">70</a>
+<span class="page-numbers dots">&hellip;</span>
+<a class="page-numbers" href="https://citizenmatters.in/city/bengaluru/page/722/">722</a>
+<a class="next page-numbers" href="https://citizenmatters.in/city/bengaluru/page/70/"><i class="fas fa-angle-right" aria-hidden="true"></i></a></div>
+	</nav></div>
+  </div>
+
+    </main> <!-- end of main section  -->
+    <footer>
+      <div class="container-fluid">
+        <aside id="siteorigin-panels-builder-6" class="widget widget_siteorigin-panels-builder"><div id="pl-w68e8ecb0992f4"  class="panel-layout" ><div id="pg-w68e8ecb0992f4-0"  class="panel-grid panel-has-style" ><div class="siteorigin-panels-stretch panel-row-style panel-row-style-for-w68e8ecb0992f4-0" data-stretch-type="full-width-stretch" ><div id="pgc-w68e8ecb0992f4-0-0"  class="panel-grid-cell" ><div class="panel-cell-style panel-cell-style-for-w68e8ecb0992f4-0-0" ><div id="panel-w68e8ecb0992f4-0-0-0" class="so-panel widget widget_sow-image panel-first-child" data-index="0" ><div
+			
+			class="so-widget-sow-image so-widget-sow-image-default-8b5b6f678277"
+			
+		>
+<div class="sow-image-container">
+			<a href="https://citizenmatters.in"
+					>
+			<img 
+ src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAB4AQAAAABgbvKNAAAAAnRSTlMAAHaTzTgAAAAbSURBVFjD7cGBAAAAAMOg+VMf4QJVAQAAAMA3EkgAAXRhAXsAAAAASUVORK5CYII=" width="300" height="120"   title="CM-LOGO WITH TYPE NATIONAL FULL RES" alt="" decoding="async" 	 class="so-widget-image lazyload" data-src="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES-300x120.png" data-srcset="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES-300x120.png 300w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES-1024x410.png 1024w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES-768x307.png 768w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES-1536x614.png 1536w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES.png 1920w" data-max-width="300" data-sizes="auto" data-eio-rwidth="300" data-eio-rheight="120" /><noscript><img 
+	src="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES-300x120.png" width="300" height="120" srcset="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES-300x120.png 300w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES-1024x410.png 1024w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES-768x307.png 768w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES-1536x614.png 1536w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2024/03/CM-LOGO-WITH-TYPE-NATIONAL-FULL-RES.png 1920w" sizes="(max-width: 300px) 100vw, 300px" title="CM-LOGO WITH TYPE NATIONAL FULL RES" alt="" decoding="async" 		class="so-widget-image" data-eio="l" /></noscript>
+			</a></div>
+
+</div></div><div id="panel-w68e8ecb0992f4-0-0-1" class="so-panel widget widget_sow-editor" data-index="1" ><div class="panel-widget-style panel-widget-style-for-w68e8ecb0992f4-0-0-1" ><div
+			
+			class="so-widget-sow-editor so-widget-sow-editor-base"
+			
+		>
+<div class="siteorigin-widget-tinymce textwidget">
+	<p><span style="font-weight: 400;">Civic media with insightful reports, ideas and solutions for better cities</span></p>
+</div>
+</div></div></div><div id="panel-w68e8ecb0992f4-0-0-2" class="so-panel widget widget_sow-social-media-buttons panel-last-child" data-index="2" ><div
+			
+			class="so-widget-sow-social-media-buttons so-widget-sow-social-media-buttons-flat-d9caffb950c8"
+			
+		>
+
+<div class="social-media-button-container">
+	
+		<a 
+		class="ow-button-hover sow-social-media-button-instagram-0 sow-social-media-button" title="Citizen Matters on Instagram" aria-label="Citizen Matters on Instagram" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/citizenmatters/" 		>
+			<span>
+								<span class="sow-icon-fontawesome sow-fab" data-sow-icon="&#xf16d;"
+		 
+		aria-hidden="true"></span>							</span>
+		</a>
+	
+		<a 
+		class="ow-button-hover sow-social-media-button-facebook-0 sow-social-media-button" title="Citizen Matters on Facebook" aria-label="Citizen Matters on Facebook" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/citizenmatters" 		>
+			<span>
+								<span class="sow-icon-fontawesome sow-fab" data-sow-icon="&#xf39e;"
+		 
+		aria-hidden="true"></span>							</span>
+		</a>
+	
+		<a 
+		class="ow-button-hover sow-social-media-button-linkedin-0 sow-social-media-button" title="Citizen Matters on Linkedin" aria-label="Citizen Matters on Linkedin" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/company/citizen-matters/" 		>
+			<span>
+								<span class="sow-icon-fontawesome sow-fab" data-sow-icon="&#xf0e1;"
+		 
+		aria-hidden="true"></span>							</span>
+		</a>
+	
+		<a 
+		class="ow-button-hover sow-social-media-button-youtube-0 sow-social-media-button" title="Citizen Matters on Youtube" aria-label="Citizen Matters on Youtube" target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/channel/UC3FCPDAYkYSh4WDc2x4t8Ww" 		>
+			<span>
+								<span class="sow-icon-fontawesome sow-fab" data-sow-icon="&#xf167;"
+		 
+		aria-hidden="true"></span>							</span>
+		</a>
+	</div>
+</div></div></div></div><div id="pgc-w68e8ecb0992f4-0-1"  class="panel-grid-cell" ><div id="panel-w68e8ecb0992f4-0-1-0" class="so-panel widget widget_sow-editor panel-first-child" data-index="3" ><div class="panel-widget-style panel-widget-style-for-w68e8ecb0992f4-0-1-0" ><div
+			
+			class="so-widget-sow-editor so-widget-sow-editor-base"
+			
+		>
+<div class="siteorigin-widget-tinymce textwidget">
+	<p>Subscribe to our newsletter! <strong><a href="/subscribe/">Sign up here.</a></strong></p>
+</div>
+</div></div></div><div id="panel-w68e8ecb0992f4-0-1-1" class="so-panel widget widget_siteorigin-panels-builder panel-last-child" data-index="4" ><div class="panel-widget-style panel-widget-style-for-w68e8ecb0992f4-0-1-1" ><div id="pl-w683043bff38cf"  class="panel-layout" ><div id="pg-w683043bff38cf-0"  class="panel-grid panel-no-style" ><div id="pgc-w683043bff38cf-0-0"  class="panel-grid-cell" ><div id="panel-w683043bff38cf-0-0-0" class="so-panel widget widget_nav_menu panel-first-child panel-last-child" data-index="0" ><div class="footer-menu panel-widget-style panel-widget-style-for-w683043bff38cf-0-0-0" ><h3 class="widget-title">Information</h3><div class="menu-footer-about-container"><ul id="menu-footer-about" class="menu"><li id="menu-item-40021" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40021"><a href="https://citizenmatters.in/about-us/">About Us</a></li>
+<li id="menu-item-40022" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40022"><a href="https://oorvani.org/team">Team</a></li>
+<li id="menu-item-40023" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40023"><a href="https://oorvani.org/awards">Awards</a></li>
+<li id="menu-item-40024" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40024"><a href="https://oorvani.org/openings">Openings</a></li>
+</ul></div></div></div></div><div id="pgc-w683043bff38cf-0-1"  class="panel-grid-cell" ><div id="panel-w683043bff38cf-0-1-0" class="so-panel widget widget_nav_menu panel-first-child panel-last-child" data-index="1" ><div class="footer-menu panel-widget-style panel-widget-style-for-w683043bff38cf-0-1-0" ><h3 class="widget-title">Get Involved</h3><div class="menu-footer-get-involved-container"><ul id="menu-footer-get-involved" class="menu"><li id="menu-item-40031" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40031"><a href="https://citizenmatters.in/submit/">Submit Article</a></li>
+<li id="menu-item-40032" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-40032"><a href="https://citizenmatters.in/section/events/">Attend Events</a></li>
+<li id="menu-item-75501" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-75501"><a href="https://oorvani.org/learning">Civic Learning Hub</a></li>
+<li id="menu-item-75502" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-75502"><a href="https://opencity.in">Open City</a></li>
+</ul></div></div></div></div><div id="pgc-w683043bff38cf-0-2"  class="panel-grid-cell" ><div id="panel-w683043bff38cf-0-2-0" class="so-panel widget widget_nav_menu panel-first-child panel-last-child" data-index="2" ><div class="footer-menu panel-widget-style panel-widget-style-for-w683043bff38cf-0-2-0" ><h3 class="widget-title">Policies</h3><div class="menu-footer-policies-container"><ul id="menu-footer-policies" class="menu"><li id="menu-item-40035" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40035"><a href="https://citizenmatters.in/privacy-policy-2/">Privacy Policy</a></li>
+<li id="menu-item-40036" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40036"><a href="https://citizenmatters.in/terms-and-conditions/">Terms and Conditions</a></li>
+<li id="menu-item-40037" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-40037"><a href="/terms-and-conditions/#reprint-permissions">Republishing</a></li>
+<li id="menu-item-40033" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40033"><a href="https://citizenmatters.in/comment-policy-and-disclaimer/">Comment Policy and Disclaimer</a></li>
+<li id="menu-item-40034" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-40034"><a href="https://citizenmatters.in/grievance-redressal/">Grievance Redressal</a></li>
+</ul></div></div></div></div><div id="pgc-w683043bff38cf-0-3"  class="panel-grid-cell" ><div id="panel-w683043bff38cf-0-3-0" class="so-panel widget widget_sow-editor panel-first-child panel-last-child" data-index="3" ><div
+			
+			class="so-widget-sow-editor so-widget-sow-editor-base"
+			
+		>
+<div class="siteorigin-widget-tinymce textwidget">
+	<p>A Programme of</p>
+<p><img decoding="async" class="alignnone wp-image-85497 size-medium lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABUAQAAAAAQADfAAAAAAnRSTlMAAHaTzTgAAAAaSURBVEjH7cEBDQAAAMKg909tDjegAAAA/gwMzAAB+5U/6AAAAABJRU5ErkJggg==" alt="" width="300" height="84"   data-src="https://citizenmatters.in/wp-content/uploads/2025/05/oorvani-logo-300x84.png" data-srcset="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2025/05/oorvani-logo-300x84.png 300w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2025/05/oorvani-logo-768x216.png 768w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2025/05/oorvani-logo.png 937w" data-max-width="300" data-sizes="auto" data-eio-rwidth="300" data-eio-rheight="84" /><noscript><img decoding="async" class="alignnone wp-image-85497 size-medium" src="https://citizenmatters.in/wp-content/uploads/2025/05/oorvani-logo-300x84.png" alt="" width="300" height="84" srcset="https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2025/05/oorvani-logo-300x84.png 300w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2025/05/oorvani-logo-768x216.png 768w, https://images-citizenmatters.sgp1.digitaloceanspaces.com/wp-content/uploads-new/2025/05/oorvani-logo.png 937w" sizes="(max-width: 300px) 100vw, 300px" data-eio="l" /></noscript></p>
+</div>
+</div></div></div></div></div></div></div></div></div></div></div></aside>      </div>
+      <div class="scroll-top"><a href="#top" class="back-to-top" aria-label="Back to top"><i aria-hidden="true" class="fas fa-angle-up"></i></a></div>
+    </footer>
+    <!-- SEARCH MODAL -->
+    <div id="search-modal" class="czm-modal" tabindex="-1" role="dialog">
+      <div class="modal-backdrop"></div>
+      <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
+        <div class="modal-header" id="modalTitle">
+          <button class="close-modal" type="button" aria-label="Close modal" data-dismiss="czm-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="search-field">
+            <form role="search" method="get" class="search-form" action="https://citizenmatters.in/">
+  <label class="screen-reader-text" for="s">Search for:</label>
+  <input type="text" autocomplete="off" placeholder="type keyword(s) here" class="search-input" name="s" id="s" />
+  <button type="submit" class="search-submit">Search</button>
+</form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- end of #site  -->
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/citizen-matters-wp-theme/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+
+<!-- Koko Analytics v2.5.3 - https://www.kokoanalytics.com/ -->
+<script>
+(()=>{var e=window.koko_analytics,s=["utm_source","utm_medium","utm_campaign"],d=/bot|crawl|spider|seo|lighthouse|facebookexternalhit|preview|prerender|headless|phantom|scrapy|python|curl|wget|go-http|okhttp|node-fetch|axios|java\/|libwww|http[-_]?client|monitor|uptime|pingdom|statuscake|validator|scanner/i;function u(){let t={},n=new URLSearchParams(window.location.search),c=new URLSearchParams(window.location.hash.substring(1));return s.forEach(a=>{let o=n.get(a)||c.get(a);o&&(t[a]=o)}),t}function h(t,n){if(typeof navigator.sendBeacon=="function"){navigator.sendBeacon(t,n);return}fetch(t,{method:"POST",body:n,keepalive:!0,credentials:"same-origin"}).catch(()=>{})}e.trackPageview=function(t,n){if(d.test(navigator.userAgent)||window._phantom||window.__nightmare||window.navigator.webdriver||window.Cypress){console.debug("Koko Analytics: Ignoring call to trackPageview because user agent is a bot or this is a headless browser.");return}h(e.url,new URLSearchParams({action:"koko_analytics_collect",pa:t,po:n,r:document.referrer.indexOf(e.site_url)==0?"":document.referrer,m:e.use_cookie?"c":e.method[0],...u()}))};function r(){e.trackPageview(e.path,e.post_id)}function i(){e.autotracked||(r(),e.autotracked=!0)}document.prerendering?document.addEventListener("prerenderingchange",i,{once:!0}):document.visibilityState==="hidden"||document.visibilityState==="prerender"?document.addEventListener("visibilitychange",()=>{document.visibilityState==="visible"&&i()}):i();window.addEventListener("pageshow",t=>{t.persisted&&r()});})();
+</script>
+
+<style media="all" id="siteorigin-panels-layouts-footer">/* Layout w683043bff38cf */ #pgc-w683043bff38cf-0-0 , #pgc-w683043bff38cf-0-1 { width:22.459%;width:calc(22.459% - ( 0.77540983606557 * 30px ) ) } #pgc-w683043bff38cf-0-2 { width:25%;width:calc(25% - ( 0.75 * 30px ) ) } #pgc-w683043bff38cf-0-3 { width:30.082%;width:calc(30.082% - ( 0.69918032786885 * 30px ) ) } #pl-w683043bff38cf .so-panel { margin-bottom:30px } #pl-w683043bff38cf .so-panel:last-of-type { margin-bottom:0px } #pg-w683043bff38cf-0.panel-has-style > .panel-row-style, #pg-w683043bff38cf-0.panel-no-style { -webkit-align-items:flex-start;align-items:flex-start } #pgc-w683043bff38cf-0-2 { align-self:auto } @media (max-width:780px){ #pg-w683043bff38cf-0.panel-no-style, #pg-w683043bff38cf-0.panel-has-style > .panel-row-style, #pg-w683043bff38cf-0 { -webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column } #pg-w683043bff38cf-0 > .panel-grid-cell , #pg-w683043bff38cf-0 > .panel-row-style > .panel-grid-cell { width:100%;margin-right:0 } #pgc-w683043bff38cf-0-0 , #pgc-w683043bff38cf-0-1 , #pgc-w683043bff38cf-0-2 { margin-bottom:30px } #pl-w683043bff38cf .panel-grid-cell { padding:0 } #pg-w683043bff38cf-0 .panel-grid-cell-empty { display:none } #pl-w683043bff38cf .panel-grid .panel-grid-cell-mobile-last { margin-bottom:0px }  } /* Layout w68e8ecb0992f4 */ #pgc-w68e8ecb0992f4-0-0 { width:30.0268% } #pl-w68e8ecb0992f4 #panel-w68e8ecb0992f4-0-0-1 { margin:0px 0px 0px 0px } #pgc-w68e8ecb0992f4-0-1 { width:69.9732% } #pl-w68e8ecb0992f4 .so-panel { margin-bottom:30px } #pl-w68e8ecb0992f4 .so-panel:last-of-type { margin-bottom:0px } #pg-w68e8ecb0992f4-0> .panel-row-style { background-color:#f1f1f1;border-top:1px solid #ccc;margin-top:45px } #pg-w68e8ecb0992f4-0.panel-has-style > .panel-row-style, #pg-w68e8ecb0992f4-0.panel-no-style { -webkit-align-items:flex-start;align-items:flex-start } #pgc-w68e8ecb0992f4-0-0> .panel-cell-style { padding:50px 50px 50px 50px;border-right:1px solid #ccc } #pgc-w68e8ecb0992f4-0-0 { align-self:auto } #panel-w68e8ecb0992f4-0-0-1> .panel-widget-style { font-family:'Roboto', sans-serif;font-size:.8em;line-height:.8em } #panel-w68e8ecb0992f4-0-1-0> .panel-widget-style { padding:25px 25px 25px 25px;border-bottom:1px solid #ccc } #panel-w68e8ecb0992f4-0-1-1> .panel-widget-style { padding:0px 30px 0px 30px;min-height:200px } @media (max-width:780px){ #pg-w68e8ecb0992f4-0.panel-no-style, #pg-w68e8ecb0992f4-0.panel-has-style > .panel-row-style, #pg-w68e8ecb0992f4-0 { -webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column } #pg-w68e8ecb0992f4-0 > .panel-grid-cell , #pg-w68e8ecb0992f4-0 > .panel-row-style > .panel-grid-cell { width:100%;margin-right:0 } #pgc-w68e8ecb0992f4-0-0 { margin-bottom:30px } #pl-w68e8ecb0992f4 .panel-grid-cell { padding:0 } #pg-w68e8ecb0992f4-0 .panel-grid-cell-empty { display:none } #pl-w68e8ecb0992f4 .panel-grid .panel-grid-cell-mobile-last { margin-bottom:0px } #panel-w68e8ecb0992f4-0-1-1> .panel-widget-style { padding:0px 10px 0px 10px }  } </style><script id="eio-lazy-load-js-before">
+const eio_lazy_vars = {"bg_min_dpr":1.1,"exactdn_domain":"","safe_paths":["\/wp-content\/plugins","\/wp-content\/themes","\/wp-includes\/"],"safe_domains":["images-citizenmatters.sgp1.digitaloceanspaces.com"],"skip_autoscale":0,"threshold":0,"use_dpr":1};Object.freeze(eio_lazy_vars);
+//# sourceURL=eio-lazy-load-js-before
+</script>
+<script async data-wp-strategy="async" id="eio-lazy-load-js" src="https://citizenmatters.in/wp-content/plugins/ewww-image-optimizer/includes/lazysizes.min.js?ver=880"></script>
+<script id="orbit-common-js" src="https://citizenmatters.in/wp-content/plugins/orbit-bundle/dist/js/common.js?ver=1791968747"></script>
+<script id="oq-script-js" src="https://citizenmatters.in/wp-content/plugins/orbit-bundle/orbit-query/js/orbit-query.js?ver=1791968747"></script>
+<script id="orbit-slides-js" src="https://citizenmatters.in/wp-content/plugins/orbit-bundle/dist/js/orbit-slides.js?ver=1791968747"></script>
+<script id="slick-js" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+<script id="czm-core-js-js" src="https://citizenmatters.in/wp-content/themes/citizen-matters-wp-theme/js/main.js?ver=1.3.1"></script>
+<script id="siteorigin-panels-front-styles-js-extra">
+var panelsStyles = {"fullContainer":"body","stretchRows":"1"};
+//# sourceURL=siteorigin-panels-front-styles-js-extra
+</script>
+<script id="siteorigin-panels-front-styles-js" src="https://citizenmatters.in/wp-content/plugins/siteorigin-panels/js/styling.min.js?ver=2.36.1"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://citizenmatters.in/wp-includes/js/wp-emoji-release.min.js?ver=7.1.2"}}
+</script>
+<script type="module">
+/*! This file is auto-generated */
+var e="script#wp-emoji-settings",t=document.querySelector(e);if(!(t instanceof HTMLScriptElement))throw new Error("Element missing: "+e);const r=JSON.parse(t.text),s=(window._wpemojiSettings=r,"wpEmojiSettingsSupports"),o=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(s,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const r=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===r[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,r){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!r(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,r){let a;const s=(a="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),o=(s.textBaseline="top",s.font="600 32px Arial",{});return e.forEach(e=>{o[e]=t(s,e,n,r)}),o}function a(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}r.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(s));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(o),u.toString(),c.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"});const a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=e=>{i(n=e.data),a.terminate(),t(n)})}catch(e){}i(n=f(o,u,c,p))}t(n)}).then(e=>{for(const n in e)r.supports[n]=e[n],r.supports.everything=r.supports.everything&&r.supports[n],"flag"!==n&&(r.supports.everythingExceptFlag=r.supports.everythingExceptFlag&&r.supports[n]);var t;r.supports.everythingExceptFlag=r.supports.everythingExceptFlag&&!r.supports.flag,r.supports.everything||((t=r.source||{}).concatemoji?a(t.concatemoji):t.wpemoji&&t.twemoji&&(a(t.twemoji),a(t.wpemoji)))});
+//# sourceURL=https://citizenmatters.in/wp-includes/js/wp-emoji-loader.min.js
+</script>
+</body>
+</html>
+
+

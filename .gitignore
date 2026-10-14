@@ -27,7 +27,9 @@ Thumbs.db
 *.7z
 
 # Entire data directory (raw, interim, mock, processed)
-data/
+data/*
+!data/evidence/
+!data/evidence/**
 
 # Deliverables datasets and archives (keep docs, reports, figures, metadata)
 delivery/*.csv
