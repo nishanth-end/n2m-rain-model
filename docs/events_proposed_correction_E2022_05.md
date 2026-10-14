@@ -18,7 +18,7 @@ The proposed correction to move `E2022_05` from 5 May 2022 to 17–18 May 2022 i
    - **Saved Evidence File**: `data/evidence/dh_2022_05_06_1106860.txt` (SHA-256: `3b79313cb17d8481ff2308c35fc18600d3d526fc8efc86ea1177fe7e6c46644f`)
    - **Verbatim Evidence Quotes**:
      > *"Parts of Rainbow Drive, an apartment complex located on Sarjapur Road, were also flooded."*
-     > *"Bommanahalli, Mahadevapura, Yelahanka, and Bengaluru South received up to 70 mm of rainfall, while the showers were less intense in the core area, data released by the Karnataka State Natural Disaster Monitoring Centre (KSNDMC) on Thursday showed."*
+     > *"Bommanahalli, Mahadevapura, Yelahanka, and Bengaluru South received up to 70 mm of rainfall"* (12 words)
 
 2. **Reconciled Full Event Timeline**:
    - **Thursday, 05 May 2022**: Intense pre-monsoon storm strikes south/east Bengaluru. KSNDMC gauges record up to **70 mm** in Mahadevapura (Sarjapur Road) and Bommanahalli. Rainbow Drive Layout is flooded, stranding residents.

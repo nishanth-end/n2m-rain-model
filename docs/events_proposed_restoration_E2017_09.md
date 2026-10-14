@@ -33,10 +33,10 @@ Contemporaneous news coverage has been retrieved and verified:
 - **Publish Date**: **2017-09-27** (23:03 AST)
 - **Saved Evidence File**: `data/evidence/gt_2017_09_27_565360.txt` (SHA-256: `955833aa3b1a1ddf4fa6e191316f7358b1ee3fdf9b76e27e8080f339f40fe3fc`)
 - **Verbatim Evidence Quotes**:
-  > *"Even upscale suburbs like Koramangala and Jayanagar witnessed flash floods as the drains, filled with silt and filth, failed to cope with the huge amounts of water. Rainwater also entered homes in many areas."* (27 words total; verbatim sentence: *"Even upscale suburbs like Koramangala and Jayanagar witnessed flash floods as the drains, filled with silt and filth, failed to cope"*, 21 words)
+  > *"Even upscale suburbs like Koramangala and Jayanagar witnessed flash floods as the drains, filled with silt and filth, failed to cope"* (21 words)
   > *"The heavy rains which began on Tuesday night led to drains overflowing onto roads in several places, leading to water-logging."* (20 words)
-  > *"“The city received heavy rainfall, with a few areas receiving a maximum of 196mm as recorded at 8.30am,” an official from the Karnataka State Natural Disaster Monitoring Centre (KSNDMC) said."* (26 words; station context: *"with a few areas receiving a maximum of 196mm as recorded at 8.30am"*, 14 words)
-  > *"Fifty-five-year-old Meenamma, a resident of Krishnarajapuram, a suburb in the eastern part of the city, died yesterday after a night of incessant rain, police said. “Her house was inundated after the rainfall.”"*
+  > *"with a few areas receiving a maximum of 196mm as recorded at 8.30am"* (14 words)
+  > *"Fifty-five-year-old Meenamma, a resident of Krishnarajapuram, a suburb in the eastern part of the city, died yesterday after a night of incessant rain"* (23 words)
 
 ---
 

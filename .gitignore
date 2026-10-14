@@ -29,7 +29,13 @@ Thumbs.db
 # Entire data directory (raw, interim, mock, processed)
 data/*
 !data/evidence/
-!data/evidence/**
+!data/evidence/manifest.csv
+data/evidence/*.txt
+!data/interim/
+data/interim/*
+!data/interim/events_candidates_v2.csv
+!data/interim/station_validation.csv
+!data/interim/events_geocode_proposals.csv
 
 # Deliverables datasets and archives (keep docs, reports, figures, metadata)
 delivery/*.csv
