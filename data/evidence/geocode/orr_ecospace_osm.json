@@ -1,0 +1,79 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1305 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 3771995984,
+      "lat": 12.9396463,
+      "lon": 77.695249,
+      "timestamp": "2024-07-18T08:43:09Z",
+      "version": 5,
+      "changeset": 154089825,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 6968263669,
+      "lat": 12.9409927,
+      "lon": 77.6960769,
+      "timestamp": "2025-10-18T17:37:56Z",
+      "version": 2,
+      "changeset": 173461166,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12060861676,
+      "lat": 12.9412314,
+      "lon": 77.6962219,
+      "timestamp": "2024-07-18T08:43:09Z",
+      "version": 1,
+      "changeset": 154089825,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "way",
+      "id": 377096329,
+      "timestamp": "2025-10-18T17:37:56Z",
+      "version": 19,
+      "changeset": 173461166,
+      "user": "uknown-gryphus",
+      "uid": 2425805,
+      "nodes": [
+        3771995984,
+        6968263669,
+        12060861676
+      ],
+      "tags": {
+        "cutting": "yes",
+        "dual_carriageway": "yes",
+        "foot": "no",
+        "highway": "trunk",
+        "int_ref": "AH43",
+        "lanes": "3",
+        "layer": "-1",
+        "maxspeed": "60",
+        "name": "Outer Ring Road",
+        "name:kn": "\u0cb9\u0cca\u0cb0 \u0cb5\u0cb0\u0ccd\u0ca4\u0cc1\u0cb2 \u0cb0\u0cb8\u0ccd\u0ca4\u0cc6",
+        "official_name": "KC Reddy Ring Road",
+        "official_name:etymology:wikidata": "Q6323235",
+        "official_name:kn": "\u0c95\u0ccd\u0c9a\u0ccd \u0cb0\u0cc6\u0ca1\u0ccd\u0ca1\u0cbf \u0cb5\u0cb0\u0ccd\u0ca4\u0cc1\u0cb2 \u0cb0\u0cb8\u0ccd\u0ca4\u0cc6\u0ca8\u0ccd\u0c9f\u0ccd",
+        "oneway": "yes",
+        "ref": "NH44;NH48",
+        "ref_1": "NH48",
+        "ref:old": "NH7",
+        "short_name": "ORR",
+        "sidewalk": "no",
+        "source:official_name": "https://timesofindia.indiatimes.com/city/bengaluru/kc-reddy-vartula-raste-30km-orr-stretch-named-after-first-mysore-cm/articleshow/107002205.cms",
+        "surface": "asphalt"
+      }
+    }
+  ]
+}

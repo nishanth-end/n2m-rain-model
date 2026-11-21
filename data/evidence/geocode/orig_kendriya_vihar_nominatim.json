@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 252329655,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 96710695,
+    "lat": "13.1066272",
+    "lon": "77.5997205",
+    "class": "landuse",
+    "type": "residential",
+    "place_rank": 24,
+    "importance": 0.08007094453345538,
+    "addresstype": "residential",
+    "name": "Kendriya Vihar Apartments",
+    "display_name": "Kendriya Vihar Apartments, Akash Ward, Bengaluru North City Corporation, Bengaluru, Yelahanka taluku, Bengaluru Urban, Karnataka, India",
+    "boundingbox": [
+      "13.1057625",
+      "13.1075275",
+      "77.5984541",
+      "77.6015358"
+    ]
+  }
+]

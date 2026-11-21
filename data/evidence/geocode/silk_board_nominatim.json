@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 253200801,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 245806441,
+    "lat": "12.9162432",
+    "lon": "77.6214473",
+    "class": "landuse",
+    "type": "commercial",
+    "place_rank": 24,
+    "importance": 0.08007094453345538,
+    "addresstype": "commercial",
+    "name": "Central Silk Board",
+    "display_name": "Central Silk Board, BTM Layout, Viswamanava Kuvempu Ward, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, India",
+    "boundingbox": [
+      "12.9156418",
+      "12.9167132",
+      "77.6199635",
+      "77.6226950"
+    ]
+  }
+]

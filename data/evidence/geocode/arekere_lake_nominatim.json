@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 253233261,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "relation",
+    "osm_id": 19509700,
+    "lat": "12.8831662",
+    "lon": "77.5986134",
+    "class": "water",
+    "type": "lake",
+    "place_rank": 20,
+    "importance": 0.1334042778667887,
+    "addresstype": "lake",
+    "name": "Arekere Lake",
+    "display_name": "Arekere Lake, Arakere, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, India",
+    "boundingbox": [
+      "12.8818655",
+      "12.8843198",
+      "77.5963551",
+      "77.6013430"
+    ]
+  }
+]

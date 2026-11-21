@@ -1,0 +1,97 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1331 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 7389380547,
+      "lat": 12.9286565,
+      "lon": 77.7029863,
+      "timestamp": "2024-08-27T15:48:37Z",
+      "version": 2,
+      "changeset": 155838836,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 12140278923,
+      "lat": 12.9291852,
+      "lon": 77.7031748,
+      "timestamp": "2026-09-14T05:05:47Z",
+      "version": 2,
+      "changeset": 188990897,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 12140278926,
+      "lat": 12.9300067,
+      "lon": 77.7034678,
+      "timestamp": "2024-08-27T15:48:37Z",
+      "version": 1,
+      "changeset": 155838836,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 12140278928,
+      "lat": 12.9284938,
+      "lon": 77.7034523,
+      "timestamp": "2024-08-27T15:48:37Z",
+      "version": 1,
+      "changeset": 155838836,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 12140278929,
+      "lat": 12.929945,
+      "lon": 77.7039984,
+      "timestamp": "2026-09-14T05:05:47Z",
+      "version": 2,
+      "changeset": 188990897,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 14179842261,
+      "lat": 12.928744,
+      "lon": 77.7030175,
+      "timestamp": "2026-09-14T05:05:47Z",
+      "version": 1,
+      "changeset": 188990897,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "way",
+      "id": 1311554394,
+      "timestamp": "2026-09-14T05:05:47Z",
+      "version": 2,
+      "changeset": 188990897,
+      "user": "Vonter",
+      "uid": 3926189,
+      "nodes": [
+        12140278929,
+        12140278926,
+        12140278923,
+        14179842261,
+        7389380547,
+        12140278928,
+        12140278929
+      ],
+      "tags": {
+        "leisure": "sports_centre",
+        "name": "Fisto Panathur PK Sports"
+      }
+    }
+  ]
+}

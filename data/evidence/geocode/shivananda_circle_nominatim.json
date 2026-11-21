@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 252652594,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 1343337482,
+    "lat": "12.9864723",
+    "lon": "77.5796813",
+    "class": "junction",
+    "type": "yes",
+    "place_rank": 30,
+    "importance": 7.094453345536e-05,
+    "addresstype": "junction",
+    "name": "Shivananda Circle",
+    "display_name": "Shivananda Circle, Shivananda Pause Park, Srikantan Layout, High Grounds, Sampangirama Nagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560001, India",
+    "boundingbox": [
+      "12.9863050",
+      "12.9866642",
+      "77.5795235",
+      "77.5798469"
+    ]
+  }
+]

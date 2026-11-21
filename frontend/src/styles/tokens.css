@@ -1,0 +1,102 @@
+:root {
+  /* Color Palette — Academic Cartography */
+  --bg-canvas: #f8f6f0;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f3efe6;
+  --bg-parchment: #eae4d5;
+  --bg-parchment-deep: #ded7c4;
+  --bg-dark: #121817;
+
+  /* Typography Colors */
+  --ink-primary: #151d1b;
+  --ink-secondary: #3b4945;
+  --ink-muted: #62726d;
+  --ink-faint: #8d9c97;
+  --ink-inverse: #fbfaf6;
+
+  /* Accent Tones */
+  --accent-water: #1b4965;
+  --accent-water-hover: #13364b;
+  --accent-water-light: #e8f1f5;
+  --accent-water-border: #b8d2df;
+
+  --accent-olive: #395646;
+  --accent-olive-light: #edf3ef;
+  --accent-olive-border: #c3d7cb;
+
+  /* Risk & Susceptibility Tiers */
+  --tier-high: #af382b;
+  --tier-high-hover: #8e2c21;
+  --tier-high-light: #faecea;
+  --tier-high-border: #e8b1a8;
+
+  --tier-moderate: #b87314;
+  --tier-moderate-hover: #965d0e;
+  --tier-moderate-light: #fdf4e7;
+  --tier-moderate-border: #ebd1aa;
+
+  --tier-baseline: #6d7d79;
+  --tier-baseline-light: #f0f2f1;
+  --tier-baseline-border: #cad3d0;
+
+  /* Borders & Rules */
+  --border-faint: #ebe6da;
+  --border-subtle: #ded8cb;
+  --border-medium: #c7beab;
+  --border-strong: #9e947f;
+  --border-focus: #1b4965;
+
+  /* Typography Families */
+  --font-serif: 'DM Serif Display', Georgia, Cambria, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, Menlo, monospace;
+
+  /* Type Scale */
+  --text-2xs: 0.65rem;
+  --text-xs: 0.72rem;
+  --text-sm: 0.82rem;
+  --text-base: 0.92rem;
+  --text-lg: 1.05rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.55rem;
+  --text-3xl: 2.1rem;
+  --text-4xl: 2.75rem;
+  --text-hero: 3.4rem;
+
+  /* Line Heights */
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Dimensions */
+  --container-max: 1360px;
+  --header-height: 64px;
+
+  /* Radii */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+
+  /* Shadows */
+  --shadow-subtle: 0 1px 3px rgba(21, 29, 27, 0.05);
+  --shadow-card: 0 2px 8px rgba(21, 29, 27, 0.07);
+  --shadow-overlay: 0 6px 20px rgba(21, 29, 27, 0.12);
+
+  /* Transitions */
+  --transition-fast: 0.12s ease;
+  --transition-normal: 0.2s ease;
+}

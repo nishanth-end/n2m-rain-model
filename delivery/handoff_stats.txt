@@ -1,0 +1,74 @@
+================================================================================
+N2M PREDICTIVE FLOOD ALERT SYSTEM: MEMBER 1 ML HANDOFF AUDIT STATS
+Source of truth computed directly from delivery/ files
+================================================================================
+
+1. DATASET DIMENSIONS
+   - Total rows: 1,764,158
+   - Total columns: 42
+   - Total unique 500 m grid cells: 3,026
+   - Total candidate stormy days: 583
+   - Total positive cell-days: 240 (Overall flood rate: 0.000136 or 0.0136%)
+
+2. POSITIVES PER EVENT (Seed vs 3x3 Buffer)
+Event ID   | Seed Positives  | Buffer Positives | Total Positives
+-----------------------------------------------------------------
+E2017_08   | 1               | 8                | 9              
+E2017_09   | 2               | 16               | 18             
+E2021_11   | 1               | 8                | 9              
+E2022_05   | 1               | 6                | 7              
+E2022_09   | 24              | 164              | 188            
+E2023_05   | 1               | 8                | 9              
+-----------------------------------------------------------------
+TOTAL      | 30              | 210              | 240            
+
+3. DISTINCT SEED CELLS & EVENTS
+   - Count of distinct seed cells: 10
+   - Distinct seed cell IDs: [555, 666, 774, 847, 897, 910, 977, 1444, 1478, 2882]
+   - Count of distinct events: 6
+   - Distinct event IDs: ['E2017_08', 'E2017_09', 'E2021_11', 'E2022_05', 'E2022_09', 'E2023_05']
+
+4. POSITIVES REMAINING IF E2022_09 IS HELD OUT
+   - Total positives remaining for training: 52
+   - Seed-only positives remaining: 6
+   - Buffer-only positives remaining: 46
+
+5. SPATIAL RAINFALL ALLOCATION (Positive Cells to CHIRPS Pixels)
+   - Number of distinct 0.05-degree CHIRPS pixels positive cells map to: 8
+   - CHIRPS pixel IDs: [11, 12, 13, 17, 20, 21, 31, 35]
+     * Pixel 11: 121 city cells map to this pixel (16 distinct positive cells)
+     * Pixel 12: 118 city cells map to this pixel (35 distinct positive cells)
+     * Pixel 13:  96 city cells map to this pixel ( 3 distinct positive cells)
+     * Pixel 17: 121 city cells map to this pixel ( 9 distinct positive cells)
+     * Pixel 20: 121 city cells map to this pixel ( 6 distinct positive cells)
+     * Pixel 21:  67 city cells map to this pixel ( 3 distinct positive cells)
+     * Pixel 31: 121 city cells map to this pixel ( 3 distinct positive cells)
+     * Pixel 35:  85 city cells map to this pixel ( 6 distinct positive cells)
+
+6. HEAVY RAINFALL (>= 60 mm) PIXEL-DAYS & LABEL COVERAGE
+   - In rainfall_daily.csv (May-Nov): 1 pixel-day with rain_mm >= 60.0 mm (Pixel 31 on 2017-09-08: 60.75 mm)
+   - In flood_dataset.parquet:
+     * Pixel-days with rain_1d_mm >= 60.0 mm: 1 (Carrying flood_label == 1: 0 / 1)
+     * Pixel-days with rain_3d_mm >= 60.0 mm: 1019 (Carrying flood_label == 1: 7 / 1019)
+     * Unlabelled heavy rain pixel-days (rain_3d >= 60 mm but flood_label == 0): 1012 out of 1019
+
+7. LABEL TIMING & FORECAST HORIZON LEAKAGE AUDIT
+   - Observation Date Alignment: At row (cell_id, date=d), flood_label indicates flooding occurring on day d.
+   - Features at row d: Features include rain_1d_mm (24-hour total ending on day d inclusive) and rain_3d_mm (days d-2, d-1, d).
+   - Finding: The label is SAME-DAY CONCURRENT (diagnostic / nowcast) with the rainfall features, NOT shifted ahead.
+   - Operational Leakage Risk: In an operational 24-48h ahead early warning setting, day d's realized rainfall is UNKNOWN at morning of day d.
+     If a model trained on rain_1d_mm is evaluated without numerical weather prediction (NWP) forecasts, this represents TEMPORAL LEAKAGE.
+     For a true 24h ahead alert, the model must either: (1) use antecedent lags only (rain_lag1_mm..14_mm) to predict flood on day d,
+     or (2) ingest an external 24h quantitative precipitation forecast (QPF) in place of rain_1d_mm.
+
+8. CANDIDATE STORMY DAYS SELECTION RULE
+   - Quoted Rule from pipeline/generate_report_docx.py lines 294-295:
+     'Captures days where the maximum rain_3d_mm across the city reaches at least 10 mm, PLUS all calendar days from 14 days before to 7 days after each confirmed flood event.'
+   - Adherence: Exactly 583 candidate days selected across May 1 to Nov 30 in 2017, 2021, 2022, 2023. Trivial dry days outside flood windows are omitted.
+   - Implication: All 583 days retain 100% of the 3,026 cells (day_sampling_weight = 1.0). Deployed models must deploy the same candidate gate in front.
+
+9. STATUS OF LABEL-GAP & DATA ENRICHMENT TASKS
+   - (i) Rainiest unlabelled dates (11 Oct 2017, 7-8 Sep 2017, 26-27 Aug 2022): STILL OPEN (no verified media/civic reports in events.csv).
+   - (ii) 2024-2025 flood events: STILL OPEN (raw articles collected in evidence store, but outside 2017/2021-2023 study period; not ingested into master parquet).
+   - (iii) KSNDMC/IMD ground rain-gauge data: STILL OPEN (formal RTI/telemetry request drafted in docs/, but external telemetry not yet received/integrated).
+================================================================================

@@ -198,3 +198,60 @@ def test_quote_word_count_limit_and_key_sources(evidence_store):
         assert entry["publish_date"].startswith(item["date"]), (
             f"Date mismatch for '{item['name']}': {item['date']} != {entry['publish_date']}"
         )
+
+def test_station_validation_quotes(evidence_store):
+    """Verify that all quotes in data/interim/station_validation.csv are verbatim in evidence and <= 25 words."""
+    assert os.path.exists("data/interim/station_validation.csv"), "Missing station_validation.csv"
+    df = pd.read_csv("data/interim/station_validation.csv")
+
+    for _, row in df.iterrows():
+        st_name = row["station"]
+        src = str(row["source_file"])
+        quote = str(row["quote"])
+
+        if src in ("UNSOURCED", "NOT VERIFIABLE") or quote in ("UNSOURCED", "NOT VERIFIABLE"):
+            continue
+
+        entry = None
+        for e in evidence_store.values():
+            if e["text_file"] == src:
+                entry = e
+                break
+        assert entry is not None, f"Station '{st_name}' cites '{src}' which is not in evidence store"
+
+        n_words = count_words(quote)
+        assert n_words <= 25, f"Station quote '{st_name}' exceeds 25 words ({n_words} words): '{quote}'"
+
+        norm_q = normalize_text(quote)
+        assert norm_q in entry["content"], (
+            f"Station quote '{st_name}' not found verbatim in {src}!\nTarget quote: '{norm_q}'"
+        )
+
+def test_report_and_doc_quotes(evidence_store):
+    """Verify quoted sentences in reports/ and docs/ are verbatim and <= 25 words."""
+    doc_quotes = [
+        {
+            "src": "dh_2022_09_05_1142224.txt",
+            "quote": "The thunderstorm began around 8 pm and lashed almost all parts of the city."
+        },
+        {
+            "src": "tnm_2022_08_30_167351.txt",
+            "quote": "areas like Bellandur, Sarjapura Road, Whitefield, Outer Ring Road, and BEML Layout saw massive flooding."
+        },
+        {
+            "src": "tnm_2022_08_05_166550.txt",
+            "quote": "The layout, which consists of more than 300 houses, was cut off from help for over 72 hours due to the inundation."
+        }
+    ]
+    for item in doc_quotes:
+        n_words = count_words(item["quote"])
+        assert n_words <= 25, f"Report quote exceeds 25 words: {item['quote']}"
+        entry = None
+        for e in evidence_store.values():
+            if e["text_file"] == item["src"]:
+                entry = e
+                break
+        assert entry is not None, f"Source {item['src']} not found in evidence store"
+        assert normalize_text(item["quote"]) in entry["content"], f"Quote not found verbatim in {item['src']}"
+
+

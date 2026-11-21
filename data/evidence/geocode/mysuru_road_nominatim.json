@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 252068759,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 1323782723,
+    "lat": "12.9818233",
+    "lon": "77.5703237",
+    "class": "highway",
+    "type": "primary",
+    "place_rank": 26,
+    "importance": 0.0534042778667887,
+    "addresstype": "road",
+    "name": "Old Mysuru Road Underpass",
+    "display_name": "Old Mysuru Road Underpass, Cottonpete, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560023, India",
+    "boundingbox": [
+      "12.9816216",
+      "12.9820251",
+      "77.5702007",
+      "77.5704467"
+    ]
+  }
+]

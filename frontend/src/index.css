@@ -1,0 +1,19 @@
+/* ==========================================================================
+   N²M FLOOD PREDICTION MODEL — CARTOGRAPHIC CSS ARCHITECTURE
+   ========================================================================== */
+
+/* 1. Core Architecture & Design Tokens */
+@import './styles/tokens.css';
+@import './styles/reset.css';
+@import './styles/global.css';
+@import './styles/layout.css';
+@import './styles/components.css';
+
+/* 2. Component & Modular Page Styles */
+@import './components/Navigation.css';
+@import './components/Footer.css';
+@import './pages/HomePage.css';
+@import './pages/FloodMapPage.css';
+@import './pages/LiveSimulationPage.css';
+@import './pages/TelegramPage.css';
+@import './pages/CreatorsPage.css';

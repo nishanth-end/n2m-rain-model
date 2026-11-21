@@ -9,13 +9,13 @@ Single source of truth reference for all delivered files per Member 2's *Flood M
 | File Name | Format | Rows | Columns | Meaning |
 |---|:---:|:---:|:---:|---|
 | `cells_static.csv` | CSV | 3,026 | 16 | One row per 500 m grid cell with static terrain, hydrology, and urban features. |
-| `events.csv` | CSV | 11 | 19 | One row per documented flood report/zone; ground-truth event catalog. |
+| `events.csv` | CSV | 11 | 19 | One row per documented flood report/zone; ground-truth event catalog across 6 events. |
 | `rainfall_daily.csv` | CSV | 36,112 | 5 | Continuous daily rainfall calendar across 37 CHIRPS pixels (Apr–Nov of 2017, 2021, 2022, 2023). |
-| `flood_dataset.parquet` | Parquet | 1,809,548 | 40 | The primary model table: candidate days across all 4 study seasons for all 3,026 cells. |
-| `flood_dataset_event_windows.csv` | CSV | 27,234 | 40 | CSV extraction containing all cells across the 9 documented flood event days. |
-| `flood_dataset_pilot.parquet` | Parquet | 66,572 | 29 | Minimum first sample for testing (22 Aug to 12 Sep 2022). |
-| `flood_replay_E2022_09.parquet` | Parquet | 72,624 | 40 | Contiguous validation replay window for held-out event E2022_09 (-14 to +7 days). |
-| `validator_output.txt` | Text | 32 | - | Complete terminal output from `pipeline/validate_dataset.py`. |
+| `flood_dataset.parquet` | Parquet | 1,764,158 | 42 | The primary model table: candidate days across all 4 study seasons for all 3,026 cells (240 positives across 6 events). |
+| `flood_dataset_event_windows.csv` | CSV | 366,146 | 42 | CSV extraction containing all cells across the 121 documented flood event window days (-14 to +7 days around 6 events). |
+| `flood_dataset_pilot.parquet` | Parquet | 66,572 | 31 | Minimum first sample for testing (22 Aug to 12 Sep 2022). |
+| `flood_replay_E2022_09.parquet` | Parquet | 72,624 | 42 | Contiguous validation replay window for held-out event E2022_09 (-14 to +7 days, 188 positive labels). |
+| `validator_output.txt` | Text | 32 | - | Complete terminal output from `pipeline/validate_dataset.py` (0 failures). |
 
 ---
 
@@ -48,10 +48,10 @@ All numeric features are in **raw physical units** (no scaling, standardisation,
 | `dist_road_m` | float64 | m | $\ge 0$ | 0.0% | Euclidean distance from centroid to nearest OSM major road network. |
 | `lakes_within_1km` | int64 | count | 0 to 11 | 0.0% | Count of distinct dissolved waterbodies intersecting a 1 km centroid buffer. |
 | `flood_label` | int64 | flag | 0 or 1 | 0.0% | Binary target: 1 = documented flood/waterlogging; 0 = assumed dry. |
-| `label_source` | string | category | `{sar, hotspot_pdf, news, civic_report, none}` | 0.0% | Provenance of label: `hotspot_pdf` (Sajjan 2022), `news` (media reports), or `none`. |
+| `label_source` | string | category | `{sar, hotspot_pdf, news, civic_report, none, reported, buffered, restored}` | 0.0% | Provenance of label: `reported` / `hotspot_pdf` / `news` (direct civic/media records), `buffered` (spatial $3\times3$ lattice buffer), `restored` (audited media recovery), or `none`. |
 | `label_confidence` | string | category | `{high, medium, low}` | 0.0% | Confidence grade: `high` (verified hotspots), `medium` (named points), `low` (assumed 0 / unverified). |
 | `event_id` | string | code | `E{YYYY}_{MM}` or empty | 0.0% | Non-empty inside documented flood event windows; empty string outside. |
-| `day_sampling_weight` | float64 | weight | $\ge 1.0$ | 0.0% | Sampling weight: 1.0 (all 598 candidate days retained; no downsampling). |
+| `day_sampling_weight` | float64 | weight | $\ge 1.0$ | 0.0% | Sampling weight: 1.0 (all 583 candidate days retained; no downsampling). |
 
 ---
 

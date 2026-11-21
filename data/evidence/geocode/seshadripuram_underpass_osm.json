@@ -1,0 +1,72 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1318 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 2516368996,
+      "lat": 59.4764759,
+      "lon": 17.2471161,
+      "timestamp": "2013-11-01T16:40:15Z",
+      "version": 1,
+      "changeset": 18654213,
+      "user": "Zorac",
+      "uid": 501777
+    },
+    {
+      "type": "node",
+      "id": 2516369142,
+      "lat": 59.4764401,
+      "lon": 17.2468242,
+      "timestamp": "2013-11-01T16:40:18Z",
+      "version": 1,
+      "changeset": 18654213,
+      "user": "Zorac",
+      "uid": 501777
+    },
+    {
+      "type": "node",
+      "id": 2516369202,
+      "lat": 59.4765246,
+      "lon": 17.2468971,
+      "timestamp": "2013-11-01T16:40:19Z",
+      "version": 1,
+      "changeset": 18654213,
+      "user": "Zorac",
+      "uid": 501777
+    },
+    {
+      "type": "node",
+      "id": 2516369212,
+      "lat": 59.4763914,
+      "lon": 17.2470433,
+      "timestamp": "2013-11-01T16:40:19Z",
+      "version": 1,
+      "changeset": 18654213,
+      "user": "Zorac",
+      "uid": 501777
+    },
+    {
+      "type": "way",
+      "id": 244304856,
+      "timestamp": "2013-11-01T16:40:20Z",
+      "version": 1,
+      "changeset": 18654213,
+      "user": "Zorac",
+      "uid": 501777,
+      "nodes": [
+        2516369142,
+        2516369212,
+        2516368996,
+        2516369202,
+        2516369142
+      ],
+      "tags": {
+        "building": "yes"
+      }
+    }
+  ]
+}

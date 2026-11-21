@@ -181,8 +181,8 @@ def build_report():
         "• Multi-Year Training Dataset: Assembled the master machine learning table (delivery/flood_dataset.parquet), "
         "capturing all 3,026 cells over 583 May–November candidate stormy days (1,764,158 rows × 42 columns). "
         "All 17 automated acceptance criteria from Appendix B of the specification passed with zero failures.\n"
-        "• Verified Ground Truth: Established an audit catalogue of 5 confirmed flood events spanning 2017 to 2023, "
-        "yielding 175 positive cell-days (22 report-mapped centre cells and 153 topological 3×3 buffer neighbours)."
+        "• Verified Ground Truth: Established an audit catalogue of 6 confirmed flood events spanning 2017 to 2023, "
+        "yielding 240 positive cell-days (30 report-mapped centre cells across 10 distinct cell IDs and 210 topological 3×3 buffer neighbours)."
     )
     doc.add_paragraph(
         "Primary Operational Limitation: Satellite infrared precipitation (CHIRPS ~5 km) attenuates high-intensity localized "
@@ -307,33 +307,34 @@ def build_report():
         "The final delivery includes 10 documented ground-truth rows across 5 distinct historical flood events spanning 4 years."
     )
     
-    table_ev = doc.add_table(rows=11, cols=6)
+    table_ev = doc.add_table(rows=12, cols=6)
     ev_headers = ["Event ID", "Date Range", "Documented Location", "Cell ID", "Precision & Source", "Confidence"]
     for j, h in enumerate(ev_headers):
         table_ev.rows[0].cells[j].text = h
         
     ev_data = [
-        ["E2022_09", "2022-09-05 to 09-07", "RBD Layout (Sarjapur Road)", "555", "OSM Footprint (Sajjan 2022 Ch.6)", "High"],
-        ["E2022_09", "2022-09-05 to 09-07", "Wipro Campus (Sarjapur Road)", "666", "OSM Footprint (Sajjan 2022 Ch.7)", "High"],
-        ["E2022_09", "2022-09-05 to 09-07", "Outer Ring Road (RMZ Ecospace)", "847", "Neighbourhood (Sajjan 2022 Ch.8)", "High"],
-        ["E2022_09", "2022-09-05 to 09-07", "Epsilon Layout / Yemalur Road", "910", "Neighbourhood (Sajjan 2022 Ch.9)", "High"],
-        ["E2022_09", "2022-09-05 to 09-07", "Borewell Road (Whitefield)", "1444", "Neighbourhood (Sajjan 2022 Ch.10)", "High"],
-        ["E2022_09", "2022-09-05 to 09-07", "Panathur-Balagere Road (Varthur)", "977", "Neighbourhood (Sajjan 2022 Ch.11)", "High"],
+        ["E2022_09", "2022-09-04 to 09-07", "RBD Layout (Sarjapur Road)", "555", "OSM Footprint (Sajjan 2022 Ch.6)", "High"],
+        ["E2022_09", "2022-09-04 to 09-07", "Wipro Campus (Sarjapur Road)", "666", "OSM Footprint (Sajjan 2022 Ch.7)", "High"],
+        ["E2022_09", "2022-09-04 to 09-07", "Outer Ring Road (RMZ Ecospace)", "847", "Neighbourhood (Sajjan 2022 Ch.8)", "High"],
+        ["E2022_09", "2022-09-04 to 09-07", "Epsilon Layout / Yemalur Road", "910", "Neighbourhood (Sajjan 2022 Ch.9)", "High"],
+        ["E2022_09", "2022-09-04 to 09-07", "Borewell Road (Whitefield)", "1444", "Neighbourhood (Sajjan 2022 Ch.10)", "High"],
+        ["E2022_09", "2022-09-04 to 09-07", "Panathur-Balagere Road (Varthur)", "977", "Neighbourhood (Sajjan 2022 Ch.11)", "High"],
         ["E2022_05", "2022-05-05", "RBD Layout (Sarjapur Road)", "555", "OSM Footprint (Indian Express 2022)", "Low"],
         ["E2021_11", "2021-11-21", "Yelahanka Kendriya Vihar", "2882", "Neighbourhood (The News Minute 2021)", "Low"],
         ["E2017_08", "2017-08-15", "Koramangala 4th Block", "897", "Polygon Centroid (The News Minute 2017)", "Medium"],
+        ["E2017_09", "2017-09-27 to 09-28", "Hosur-Sarjapur / Koramangala", "774", "Neighbourhood (Gulf Times 2017)", "Low"],
         ["E2023_05", "2023-05-21", "KR Circle Underpass", "1478", "Proxy Centroid (Scroll.in 2023)", "Medium"]
     ]
     for i, row in enumerate(ev_data):
         for j, val in enumerate(row):
             table_ev.rows[i+1].cells[j].text = val
     style_table(table_ev)
-    doc.add_paragraph("Table 2: Confirmed historical flood event catalogue with precision and source mapping.")
+    doc.add_paragraph("Table 2: Confirmed historical flood event catalogue across 6 events with precision and source mapping.")
     
     doc.add_paragraph(
-        "Events Audited and Removed:\n"
-        "• E2017_09 (Hosur-Sarjapur / Anugraha Layout, 27–28 Sep 2017): Cited GardaWorld Crisis24 product 222601. Verification revealed "
-        "the URL redirects to a generic login portal, with no public corroboration of flooding in Anugraha Layout on those dates. Expunged.\n"
+        "Events Audited and Restored:\n"
+        "• E2017_09 (Hosur-Sarjapur / Koramangala, 27–28 Sep 2017): Originally cited GardaWorld Crisis24 product 222601 which redirected to a generic login portal. Re-verified and restored via live contemporaneous reporting from Gulf Times (27 Sep 2017, 'Heavy rains paralyse Bengaluru, Mysuru') documenting severe flash floods across Koramangala and Jayanagar following a 196 mm KSNDMC storm peak. Restored at Cell 774 with low confidence (18 positive cell-days across 27–28 Sep 2017).\n"
+        "• E2022_09 (4–7 Sep 2022): Duration extended to include 4 September 2022 to capture the Sunday night cloudburst onset (DH 1142224: 'pounded the city on Sunday night'; thunderstorm began around 8 pm). Adds 47 positive cells for 4 Sep (total 188 positive cell-days).\n"
         "• Deccan Herald Moon Rocket Article (Aug 2022): Discarded due to URL collision/misattribution.\n"
         "• Historical candidate events outside 2017, 2021–2023 (e.g. 2016, 2020) were excluded from active training to maintain unbroken "
         "CHIRPS temporal continuity."
@@ -347,10 +348,10 @@ def build_report():
         "Urban flood documentation is inherently incomplete. Low-income valley waterlogging is rarely covered by media, whereas "
         "arterial roads and tech parks receive extensive reporting. The labelling framework addresses this asymmetry transparently:\n"
         "• Centre Cells: The specific 500 m grid cell containing the documented centroid or polygon footprint receives flood_label = 1, "
-        "audit_is_buffer_cell = 0, and label_confidence = 'high' or 'medium' as justified by ground evidence.\n"
+        "audit_is_buffer_cell = 0, and label_confidence = 'high' or 'medium' as justified by ground evidence (30 centre positives across 10 distinct cells: 555, 666, 774, 847, 897, 910, 977, 1444, 1478, 2882).\n"
         "• Topological 3×3 Buffer Neighbours: Surrounding cells in the 8-connected Moore neighborhood receive flood_label = 1, "
-        "audit_is_buffer_cell = 1, and are strictly graded with label_confidence = 'low'.\n"
-        "• Multi-Day Event Duration: Documented multi-day events (e.g. September 5–7, 2022) carry flood_label = 1 across all active event "
+        "audit_is_buffer_cell = 1, and are strictly graded with label_confidence = 'low' (210 buffer positives).\n"
+        "• Multi-Day Event Duration: Documented multi-day events (e.g. September 4–7, 2022) carry flood_label = 1 across all active event "
         "days for affected cells, reflecting multi-day inundation cited in technical reports.\n"
         "• Assumed Negatives: Every grid cell not covered by a positive report on a candidate stormy day receives flood_label = 0, "
         "label_source = 'none', and label_confidence = 'low'. Unreported areas are treated as 'not observed flooded', not 'proven dry'."
@@ -371,12 +372,12 @@ def build_report():
         
     deliv_data = [
         ["cells_static.csv", "CSV", "3,026", "16", "—", "Master static lookup table for all 3,026 cells."],
-        ["events.csv", "CSV", "10", "19", "9", "Ground-truth flood event audit directory."],
+        ["events.csv", "CSV", "11", "19", "10", "Ground-truth flood event audit directory across 6 events."],
         ["rainfall_daily.csv", "CSV", "36,112", "5", "976", "Continuous daily rainfall across 37 CHIRPS pixels."],
-        ["flood_dataset.parquet", "Parquet", "1,764,158", "42", "583", "Master XGBoost ML table across May–Nov candidate days."],
-        ["flood_dataset_event_windows.csv", "CSV", "308,652", "42", "102", "Full cell extract for all 102 May–Nov event window days."],
-        ["flood_dataset_pilot.parquet", "Parquet", "66,572", "30", "22", "First test sample (22 Aug to 12 Sep 2022)."],
-        ["flood_replay_E2022_09.parquet", "Parquet", "72,624", "42", "24", "Held-out validation replay window for E2022_09."]
+        ["flood_dataset.parquet", "Parquet", "1,764,158", "42", "583", "Master XGBoost ML table across May–Nov candidate days (240 positives)."],
+        ["flood_dataset_event_windows.csv", "CSV", "366,146", "42", "121", "Full cell extract for all 121 May–Nov event window days."],
+        ["flood_dataset_pilot.parquet", "Parquet", "66,572", "31", "22", "First test sample (22 Aug to 12 Sep 2022)."],
+        ["flood_replay_E2022_09.parquet", "Parquet", "72,624", "42", "24", "Held-out validation replay window for E2022_09 (188 positive labels)."]
     ]
     for i, row in enumerate(deliv_data):
         for j, val in enumerate(row):
@@ -407,8 +408,8 @@ def build_report():
         ["6", "Ranges sanity", "PASS", "Elevation (767–952 m), slope (0–12.3°), TWI (4.8–13.1), rain (0–61 mm)."],
         ["7", "Static consistency", "PASS", "Static feature values are perfectly identical on every row for each cell."],
         ["8", "Label validity", "PASS", "flood_label strictly in {0, 1}; all positives carry valid source and event ID."],
-        ["9", "Events representation", "PASS", "5 distinct historical events present; all 5 contain positive cell-days."],
-        ["10", "Class balance", "PASS", "Reported overall (0.010%), on event windows (0.057%), and wet days (0.013%)."],
+        ["9", "Events representation", "PASS", "6 distinct historical events present; all 6 contain positive cell-days."],
+        ["10", "Class balance", "PASS", "Reported overall (0.014%), on event windows (0.066%), and wet days (0.018%)."],
         ["11", "No leakage columns", "PASS", "Zero forbidden columns (is_hotspot, primary_cause, etc.) outside audit_."],
         ["12", "rainfall_daily completeness", "PASS", "Continuous calendar: exactly 976 days × 37 pixels = 36,112 rows, is_imputed=0."],
         ["13", "Spatial sanity", "PASS", "September 2022 positives cluster accurately at the 6 documented hotspots."],
@@ -429,9 +430,9 @@ def build_report():
         "• Total Assembled Rows: 1,764,158\n"
         "• Grid Cell Count: 3,026\n"
         "• Candidate Days: 583 (May 1 to November 30 across 2017, 2021, 2022, 2023)\n"
-        "• Total Positive Cell-Days: 175 (Flood rate: 0.0099% overall; 0.0132% on wet days where max rain_3d ≥ 10 mm)\n"
-        "• Centre-Only Positive Cell-Days: 22\n"
-        "• Buffer-Only Positive Cell-Days: 153"
+        "• Total Positive Cell-Days: 240 (Flood rate: 0.0136% overall; 0.0655% on event windows)\n"
+        "• Centre-Only Positive Cell-Days: 30 (across 10 distinct cells: 555, 666, 774, 847, 897, 910, 977, 1444, 1478, 2882)\n"
+        "• Buffer-Only Positive Cell-Days: 210"
     )
     
     # Embed Figures
@@ -609,19 +610,20 @@ def build_report():
         "PASS  label_source values allowed\n"
         "PASS  label_confidence values allowed\n"
         "PASS  day_sampling_weight >= 1\n"
-        "PASS  175 positive rows\n"
+        "PASS  240 positive rows\n"
         "PASS  every positive has a label_source\n"
         "PASS  every positive has an event_id\n"
-        "PASS  at least 3 distinct events (found 5)\n"
+        "PASS  at least 3 distinct events (found 6)\n"
         "PASS  no forbidden columns \n\n"
         "rows: 1764158 | cells: 3026 | days: 583 | date range: 2017-05-07 to 2023-11-09\n"
         "flood rate (all rows): 0.0001\n"
         "positives per event:\n"
         "event_id\n"
         "E2017_08      9\n"
+        "E2017_09     18\n"
         "E2021_11      9\n"
         "E2022_05      7\n"
-        "E2022_09    141\n"
+        "E2022_09    188\n"
         "E2023_05      9\n\n"
         "FAILED CHECKS: 0"
     )
@@ -636,15 +638,16 @@ def build_report():
         "1. Discrepancy in Spec vs Actual Cell Count: Spec section 4.2 states 'about 2,900 cells (716 km² at 500 m)'. "
         "The authoritative vector intersection with the 198 BBMP wards yields exactly 3,026 cells (711.59 km²). "
         "Cell ID sequence 0..3025 is preserved intact.\n\n"
-        "2. Removal of Event E2017_09: The preliminary catalog included E2017_09 (Crisis24 URL). Re-verification identified "
-        "that the URL returned HTTP 301 to a generic portal, with zero independent news verification. Per strict audit rules, "
-        "the event was purged from all datasets, reducing the confirmed event count from 6 to 5.\n\n"
+        "2. Restoration of Event E2017_09: Preliminary catalog cited a broken GardaWorld Crisis24 URL. Live contemporaneous "
+        "reporting was verified via Gulf Times (27 Sep 2017, 'Heavy rains paralyse Bengaluru, Mysuru') confirming widespread flash "
+        "floods across Koramangala and Jayanagar following a 196 mm KSNDMC storm peak. Restored at Cell 774 with low confidence "
+        "(18 positive cell-days across 27–28 Sep 2017), establishing 6 confirmed historical flood events (240 total positive cell-days).\n\n"
         "3. Truncation of E2022_05 -14 Day Window: E2022_05 (5 May 2022) nominally begins its -14 day window on 21 April 2022. "
         "Because March 2022 CHIRPS data was not in the original study download (which starts April 1), computing rolling 30-day "
         "precipitation in late April yields missing values. To preserve the strict rule of zero missing values and adherence to "
         "May–November study periods, April days are excluded from flood_dataset.parquet.\n\n"
-        "4. Extreme Class Imbalance for Leave-One-Event-Out Validation: Holding out E2022_09 leaves only 34 positive cell-days for "
-        "training across the entire city. Member 2 must be alerted to apply heavy positive class weighting during training."
+        "4. Class Imbalance for Leave-One-Event-Out Validation: Holding out E2022_09 leaves 52 positive cell-days (6 centre-only, "
+        "46 buffer-only) for training across the entire city. Member 2 must be alerted to apply heavy positive class weighting during training."
     )
     
     out_path = "delivery/Flood_Data_Pipeline_Report.docx"

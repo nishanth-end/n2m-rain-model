@@ -1,0 +1,206 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1316 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 6137643284,
+      "lat": 12.8965009,
+      "lon": 77.6946495,
+      "timestamp": "2018-12-14T16:41:43Z",
+      "version": 1,
+      "changeset": 65479220,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 9817309190,
+      "lat": 12.8956816,
+      "lon": 77.6969328,
+      "timestamp": "2022-06-14T13:15:28Z",
+      "version": 1,
+      "changeset": 122373574,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 9817309228,
+      "lat": 12.895944,
+      "lon": 77.6944381,
+      "timestamp": "2022-06-14T13:15:28Z",
+      "version": 1,
+      "changeset": 122373574,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 9817309229,
+      "lat": 12.894974,
+      "lon": 77.6963076,
+      "timestamp": "2025-08-05T06:27:48Z",
+      "version": 3,
+      "changeset": 169987120,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 9817309230,
+      "lat": 12.8960198,
+      "lon": 77.6971847,
+      "timestamp": "2022-06-14T13:15:28Z",
+      "version": 1,
+      "changeset": 122373574,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 9817309231,
+      "lat": 12.8964486,
+      "lon": 77.6973349,
+      "timestamp": "2022-06-14T13:15:28Z",
+      "version": 1,
+      "changeset": 122373574,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 9817309232,
+      "lat": 12.8969323,
+      "lon": 77.6963478,
+      "timestamp": "2022-06-14T13:15:28Z",
+      "version": 1,
+      "changeset": 122373574,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 9817309233,
+      "lat": 12.89745,
+      "lon": 77.6965597,
+      "timestamp": "2022-06-14T13:15:28Z",
+      "version": 1,
+      "changeset": 122373574,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 9817309234,
+      "lat": 12.8977533,
+      "lon": 77.6959375,
+      "timestamp": "2022-06-14T13:15:28Z",
+      "version": 1,
+      "changeset": 122373574,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 9817309235,
+      "lat": 12.8969035,
+      "lon": 77.6955324,
+      "timestamp": "2025-08-05T06:27:48Z",
+      "version": 2,
+      "changeset": 169987120,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 9817309236,
+      "lat": 12.8964669,
+      "lon": 77.6957283,
+      "timestamp": "2025-08-05T06:27:48Z",
+      "version": 2,
+      "changeset": 169987120,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 9817309237,
+      "lat": 12.895957,
+      "lon": 77.6954573,
+      "timestamp": "2025-08-05T06:27:48Z",
+      "version": 2,
+      "changeset": 169987120,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 12632670984,
+      "lat": 12.8954453,
+      "lon": 77.6967926,
+      "timestamp": "2025-03-03T08:13:04Z",
+      "version": 1,
+      "changeset": 163149820,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 13049515931,
+      "lat": 12.8951675,
+      "lon": 77.6964256,
+      "timestamp": "2025-08-05T06:27:45Z",
+      "version": 1,
+      "changeset": 169987120,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 13049515932,
+      "lat": 12.8951047,
+      "lon": 77.696557,
+      "timestamp": "2025-08-05T06:27:45Z",
+      "version": 1,
+      "changeset": 169987120,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "way",
+      "id": 1069600853,
+      "timestamp": "2025-08-05T06:27:48Z",
+      "version": 3,
+      "changeset": 169987120,
+      "user": "Vonter",
+      "uid": 3926189,
+      "nodes": [
+        6137643284,
+        9817309237,
+        9817309236,
+        9817309235,
+        9817309234,
+        9817309233,
+        9817309232,
+        9817309231,
+        9817309230,
+        9817309190,
+        12632670984,
+        13049515932,
+        13049515931,
+        9817309229,
+        9817309228,
+        6137643284
+      ],
+      "tags": {
+        "landuse": "residential",
+        "name": "DSR Highland Greens",
+        "residential": "apartments"
+      }
+    }
+  ]
+}

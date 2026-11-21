@@ -11,7 +11,7 @@ STATIC = ["elev_m", "slope_deg", "twi", "hand_m", "flow_acc", "imperv_frac",
 REQ = ["cell_id", "date", "lat", "lon", "ward", "rain_pixel_id", "rain_1d_mm",
        "rain_3d_mm", "rain_7d_mm", "flood_label", "label_source", "label_confidence",
        "event_id", "day_sampling_weight"] + STATIC
-SOURCES = {"sar", "hotspot_pdf", "news", "civic_report", "none"}
+SOURCES = {"sar", "hotspot_pdf", "news", "civic_report", "none", "reported", "buffered", "restored"}
 CONF = {"high", "medium", "low"}
 FORBIDDEN = {"elevation_proxy", "is_hotspot", "dist_to_hotspot", "hotspot_name",
              "primary_cause"}

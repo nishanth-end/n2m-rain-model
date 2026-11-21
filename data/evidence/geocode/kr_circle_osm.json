@@ -1,0 +1,221 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (3964112 spike-06.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 665067342,
+      "lat": 12.9760769,
+      "lon": 77.5869834,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 10,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 10037670733,
+      "lat": 12.9759643,
+      "lon": 77.5868419,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 2,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 10037670734,
+      "lat": 12.9755271,
+      "lon": 77.587005,
+      "timestamp": "2022-09-19T18:15:04Z",
+      "version": 1,
+      "changeset": 126391648,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 10037670735,
+      "lat": 12.9753167,
+      "lon": 77.5872142,
+      "timestamp": "2022-09-19T18:15:04Z",
+      "version": 1,
+      "changeset": 126391648,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 10037670736,
+      "lat": 12.9757572,
+      "lon": 77.5876933,
+      "timestamp": "2022-09-19T18:15:04Z",
+      "version": 1,
+      "changeset": 126391648,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 10037670737,
+      "lat": 12.9761321,
+      "lon": 77.587519,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 2,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 10037670738,
+      "lat": 12.9761819,
+      "lon": 77.5870696,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 2,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12139077429,
+      "lat": 12.9761334,
+      "lon": 77.587467,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 1,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12139077430,
+      "lat": 12.9760016,
+      "lon": 77.5875207,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 1,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12139077431,
+      "lat": 12.9756068,
+      "lon": 77.5870032,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 1,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12139077432,
+      "lat": 12.9756417,
+      "lon": 77.5869903,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 1,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12139077433,
+      "lat": 12.9756596,
+      "lon": 77.5869157,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 1,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12139077434,
+      "lat": 12.9756347,
+      "lon": 77.586779,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 1,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12139077435,
+      "lat": 12.9757575,
+      "lon": 77.5867313,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 1,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12139077436,
+      "lat": 12.9758206,
+      "lon": 77.5868047,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 1,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12139077437,
+      "lat": 12.9759072,
+      "lon": 77.5868359,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 1,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "way",
+      "id": 1096077212,
+      "timestamp": "2024-08-27T04:21:31Z",
+      "version": 3,
+      "changeset": 155809823,
+      "user": "uknown-gryphus",
+      "uid": 2425805,
+      "nodes": [
+        665067342,
+        10037670733,
+        12139077437,
+        12139077436,
+        12139077435,
+        12139077434,
+        12139077433,
+        12139077432,
+        12139077431,
+        10037670734,
+        10037670735,
+        10037670736,
+        12139077430,
+        10037670737,
+        12139077429,
+        10037670738,
+        665067342
+      ],
+      "tags": {
+        "area": "yes",
+        "full_name": "Krishna Rajendra Circle",
+        "junction": "yes",
+        "name": "KR Circle",
+        "name:etymology:wikidata": "Q2429324",
+        "name:kn": "\u0c95\u0cc6 \u0c86\u0cb0\u0ccd \u0cb8\u0cb0\u0ccd\u0c95\u0cb2\u0ccd"
+      }
+    }
+  ]
+}

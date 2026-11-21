@@ -1,0 +1,58 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1308 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "relation",
+      "id": 19751547,
+      "timestamp": "2026-09-08T18:51:45Z",
+      "version": 5,
+      "changeset": 188738693,
+      "user": "TheLNL",
+      "uid": 21256080,
+      "members": [
+        {
+          "type": "way",
+          "ref": 367594186,
+          "role": "outer"
+        },
+        {
+          "type": "way",
+          "ref": 1444549030,
+          "role": "outer"
+        },
+        {
+          "type": "way",
+          "ref": 1557419484,
+          "role": "outer"
+        },
+        {
+          "type": "way",
+          "ref": 1444549032,
+          "role": "outer"
+        },
+        {
+          "type": "way",
+          "ref": 1444549027,
+          "role": "outer"
+        }
+      ],
+      "tags": {
+        "alt_name": "Bellandur Tank",
+        "name": "Bellandur Lake",
+        "name:de": "Bellandursee",
+        "name:kn": "\u0cac\u0cc6\u0cb3\u0ccd\u0cb3\u0c82\u0ca6\u0cc2\u0cb0\u0cc1 \u0c95\u0cc6\u0cb0\u0cc6",
+        "natural": "water",
+        "note": "Rejuvenation and desilting ongoing as of 2026 April",
+        "type": "multipolygon",
+        "water": "lake",
+        "wikidata": "Q4883488",
+        "wikimedia_commons": "Category:Bellandur Lake",
+        "wikipedia": "en:Bellandur Lake"
+      }
+    }
+  ]
+}

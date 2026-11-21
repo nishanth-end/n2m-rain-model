@@ -10,6 +10,13 @@ __pycache__/
 .pytest_cache/
 .env
 
+# Frontend dependencies & build artifacts
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend.backup.working/
+frontend_backend_baseline_v1.tar.gz
+
 # OS metadata & editor files
 .DS_Store
 Thumbs.db

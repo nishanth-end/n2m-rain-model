@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 252371481,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 1066116298,
+    "lat": "12.9327778",
+    "lon": "77.6294052",
+    "class": "place",
+    "type": "neighbourhood",
+    "place_rank": 24,
+    "importance": 0.08007094453345538,
+    "addresstype": "neighbourhood",
+    "name": "Koramangala 4th Block",
+    "display_name": "Koramangala 4th Block, Kormangala East, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, India",
+    "boundingbox": [
+      "12.9294918",
+      "12.9370907",
+      "77.6244584",
+      "77.6330256"
+    ]
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "elements": [
+    {
+      "type": "relation",
+      "id": 19509700,
+      "center": {
+        "lat": 12.8831662,
+        "lon": 77.5986134
+      },
+      "tags": {
+        "natural": "water"
+      }
+    }
+  ]
+}

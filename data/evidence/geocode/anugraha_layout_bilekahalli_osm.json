@@ -1,0 +1,72 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1332 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 3818297225,
+      "lat": 16.2150083,
+      "lon": 120.5003511,
+      "timestamp": "2015-11-05T06:38:31Z",
+      "version": 1,
+      "changeset": 35095197,
+      "user": "Ruth93",
+      "uid": 3359679
+    },
+    {
+      "type": "node",
+      "id": 3818297226,
+      "lat": 16.2149314,
+      "lon": 120.5003172,
+      "timestamp": "2015-11-05T06:38:31Z",
+      "version": 1,
+      "changeset": 35095197,
+      "user": "Ruth93",
+      "uid": 3359679
+    },
+    {
+      "type": "node",
+      "id": 3818297227,
+      "lat": 16.214887,
+      "lon": 120.5003849,
+      "timestamp": "2015-11-05T06:38:31Z",
+      "version": 1,
+      "changeset": 35095197,
+      "user": "Ruth93",
+      "uid": 3359679
+    },
+    {
+      "type": "node",
+      "id": 3818297228,
+      "lat": 16.2149698,
+      "lon": 120.5004219,
+      "timestamp": "2015-11-05T06:38:31Z",
+      "version": 1,
+      "changeset": 35095197,
+      "user": "Ruth93",
+      "uid": 3359679
+    },
+    {
+      "type": "way",
+      "id": 378418080,
+      "timestamp": "2015-11-05T06:38:32Z",
+      "version": 1,
+      "changeset": 35095197,
+      "user": "Ruth93",
+      "uid": 3359679,
+      "nodes": [
+        3818297225,
+        3818297226,
+        3818297227,
+        3818297228,
+        3818297225
+      ],
+      "tags": {
+        "building": "house"
+      }
+    }
+  ]
+}

@@ -1,0 +1,241 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1316 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 1119972717,
+      "lat": 13.1057625,
+      "lon": 77.5987937,
+      "timestamp": "2024-01-03T14:49:19Z",
+      "version": 3,
+      "changeset": 145842963,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 1119972718,
+      "lat": 13.106665,
+      "lon": 77.6008683,
+      "timestamp": "2011-01-25T15:26:03Z",
+      "version": 1,
+      "changeset": 7084635,
+      "user": "Nand Kishore Gupta",
+      "uid": 178915
+    },
+    {
+      "type": "node",
+      "id": 1119972719,
+      "lat": 13.1069513,
+      "lon": 77.5984541,
+      "timestamp": "2024-01-03T14:49:19Z",
+      "version": 3,
+      "changeset": 145842963,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 1119972721,
+      "lat": 13.1075275,
+      "lon": 77.6004509,
+      "timestamp": "2023-12-30T11:32:56Z",
+      "version": 2,
+      "changeset": 145693116,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 1119972722,
+      "lat": 13.1064546,
+      "lon": 77.601475,
+      "timestamp": "2023-12-24T15:54:38Z",
+      "version": 3,
+      "changeset": 145473628,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 1119972723,
+      "lat": 13.1068292,
+      "lon": 77.6006665,
+      "timestamp": "2023-12-31T15:33:19Z",
+      "version": 2,
+      "changeset": 145737918,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 9280496081,
+      "lat": 13.1058064,
+      "lon": 77.598973,
+      "timestamp": "2024-01-14T13:12:26Z",
+      "version": 2,
+      "changeset": 146244403,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 11449700556,
+      "lat": 13.1065893,
+      "lon": 77.6015358,
+      "timestamp": "2023-12-24T15:54:36Z",
+      "version": 1,
+      "changeset": 145473628,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 11449700557,
+      "lat": 13.1064495,
+      "lon": 77.6010168,
+      "timestamp": "2023-12-24T15:54:36Z",
+      "version": 1,
+      "changeset": 145473628,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 11468940843,
+      "lat": 13.1070181,
+      "lon": 77.6005842,
+      "timestamp": "2023-12-31T15:33:19Z",
+      "version": 2,
+      "changeset": 145737918,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 11468958091,
+      "lat": 13.1074121,
+      "lon": 77.6004867,
+      "timestamp": "2023-12-30T11:32:56Z",
+      "version": 1,
+      "changeset": 145693116,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 11473102403,
+      "lat": 13.1071944,
+      "lon": 77.600517,
+      "timestamp": "2023-12-31T15:33:19Z",
+      "version": 1,
+      "changeset": 145737918,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 11473102404,
+      "lat": 13.1067656,
+      "lon": 77.6007373,
+      "timestamp": "2023-12-31T15:33:19Z",
+      "version": 1,
+      "changeset": 145737918,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 11482890360,
+      "lat": 13.106484,
+      "lon": 77.6014883,
+      "timestamp": "2024-01-03T14:49:19Z",
+      "version": 1,
+      "changeset": 145842963,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 11482898019,
+      "lat": 13.1063836,
+      "lon": 77.601291,
+      "timestamp": "2024-01-03T14:49:19Z",
+      "version": 1,
+      "changeset": 145842963,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 11482898021,
+      "lat": 13.1062305,
+      "lon": 77.6007064,
+      "timestamp": "2024-01-03T14:49:19Z",
+      "version": 1,
+      "changeset": 145842963,
+      "user": "ammu_the_kiran",
+      "uid": 4827639
+    },
+    {
+      "type": "node",
+      "id": 11516213093,
+      "lat": 13.1063076,
+      "lon": 77.6010031,
+      "timestamp": "2024-01-14T13:12:26Z",
+      "version": 1,
+      "changeset": 146244403,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 11818724833,
+      "lat": 13.1063204,
+      "lon": 77.6010524,
+      "timestamp": "2024-04-15T13:41:27Z",
+      "version": 1,
+      "changeset": 150039566,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "way",
+      "id": 96710695,
+      "timestamp": "2024-04-15T13:41:27Z",
+      "version": 12,
+      "changeset": 150039566,
+      "user": "Vonter",
+      "uid": 3926189,
+      "nodes": [
+        1119972719,
+        1119972721,
+        11468958091,
+        11473102403,
+        11468940843,
+        1119972723,
+        11473102404,
+        1119972718,
+        11449700557,
+        11449700556,
+        11482890360,
+        1119972722,
+        11482898019,
+        11818724833,
+        11516213093,
+        11482898021,
+        9280496081,
+        1119972717,
+        1119972719
+      ],
+      "tags": {
+        "landuse": "residential",
+        "name": "Kendriya Vihar Apartments"
+      }
+    }
+  ]
+}

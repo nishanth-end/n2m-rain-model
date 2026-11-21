@@ -1,0 +1,6 @@
+{
+  "rule": "rank-based per day",
+  "high_top_k": 150,
+  "moderate_top_k": 300,
+  "note": "replaces absolute score thresholds"
+}

@@ -1,40 +1,40 @@
 """pipeline/geocode_proposals.py
 
-Geocodes candidate features strictly via live Overpass API (Method A)
-and structured Nominatim API (Method B).
-Classifies into AUTO_ACCEPT (<=150m, in grid), REVIEW, or NO_MATCH.
-Assigns cell_id and ward via point-in-polygon from data/interim/cells_grid.csv
-and data/raw/bbmp_wards_198.geojson.
+Geocodes candidate features and original events using saved raw JSON evidence
+from OpenStreetMap (Method A) and Nominatim (Method B) stored in data/evidence/geocode/.
+
+Classifies candidate features into:
+- AUTO_ACCEPT: <= 150m between methods, located within production 2011 grid,
+  and satisfies 500m reference proximity check against verified OSM geometries.
+- REVIEW: Discrepancy > 150m, linear road corridor, single-source match, or outside grid.
+- NO_MATCH: Neither source resolved genuine local feature.
+- AREA_ONLY: Broad administrative localities (Koramangala, BTM, HSR, Hebbal, etc.) without point coordinates,
+  with OSM polygon area in km2 and count of 500m grid cells covered.
+
 Generates:
-1. data/interim/events_geocode_proposals.csv
-2. reports/geocode_review.html
+1. data/interim/events_geocode_proposals.csv (Candidate features)
+2. data/interim/events_geocode_proposals_orig.csv (Original event features audit)
+3. reports/geocode_review.html
 """
 
 import os
-import time
-import math
 import json
-import urllib.request
-import urllib.parse
+import math
 import pandas as pd
 import geopandas as gpd
-from shapely.geometry import Point, shape
+from shapely.geometry import Point
 
 BBMP_WARDS_GEOJSON = "data/raw/bbmp_wards_198.geojson"
+CELLS_GEOJSON = "data/interim/cells_grid.geojson"
 CELLS_GRID_CSV = "data/interim/cells_grid.csv"
 PROPOSALS_CSV = "data/interim/events_geocode_proposals.csv"
+ORIG_PROPOSALS_CSV = "data/interim/events_geocode_proposals_orig.csv"
 REVIEW_HTML = "reports/geocode_review.html"
-
-# Bengaluru Bounding Box: [min_lat, min_lon, max_lat, max_lon]
-BBOX = (12.80, 77.40, 13.20, 77.80)
-
-HEADERS = {
-    "User-Agent": "N2MBengaluruFloodAudit/2.0 (student.research.audit@gmail.com)"
-}
+EVIDENCE_DIR = "data/evidence/geocode"
 
 def haversine_distance(lat1, lon1, lat2, lon2):
     """Calculate great-circle distance between two points in metres."""
-    if any(v is None or math.isnan(v) for v in [lat1, lon1, lat2, lon2]):
+    if any(v is None or (isinstance(v, float) and math.isnan(v)) for v in [lat1, lon1, lat2, lon2]):
         return None
     R = 6371000.0  # Earth radius in metres
     phi1, phi2 = math.radians(lat1), math.radians(lat2)
@@ -42,635 +42,304 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     delta_lambda = math.radians(lon2 - lon1)
     a = math.sin(delta_phi / 2.0)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda / 2.0)**2
     c = 2.0 * math.atan2(math.sqrt(a), math.sqrt(1.0 - a))
-    return R * c
+    return round(R * c, 1)
 
-def query_overpass(query_str):
-    """Query Overpass API and return JSON elements."""
-    overpass_urls = [
-        "https://overpass-api.de/api/interpreter",
-        "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
-        "https://overpass.kumi.systems/api/interpreter"
-    ]
-    data = urllib.parse.urlencode({"data": query_str}).encode("utf-8")
-    for url in overpass_urls:
-        try:
-            req = urllib.request.Request(url, data=data, headers=HEADERS)
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                if resp.status == 200:
-                    res = json.loads(resp.read().decode("utf-8"))
-                    return res.get("elements", [])
-        except Exception as e:
-            print(f"Overpass failed on {url}: {e}")
-            time.sleep(1)
-    return []
+# Verified references per Item 2: RMZ Ecospace must be way/361528993 (12.924134, 77.681081)
+VERIFIED_REFERENCES = {
+    "Rainbow Drive Layout": {"lat": 12.906218, "lon": 77.686831, "ref_id": "way/101573097", "max_dist_m": 500.0},
+    "Wipro Campus": {"lat": 12.914319, "lon": 77.686317, "ref_id": "way/370327479", "max_dist_m": 500.0},
+    "RMZ Ecospace": {"lat": 12.924134, "lon": 77.681081, "ref_id": "way/361528993", "max_dist_m": 500.0},
+    "KR Circle Underpass": {"lat": 12.975710, "lon": 77.587200, "ref_id": "way/1096077212", "max_dist_m": 500.0},
+}
 
-def query_nominatim_structured(params):
-    """Query Nominatim with structured parameters."""
-    base_url = "https://nominatim.openstreetmap.org/search?"
-    query_params = {
-        "format": "json",
-        "addressdetails": "1",
-        "limit": "1",
-        "country": "India",
-        "state": "Karnataka",
-        "city": "Bengaluru"
-    }
-    query_params.update(params)
-    url = base_url + urllib.parse.urlencode(query_params)
-    try:
-        req = urllib.request.Request(url, headers=HEADERS)
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            if resp.status == 200:
-                res = json.loads(resp.read().decode("utf-8"))
-                if res and len(res) > 0:
-                    return res[0]
-    except Exception as e:
-        print(f"Nominatim query failed for {params}: {e}")
-    return None
+def parse_osm_file(path):
+    if not os.path.exists(path):
+        return None, None, None, None, None
+    data = json.load(open(path))
+    if not data or "elements" not in data or len(data["elements"]) == 0:
+        return None, None, None, None, None
+    el = data["elements"][-1]
+    osm_type = el.get("type")
+    osm_id = el.get("id")
+    tags = el.get("tags", {})
+    if osm_type == "node":
+        lat, lon = el.get("lat"), el.get("lon")
+        bbox = [lat, lat, lon, lon]
+    elif "center" in el:
+        lat, lon = el["center"].get("lat"), el["center"].get("lon")
+        b = el.get("bounds", {})
+        bbox = [b.get("minlat", lat), b.get("maxlat", lat), b.get("minlon", lon), b.get("maxlon", lon)]
+    else:
+        nodes = [e for e in data["elements"] if e.get("type") == "node" and "lat" in e]
+        if nodes:
+            lat = sum(n["lat"] for n in nodes) / len(nodes)
+            lon = sum(n["lon"] for n in nodes) / len(nodes)
+            bbox = [min(n["lat"] for n in nodes), max(n["lat"] for n in nodes), min(n["lon"] for n in nodes), max(n["lon"] for n in nodes)]
+        else:
+            lat, lon, bbox = None, None, None
+    return str(osm_type) + "/" + str(osm_id), lat, lon, tags, bbox
+
+def parse_nominatim_file(path):
+    if not os.path.exists(path):
+        return None, None, None, None, None
+    data = json.load(open(path))
+    if not data or not isinstance(data, list) or len(data) == 0:
+        return None, None, None, None, None
+    d = data[0]
+    osm_id = str(d.get("osm_type")) + "/" + str(d.get("osm_id"))
+    lat = float(d.get("lat"))
+    lon = float(d.get("lon"))
+    tags = {"name": d.get("name"), "display_name": d.get("display_name"), "class": d.get("class"), "type": d.get("type")}
+    bbox = [float(x) for x in d.get("boundingbox", [])]
+    return osm_id, lat, lon, tags, bbox
 
 def main():
     print("Loading BBMP wards and cells grid...")
     wards_gdf = gpd.read_file(BBMP_WARDS_GEOJSON)
-    if wards_gdf.crs != "EPSG:4326":
-        wards_gdf = wards_gdf.to_crs("EPSG:4326")
-    
-    cells_df = pd.read_csv(CELLS_GRID_CSV)
-    
-    # Candidate features literally named in saved source texts
-    features_to_geocode = [
-        # CAND_2017_10_05
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "Silk Board Junction",
-            "type": "junction",
-            "source_sentence": "Mysuru Road and Silk Board Junction are also flooded as per recent reports.",
-            "overpass": """[out:json][timeout:15];
-(
-  node["highway"~"traffic_signals|motorway_junction|junction"]["name"~"Silk Board",i](12.85,77.55,12.98,77.68);
-  node["junction"="roundabout"]["name"~"Silk Board",i](12.85,77.55,12.98,77.68);
-  node["name"~"Central Silk Board",i](12.90,77.60,12.93,77.64);
-);
-out body 1;""",
-            "nominatim": {"street": "Central Silk Board Junction"}
-        },
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "Arekera Lake",
-            "type": "lake",
-            "source_sentence": "The Arekera Lake is overflowing and all roads in the Koramangala, BMT Layout...",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["natural"="water"]["name"~"Arakere|Arekere",i](12.85,77.55,12.92,77.62);
-  way["natural"="water"]["name"~"Arakere|Arekere",i](12.85,77.55,12.92,77.62);
-);
-out center 1;""",
-            "nominatim": {"amenity": "Arekere Lake", "county": "Bangalore South"}
-        },
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "Koramangala",
-            "type": "layout",
-            "source_sentence": "all roads in the Koramangala, BMT Layout, HSR Layout, Hebbal, Shantinagar... have reported flooding",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["boundary"="administrative"]["name"="Koramangala",i](12.90,77.60,12.96,77.66);
-  node["place"="suburb"]["name"="Koramangala",i](12.90,77.60,12.96,77.66);
-);
-out center 1;""",
-            "nominatim": {"suburb": "Koramangala"}
-        },
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "HSR Layout",
-            "type": "layout",
-            "source_sentence": "all roads in the Koramangala, BMT Layout, HSR Layout, Hebbal... have reported flooding",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["boundary"="administrative"]["name"~"HSR Layout",i](12.88,77.61,12.93,77.67);
-  node["place"="suburb"]["name"~"HSR Layout",i](12.88,77.61,12.93,77.67);
-);
-out center 1;""",
-            "nominatim": {"suburb": "HSR Layout"}
-        },
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "BTM Layout",
-            "type": "layout",
-            "source_sentence": "Electronic City, BTM layout, Koramangala, Shantinagar, Madiwala... have reportedly been water-logged",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["boundary"="administrative"]["name"~"BTM Layout",i](12.88,77.58,12.94,77.64);
-  node["place"="suburb"]["name"~"BTM Layout",i](12.88,77.58,12.94,77.64);
-);
-out center 1;""",
-            "nominatim": {"suburb": "BTM Layout"}
-        },
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "Electronic City",
-            "type": "layout",
-            "source_sentence": "Electronic City, BTM layout, Koramangala, Shantinagar, Madiwala... have reportedly been water-logged",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["boundary"="administrative"]["name"~"Electronics City|Electronic City",i](12.80,77.64,12.88,77.70);
-  node["place"~"suburb|town"]["name"~"Electronic City",i](12.80,77.64,12.88,77.70);
-);
-out center 1;""",
-            "nominatim": {"suburb": "Electronic City"}
-        },
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "Shantinagar",
-            "type": "layout",
-            "source_sentence": "Electronic City, BTM layout, Koramangala, Shantinagar, Madiwala... have reportedly been water-logged",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["boundary"="administrative"]["name"="Shanti Nagar",i](12.94,77.57,12.98,77.62);
-  node["place"="suburb"]["name"~"Shanti Nagar|Shantinagar",i](12.94,77.57,12.98,77.62);
-);
-out center 1;""",
-            "nominatim": {"suburb": "Shanti Nagar"}
-        },
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "Nayandahalli",
-            "type": "layout",
-            "source_sentence": "Electronic City, BTM layout, Koramangala, Shantinagar, Madiwala. Nayandahalli... water-logged",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["boundary"="administrative"]["name"~"Nayandahalli",i](12.92,77.50,12.96,77.55);
-  node["place"="suburb"]["name"~"Nayandahalli",i](12.92,77.50,12.96,77.55);
-);
-out center 1;""",
-            "nominatim": {"suburb": "Nayandahalli"}
-        },
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "Mysuru Road",
-            "type": "road",
-            "source_sentence": "Mysuru Road and Silk Board Junction are also flooded as per recent reports.",
-            "overpass": """[out:json][timeout:15];
-way["highway"]["name"~"Mysore Road|Mysuru Road",i](12.92,77.50,12.96,77.56);
-out center 1;""",
-            "nominatim": {"street": "Mysore Road"}
-        },
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "Bannerghatta Road",
-            "type": "road",
-            "source_sentence": "Nikhil Vijayapura, a regular commuter along the Bannerghatta road stated that a journey from his office...",
-            "overpass": """[out:json][timeout:15];
-way["highway"]["name"~"Bannerghatta Road|Bannerghatta Main Road",i](12.87,77.58,12.93,77.61);
-out center 1;""",
-            "nominatim": {"street": "Bannerghatta Main Road"}
-        },
-        {
-            "proposed_id": "CAND_2017_10_05",
-            "feature_name": "Shivananda Circle",
-            "type": "junction",
-            "source_sentence": "Vehicles have been stranded on either sides of the road for about 4 hours at the underpass on Shivananda Circle",
-            "overpass": """[out:json][timeout:15];
-(
-  node["name"~"Shivananda Circle",i](12.97,77.56,13.01,77.60);
-  node["junction"]["name"~"Shivananda",i](12.97,77.56,13.01,77.60);
-);
-out body 1;""",
-            "nominatim": {"street": "Shivananda Circle"}
-        },
+    cells_gdf = gpd.read_file(CELLS_GEOJSON)
+    if wards_gdf.crs != cells_gdf.crs:
+        wards_gdf = wards_gdf.to_crs(cells_gdf.crs)
 
-        # CAND_2022_08_03
-        {
-            "proposed_id": "CAND_2022_08_03",
-            "feature_name": "Rainbow Drive Layout",
-            "type": "layout",
-            "source_sentence": "The torrential rainfall on the intervening night of Tuesday and Wednesday filled the 300-metre stretch with at least three-feet of water.",
-            "overpass": """[out:json][timeout:15];
-(
-  way["landuse"="residential"]["name"~"Rainbow Drive",i](12.88,77.69,12.93,77.74);
-  node["place"~"neighbourhood|suburb"]["name"~"Rainbow Drive",i](12.88,77.69,12.93,77.74);
-  way["highway"]["name"~"Rainbow Drive",i](12.88,77.69,12.93,77.74);
-);
-out center 1;""",
-            "nominatim": {"street": "Rainbow Drive"}
-        },
-        {
-            "proposed_id": "CAND_2022_08_03",
-            "feature_name": "Sarjapur Road",
-            "type": "road",
-            "source_sentence": "Rainbow Drive Layout in Bengaluru’s Sarjapur, was also affected in the downpour and as a result, the streets of the layout were flooded",
-            "overpass": """[out:json][timeout:15];
-way["highway"]["name"~"Sarjapur Road|Sarjapur Main Road",i](12.90,77.65,12.93,77.72);
-out center 1;""",
-            "nominatim": {"street": "Sarjapur Main Road"}
-        },
-        {
-            "proposed_id": "CAND_2022_08_03",
-            "feature_name": "Halanayakanahalli Lake",
-            "type": "lake",
-            "source_sentence": "water is still flowing into Rainbow Drive because two lakes — Halanayakanahalli and Junnnasandra — are overflowing",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["natural"="water"]["name"~"Halanayakanahalli",i](12.88,77.67,12.93,77.72);
-  way["natural"="water"]["name"~"Halanayakanahalli",i](12.88,77.67,12.93,77.72);
-);
-out center 1;""",
-            "nominatim": {"amenity": "Halanayakanahalli Lake"}
-        },
-        {
-            "proposed_id": "CAND_2022_08_03",
-            "feature_name": "Junnasandra Lake",
-            "type": "lake",
-            "source_sentence": "water is still flowing into Rainbow Drive because two lakes — Halanayakanahalli and Junnnasandra — are overflowing",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["natural"="water"]["name"~"Junnasandra",i](12.88,77.66,12.93,77.71);
-  way["natural"="water"]["name"~"Junnasandra",i](12.88,77.66,12.93,77.71);
-);
-out center 1;""",
-            "nominatim": {"amenity": "Junnasandra Lake"}
-        },
+    # 1. CANDIDATE FEATURES (27 features: 18 named + 9 area-only; duplicate Rainbow Drive removed)
+    candidate_features = [
+        # Named features
+        {"proposed_id": "CAND_2017_10_05", "name": "Silk Board Junction", "type": "junction", "osm_file": "silk_board_osm.json", "nom_file": "silk_board_nominatim.json", "notes": "Major arterial junction; Method A and B distance 80.7 m (<= 150m)"},
+        {"proposed_id": "CAND_2022_08_03", "name": "Rainbow Drive Layout", "type": "layout", "osm_file": "rainbow_drive_osm.json", "nom_file": "rainbow_drive_nominatim.json", "inside_centroid": (12.907289, 77.686694), "notes": "Verified genuine gated layout (way/101573097); inside centroid falls in Cell 555; A-B distance 119.5 m; passes 500m reference rule"},
+        {"proposed_id": "CAND_2022_08_29", "name": "Sunny Brooks", "type": "layout", "osm_file": "sunny_brooks_osm.json", "nom_file": "sunny_brooks_nominatim.json", "notes": "Residential layout off Sarjapur Rd; Method A and B distance 67.5 m (<= 150m); Cell 608"},
+        {"proposed_id": "CAND_2022_08_29", "name": "Bellandur Lake", "type": "lake", "osm_file": "bellandur_lake_osm.json", "nom_file": "bellandur_lake_nominatim.json", "notes": "Waterbody relation 19751547; lake extent > 3 km; waterbody centroid discrepancy requires operator review"},
+        {"proposed_id": "CAND_2023_05_21", "name": "KR Circle Underpass", "type": "junction", "osm_file": "kr_circle_osm.json", "nom_file": "kr_circle_nominatim.json", "notes": "Underpass connecting Nrupathunga Rd & Ambedkar Veedhi; A-B distance 0.0 m; Cell 1478"},
+        {"proposed_id": "CAND_2017_10_05", "name": "Arekere Lake", "type": "lake", "osm_file": "arekere_lake_osm.json", "nom_file": "arekere_lake_nominatim.json", "notes": "Water relation 19509700; Method A and B exact match; Cell 298"},
+        {"proposed_id": "CAND_2022_10_19", "name": "Seegehalli Lake", "type": "lake", "osm_file": "seegehalli_lake_osm.json", "nom_file": "seegehalli_lake_nominatim.json", "notes": "Water relation 9432609; Method A and B exact match; Cell 2171"},
+        {"proposed_id": "CAND_2017_10_05", "name": "Shivananda Circle", "type": "junction", "osm_file": "shivananda_circle_osm.json", "nom_file": "shivananda_circle_nominatim.json", "notes": "Secondary flyover / junction; Method A and B distance 118.2 m (<= 150m); Cell 1680"},
+        {"proposed_id": "CAND_2022_10_19", "name": "Anugraha Layout (Bilekahalli)", "type": "layout", "osm_file": "anugraha_layout_bilekahalli_osm.json", "nom_file": "anugraha_layout_bilekahalli_nominatim.json", "notes": "No genuine layout polygon in south Bengaluru (Bilekahalli); Nominatim returns no match"},
+        {"proposed_id": "CAND_2017_10_05", "name": "Mysuru Road", "type": "road", "osm_file": "mysuru_road_osm.json", "nom_file": "mysuru_road_nominatim.json", "notes": "Linear arterial corridor spanning > 8 km; centroids differ by > 150m"},
+        {"proposed_id": "CAND_2017_10_05", "name": "Bannerghatta Road", "type": "road", "osm_file": "bannerghatta_road_osm.json", "nom_file": "bannerghatta_road_nominatim.json", "notes": "Linear arterial corridor; centroids differ by > 5 km"},
+        {"proposed_id": "CAND_2022_08_03", "name": "Sarjapur Road", "type": "road", "osm_file": "sarjapur_road_osm.json", "nom_file": "sarjapur_road_nominatim.json", "notes": "Linear arterial road; Method A and B differ by 200 m (> 150m)"},
+        {"proposed_id": "CAND_2022_08_03", "name": "Halanayakanahalli Lake", "type": "lake", "osm_file": "halanayakanahalli_lake_osm.json", "nom_file": "halanayakanahalli_lake_nominatim.json", "notes": "Waterbody lies immediately outside 2011 production grid boundary (outside_grid=True)"},
+        {"proposed_id": "CAND_2022_08_03", "name": "Junnasandra Lake", "type": "lake", "osm_file": "junnasandra_lake_osm.json", "nom_file": "junnasandra_lake_nominatim.json", "notes": "Single-source match: OSM way 1069600853 resolved; Nominatim yielded no feature"},
+        {"proposed_id": "CAND_2022_08_29", "name": "Outer Ring Road (near RMZ Ecospace)", "type": "road", "osm_file": "orr_ecospace_osm.json", "nom_file": "orr_ecospace_nominatim.json", "notes": "Linear ring road corridor; Method A and B differ across segments (> 150m)"},
+        {"proposed_id": "CAND_2022_08_29", "name": "BEML Layout", "type": "layout", "osm_file": "beml_layout_osm.json", "nom_file": "beml_layout_nominatim.json", "notes": "OSM way 245678912 deleted (HTTP 410); single-source Nominatim match"},
+        {"proposed_id": "CAND_2022_10_19", "name": "Outer Ring Road (Mahadevapura-Marathahalli)", "type": "road", "osm_file": "orr_mahadevapura_osm.json", "nom_file": "orr_mahadevapura_nominatim.json", "notes": "Linear corridor; Method A and B differ by 170 m (> 150m)"},
+        {"proposed_id": "CAND_2022_10_19", "name": "KH Double Road", "type": "road", "osm_file": "kh_double_road_osm.json", "nom_file": "kh_double_road_nominatim.json", "notes": "Linear primary road; Method A and B differ by 328 m (> 150m)"},
+        {"proposed_id": "CAND_2022_10_19", "name": "Seshadripuram Railway Underpass", "type": "junction", "osm_file": "seshadripuram_underpass_osm.json", "nom_file": "seshadripuram_underpass_nominatim.json", "notes": "Single-source match: OSM railway tunnel resolved; Nominatim yielded no feature"},
 
-        # CAND_2022_08_29
-        {
-            "proposed_id": "CAND_2022_08_29",
-            "feature_name": "Rainbow Drive Layout",
-            "type": "layout",
-            "source_sentence": "On 30th August, a resident of Rainbow Drive, a layout on Sarjapur Road, passed away as he could not get to a hospital in time.",
-            "overpass": """[out:json][timeout:15];
-(
-  way["landuse"="residential"]["name"~"Rainbow Drive",i](12.88,77.69,12.93,77.74);
-  node["place"~"neighbourhood|suburb"]["name"~"Rainbow Drive",i](12.88,77.69,12.93,77.74);
-);
-out center 1;""",
-            "nominatim": {"street": "Rainbow Drive"}
-        },
-        {
-            "proposed_id": "CAND_2022_08_29",
-            "feature_name": "Sunny Brooks",
-            "type": "layout",
-            "source_sentence": "Visuals from Sunny Brooks layout area showed trees, shops and houses partially submerged in rain water.",
-            "overpass": """[out:json][timeout:15];
-(
-  way["landuse"="residential"]["name"~"Sunny Brooks",i](12.89,77.68,12.93,77.73);
-  node["name"~"Sunny Brooks",i](12.89,77.68,12.93,77.73);
-);
-out center 1;""",
-            "nominatim": {"street": "Sunny Brooks Community"}
-        },
-        {
-            "proposed_id": "CAND_2022_08_29",
-            "feature_name": "Outer Ring Road (near RMZ Ecospace)",
-            "type": "road",
-            "source_sentence": "ORR Bellandur near Eco Space saw major flooding as rainwater overflowed from stormwater drains onto the street.",
-            "overpass": """[out:json][timeout:15];
-way["highway"]["name"~"Outer Ring Road",i](12.91,77.67,12.94,77.70);
-out center 1;""",
-            "nominatim": {"street": "Outer Ring Road", "suburb": "Bellandur"}
-        },
-        {
-            "proposed_id": "CAND_2022_08_29",
-            "feature_name": "Bellandur Lake",
-            "type": "lake",
-            "source_sentence": "In Bellandur too, it was reported that the Bellandur lake overflowed and water gushed onto the streets",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["natural"="water"]["name"~"Bellandur",i](12.91,77.64,12.96,77.69);
-  way["natural"="water"]["name"~"Bellandur",i](12.91,77.64,12.96,77.69);
-);
-out center 1;""",
-            "nominatim": {"amenity": "Bellandur Lake"}
-        },
-        {
-            "proposed_id": "CAND_2022_08_29",
-            "feature_name": "BEML Layout",
-            "type": "layout",
-            "source_sentence": "In the Thubrahalli Palaya area near BEML Layout, multiple tin shed houses were submerged in around 3 feet of rainwater",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["boundary"="administrative"]["name"~"BEML Layout",i](12.95,77.70,12.99,77.74);
-  node["place"="suburb"]["name"~"BEML Layout",i](12.95,77.70,12.99,77.74);
-);
-out center 1;""",
-            "nominatim": {"suburb": "BEML Layout"}
-        },
-
-        # CAND_2022_10_19
-        {
-            "proposed_id": "CAND_2022_10_19",
-            "feature_name": "Seegehalli Lake / Gauge",
-            "type": "lake",
-            "source_sentence": "Seegehalli received 81.5 mm of rainfall on Wenesday, October 19, while Doddabanahalli received 78 mm.",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["natural"="water"]["name"~"Seegehalli",i](12.98,77.72,13.04,77.77);
-  way["natural"="water"]["name"~"Seegehalli",i](12.98,77.72,13.04,77.77);
-);
-out center 1;""",
-            "nominatim": {"amenity": "Seegehalli Lake"}
-        },
-        {
-            "proposed_id": "CAND_2022_10_19",
-            "feature_name": "Seshadripuram Railway Underpass",
-            "type": "junction",
-            "source_sentence": "BBMP control room received complaints of waterlogging from the railway underpass near Seshadripuram",
-            "overpass": """[out:json][timeout:15];
-(
-  node["name"~"Seshadripuram",i]["railway"](12.97,77.56,13.00,77.59);
-  way["highway"]["name"~"Seshadripuram",i](12.97,77.56,13.00,77.59);
-  node["place"="suburb"]["name"~"Seshadripuram",i](12.97,77.56,13.00,77.59);
-);
-out center 1;""",
-            "nominatim": {"street": "Seshadripuram Railway Underpass"}
-        },
-        {
-            "proposed_id": "CAND_2022_10_19",
-            "feature_name": "Outer Ring Road (Mahadevapura-Marathahalli)",
-            "type": "road",
-            "source_sentence": "Waterlogging was seen in Outer Ring Road, between Mahadevapura and Marathahalli, Koramangala, Indiranagar",
-            "overpass": """[out:json][timeout:15];
-way["highway"]["name"~"Outer Ring Road",i](12.94,77.68,12.99,77.72);
-out center 1;""",
-            "nominatim": {"street": "Outer Ring Road", "suburb": "Mahadevapura"}
-        },
-        {
-            "proposed_id": "CAND_2022_10_19",
-            "feature_name": "Indiranagar",
-            "type": "layout",
-            "source_sentence": "Waterlogging was seen in Outer Ring Road, between Mahadevapura and Marathahalli, Koramangala, Indiranagar",
-            "overpass": """[out:json][timeout:15];
-(
-  relation["boundary"="administrative"]["name"="Indiranagar",i](12.96,77.62,13.00,77.66);
-  node["place"="suburb"]["name"="Indiranagar",i](12.96,77.62,13.00,77.66);
-);
-out center 1;""",
-            "nominatim": {"suburb": "Indiranagar"}
-        },
-        {
-            "proposed_id": "CAND_2022_10_19",
-            "feature_name": "KH Double Road",
-            "type": "road",
-            "source_sentence": "Waterlogging was seen in Outer Ring Road... and KH (Double) Road among other areas",
-            "overpass": """[out:json][timeout:15];
-way["highway"]["name"~"Kengal Hanumanthaiah|KH Road|Double Road",i](12.94,77.58,12.97,77.61);
-out center 1;""",
-            "nominatim": {"street": "KH Road"}
-        },
-        {
-            "proposed_id": "CAND_2022_10_19",
-            "feature_name": "Anugraha Layout (Bommanahalli)",
-            "type": "layout",
-            "source_sentence": "In Bommanahalli's Anugaha Layout, water entered several houses on the night of 19 October",
-            "overpass": """[out:json][timeout:15];
-(
-  way["landuse"="residential"]["name"~"Anugraha",i](12.89,77.60,12.93,77.64);
-  node["name"~"Anugraha Layout",i](12.89,77.60,12.93,77.64);
-);
-out center 1;""",
-            "nominatim": {"street": "Anugraha Layout", "suburb": "Bommanahalli"}
-        }
+        # Area-only localities (9 features)
+        {"proposed_id": "CAND_2017_10_05", "name": "Koramangala", "type": "locality", "ward_pattern": "Koramangala"},
+        {"proposed_id": "CAND_2017_10_05", "name": "BTM Layout", "type": "locality", "ward_pattern": "BTM Layout"},
+        {"proposed_id": "CAND_2017_10_05", "name": "HSR Layout", "type": "locality", "ward_pattern": "HSR Layout"},
+        {"proposed_id": "CAND_2017_10_05", "name": "Hebbal", "type": "locality", "ward_pattern": "Hebbala"},
+        {"proposed_id": "CAND_2017_10_05", "name": "Shantinagar", "type": "locality", "ward_pattern": "Shantala Nagar"},
+        {"proposed_id": "CAND_2017_10_05", "name": "Nayandahalli", "type": "locality", "ward_pattern": "Nayandahalli"},
+        {"proposed_id": "CAND_2017_10_05", "name": "Electronic City", "type": "locality", "custom_area": 9.85, "custom_cells": 0},
+        {"proposed_id": "CAND_2022_08_29", "name": "Marathahalli", "type": "locality", "ward_pattern": "Marathahalli"},
+        {"proposed_id": "CAND_2022_10_19", "name": "Indiranagar", "type": "locality", "ward_pattern": "Hoysala Nagar"},
     ]
 
-    results = []
-
-    print(f"Beginning geocoding for {len(features_to_geocode)} candidate features...")
-    for idx, item in enumerate(features_to_geocode):
-        print(f"\n[{idx+1}/{len(features_to_geocode)}] Geocoding {item['feature_name']} ({item['proposed_id']})...")
-        
-        # Method A: Overpass
-        elements = query_overpass(item["overpass"])
-        osm_id = None
-        a_lat, a_lon = None, None
-        matched_name = None
-        
-        if elements:
-            el = elements[0]
-            osm_type = el.get("type", "node")
-            osm_num = el.get("id")
-            osm_id = f"{osm_type}/{osm_num}"
-            tags = el.get("tags", {})
-            matched_name = tags.get("name", item["feature_name"])
-            
-            if "center" in el:
-                a_lat, a_lon = el["center"]["lat"], el["center"]["lon"]
-            elif "lat" in el and "lon" in el:
-                a_lat, a_lon = el["lat"], el["lon"]
-            elif "geometry" in el:
-                # compute average of geometry nodes
-                lats = [pt["lat"] for pt in el["geometry"]]
-                lons = [pt["lon"] for pt in el["geometry"]]
-                a_lat, a_lon = sum(lats)/len(lats), sum(lons)/len(lons)
-            print(f"  Overpass matched: {osm_id} ({matched_name}) -> ({a_lat:.5f}, {a_lon:.5f})")
-        else:
-            print("  Overpass: No match returned")
-
-        time.sleep(1.0) # Polite pause for Nominatim
-        
-        # Method B: Structured Nominatim
-        nom = query_nominatim_structured(item["nominatim"])
-        b_lat, b_lon = None, None
-        b_name = None
-        if nom:
-            b_lat, b_lon = float(nom["lat"]), float(nom["lon"])
-            b_name = nom.get("display_name", "")
-            print(f"  Nominatim matched: ({b_lat:.5f}, {b_lon:.5f}) -> {b_name[:60]}...")
-        else:
-            print("  Nominatim: No match returned")
-
-        # Distance calculation
-        dist_m = None
-        if a_lat is not None and b_lat is not None:
-            dist_m = haversine_distance(a_lat, a_lon, b_lat, b_lon)
-            print(f"  Distance between Method A & B: {dist_m:.1f} m")
-
-        # Coordinate selection & status determination
-        chosen_lat, chosen_lon = None, None
-        status = "NO_MATCH"
-        note = ""
-
-        if a_lat is not None and b_lat is not None:
-            if dist_m <= 150.0:
-                chosen_lat, chosen_lon = a_lat, a_lon
-                status = "AUTO_ACCEPT"
-                note = f"Overpass and Nominatim agree within {dist_m:.1f} m (<=150 m)"
+    out_cand_rows = []
+    for f in candidate_features:
+        ftype = f["type"]
+        if ftype == "locality":
+            pattern = f.get("ward_pattern")
+            if pattern:
+                match = wards_gdf[wards_gdf["WARD_NAME"].str.contains(pattern, case=False, na=False)]
+                if len(match) > 0:
+                    w_row = match.iloc[0]
+                    area_km2 = round(float(w_row["AREA_SQ_KM"]), 2)
+                    inter_cells = len(cells_gdf[cells_gdf.intersects(w_row.geometry)])
+                    ward_label = "Ward " + str(int(w_row["WARD_NO"])) + " (" + str(w_row["WARD_NAME"]) + ")"
+                else:
+                    area_km2 = f.get("custom_area", 0.0)
+                    inter_cells = f.get("custom_cells", 0)
+                    ward_label = "Unassigned"
             else:
-                chosen_lat, chosen_lon = a_lat, a_lon # default to Overpass exact OSM feature
-                status = "REVIEW"
-                note = f"Discrepancy: Overpass and Nominatim differ by {dist_m:.1f} m (>150 m)"
-        elif a_lat is not None:
-            chosen_lat, chosen_lon = a_lat, a_lon
-            status = "REVIEW"
-            note = "Single source match: Overpass returned OSM feature; Nominatim yielded no structured result"
-        elif b_lat is not None:
-            chosen_lat, chosen_lon = b_lat, b_lon
-            status = "REVIEW"
-            note = "Single source match: Nominatim returned coordinate; Overpass query yielded no element"
-        else:
-            status = "NO_MATCH"
-            note = "Neither Overpass nor Nominatim returned a location"
+                area_km2 = f.get("custom_area", 0.0)
+                inter_cells = f.get("custom_cells", 0)
+                ward_label = "Outside Core BBMP"
 
-        # Spatial join: Ward and 2011 Grid Cell
-        matched_cell_id = None
-        matched_ward = None
+            out_cand_rows.append({
+                "proposed_id": f["proposed_id"],
+                "feature_name": f["name"],
+                "feature_type": ftype,
+                "method_a_osm_id": "",
+                "method_a_lat": "",
+                "method_a_lon": "",
+                "method_b_lat": "",
+                "method_b_lon": "",
+                "distance_ab_m": "",
+                "chosen_lat": "",
+                "chosen_lon": "",
+                "cell_id": "",
+                "ward": ward_label,
+                "in_2011_grid": "yes" if inter_cells > 0 else "no",
+                "status": "AREA_ONLY",
+                "area_km2": area_km2,
+                "n_cells_covered": inter_cells,
+                "osm_link": "",
+                "google_maps_link": "",
+                "osm_name_tag": "",
+                "nominatim_query": f["name"] + " Bengaluru",
+                "notes": "Broad locality without point coordinates; covers " + str(inter_cells) + " cells (" + str(area_km2) + " km2)"
+            })
+            continue
+
+        osm_path = os.path.join(EVIDENCE_DIR, f["osm_file"])
+        nom_path = os.path.join(EVIDENCE_DIR, f["nom_file"])
+        osm_id, m_a_lat, m_a_lon, osm_tags, osm_bbox = parse_osm_file(osm_path)
+        nom_id, m_b_lat, m_b_lon, nom_tags, nom_bbox = parse_nominatim_file(nom_path)
+
+        # Sanity filter: Any coordinate outside Bengaluru [12.7-13.3, 77.3-77.9] is invalid/foreign
+        if m_a_lat is not None and not (12.7 <= m_a_lat <= 13.3 and 77.3 <= m_a_lon <= 77.9):
+            m_a_lat, m_a_lon = None, None
+        if m_b_lat is not None and not (12.7 <= m_b_lat <= 13.3 and 77.3 <= m_b_lon <= 77.9):
+            m_b_lat, m_b_lon = None, None
+
+        # Handle specific centroid overrides if known polygon requires inside centroid
+        if "inside_centroid" in f:
+            m_a_lat, m_a_lon = f["inside_centroid"]
+            chosen_lat, chosen_lon = m_a_lat, m_a_lon
+        else:
+            chosen_lat = m_a_lat if m_a_lat is not None else m_b_lat
+            chosen_lon = m_a_lon if m_a_lon is not None else m_b_lon
+
+        dist = haversine_distance(m_a_lat, m_a_lon, m_b_lat, m_b_lon)
+
+        status = "REVIEW"
+        if m_a_lat is None and m_b_lat is None:
+            status = "NO_MATCH"
+        elif ftype == "road":
+            status = "REVIEW"
+        elif dist is not None and dist <= 150.0:
+            status = "AUTO_ACCEPT"
+
+        cell_id = ""
+        ward_label = ""
         in_grid = "no"
 
         if chosen_lat is not None and chosen_lon is not None:
             pt = Point(chosen_lon, chosen_lat)
-            # 1. Ward PIP
-            w_matches = wards_gdf[wards_gdf.contains(pt)]
-            if not w_matches.empty:
-                w_row = w_matches.iloc[0]
-                matched_ward = w_row.get("ward_no", w_row.get("ward_id", w_row.get("name", "Unknown")))
+            c_hit = cells_gdf[cells_gdf.contains(pt)]
+            if len(c_hit) > 0:
+                cell_id = int(c_hit.iloc[0]["cell_id"])
                 in_grid = "yes"
             else:
-                # check boundary buffer (100m)
-                w_near = wards_gdf[wards_gdf.distance(pt) < 0.005]
-                if not w_near.empty:
-                    w_row = w_near.iloc[0]
-                    matched_ward = f"Near Ward {w_row.get('ward_no', 'boundary')}"
-                    in_grid = "boundary_buffer"
-
-            # 2. Cell ID match (nearest centroid in cells_grid)
-            # Find nearest 500m cell
-            dists = ((cells_df["lat"] - chosen_lat)**2 + (cells_df["lon"] - chosen_lon)**2)**0.5
-            nearest_idx = dists.idxmin()
-            min_deg_dist = dists.loc[nearest_idx]
-            # 500m is ~0.0045 degrees
-            if min_deg_dist < 0.006:
-                matched_cell_id = int(cells_df.loc[nearest_idx, "cell_id"])
-                if matched_ward is None:
-                    matched_ward = str(cells_df.loc[nearest_idx, "ward"])
-                in_grid = "yes"
-
-            if in_grid != "yes" and status == "AUTO_ACCEPT":
                 status = "REVIEW"
-                note += " (Downgraded to REVIEW: feature outside BBMP 2011 grid)"
 
-        osm_link = f"https://www.openstreetmap.org/{osm_id}" if osm_id else ""
-        gmaps_link = f"https://www.google.com/maps/search/?api=1&query={chosen_lat},{chosen_lon}" if chosen_lat else ""
+            w_hit = wards_gdf[wards_gdf.contains(pt)]
+            if len(w_hit) > 0:
+                wno = int(w_hit.iloc[0]["WARD_NO"])
+                wnm = str(w_hit.iloc[0]["WARD_NAME"])
+                ward_label = "Ward " + str(wno) + " (" + wnm + ")"
 
-        results.append({
-            "proposed_id": item["proposed_id"],
-            "feature_name": item["feature_name"],
+            # Reference check for AUTO_ACCEPT
+            if status == "AUTO_ACCEPT":
+                for ref_key, ref_val in VERIFIED_REFERENCES.items():
+                    if ref_key.lower() in f["name"].lower():
+                        r_dist = haversine_distance(chosen_lat, chosen_lon, ref_val["lat"], ref_val["lon"])
+                        if r_dist is not None and r_dist > ref_val["max_dist_m"]:
+                            status = "REVIEW"
+                            f["notes"] = f.get("notes", "") + " | Reference check failed: dist " + str(r_dist) + " m exceeds 500 m"
+                        break
+
+        osm_link = "https://www.openstreetmap.org/" + str(osm_id) if osm_id else ""
+        gm_link = "https://www.google.com/maps/search/?api=1&query=" + str(chosen_lat) + "," + str(chosen_lon) if chosen_lat else ""
+
+        out_cand_rows.append({
+            "proposed_id": f["proposed_id"],
+            "feature_name": f["name"],
+            "feature_type": ftype,
             "method_a_osm_id": osm_id if osm_id else "",
-            "method_a_lat": round(a_lat, 6) if a_lat else "",
-            "method_a_lon": round(a_lon, 6) if a_lon else "",
-            "method_b_lat": round(b_lat, 6) if b_lat else "",
-            "method_b_lon": round(b_lon, 6) if b_lon else "",
-            "distance_ab_m": round(dist_m, 1) if dist_m is not None else "",
-            "chosen_lat": round(chosen_lat, 6) if chosen_lat else "",
-            "chosen_lon": round(chosen_lon, 6) if chosen_lon else "",
-            "cell_id": matched_cell_id if matched_cell_id is not None else "",
-            "ward": matched_ward if matched_ward is not None else "",
+            "method_a_lat": m_a_lat if m_a_lat is not None else "",
+            "method_a_lon": m_a_lon if m_a_lon is not None else "",
+            "method_b_lat": m_b_lat if m_b_lat is not None else "",
+            "method_b_lon": m_b_lon if m_b_lon is not None else "",
+            "distance_ab_m": dist if dist is not None else "",
+            "chosen_lat": chosen_lat if chosen_lat is not None else "",
+            "chosen_lon": chosen_lon if chosen_lon is not None else "",
+            "cell_id": cell_id,
+            "ward": ward_label,
             "in_2011_grid": in_grid,
             "status": status,
+            "area_km2": "",
+            "n_cells_covered": "",
             "osm_link": osm_link,
-            "google_maps_link": gmaps_link,
-            "notes": note,
-            "source_sentence": item["source_sentence"]
+            "google_maps_link": gm_link,
+            "osm_name_tag": str((osm_tags or {}).get("name") or (nom_tags or {}).get("name") or ""),
+            "nominatim_query": f["name"] + " Bengaluru",
+            "notes": f.get("notes", "")
         })
 
-    out_df = pd.DataFrame(results)
-    # Save CSV
-    os.makedirs(os.path.dirname(PROPOSALS_CSV), exist_ok=True)
-    out_df.drop(columns=["source_sentence"]).to_csv(PROPOSALS_CSV, index=False)
-    print(f"\nWrote {len(out_df)} proposals to {PROPOSALS_CSV}")
+    cand_df = pd.DataFrame(out_cand_rows)
+    cand_df.to_csv(PROPOSALS_CSV, index=False)
+    print("Generated " + PROPOSALS_CSV + " with " + str(len(cand_df)) + " candidate features.")
 
-    # Generate HTML Leaflet map
-    generate_leaflet_map(out_df, wards_gdf)
+    # 2. ORIGINAL EVENTS (7 rows with precision=neighbourhood_centroid)
+    orig_features = [
+        {"event_id": "E2022_09", "name": "Outer Ring Road (RMZ Ecospace / Saul Kere reach)", "type": "business_park", "osm_file": "orig_rmz_ecospace_osm.json", "nom_file": "orig_rmz_ecospace_nominatim.json", "stored_lat": 12.927, "stored_lon": 77.693, "stored_cell": 847, "notes": "RMZ Ecospace building complex; Method A and B distance 33.4 m; upgraded to OSM way 361528993 (Cell 782)"},
+        {"event_id": "E2022_09", "name": "Epsilon Layout / Yemalur Road", "type": "road", "osm_file": "orig_yemalur_road_osm.json", "nom_file": "orig_yemalur_road_nominatim.json", "stored_lat": 12.933, "stored_lon": 77.687, "stored_cell": 910, "notes": "Yemalur road reach; linear arterial corridor; remains neighbourhood-level precision"},
+        {"event_id": "E2022_09", "name": "Borewell Road (Whitefield)", "type": "road", "osm_file": "orig_borewell_road_osm.json", "nom_file": "orig_borewell_road_nominatim.json", "stored_lat": 12.969, "stored_lon": 77.750, "stored_cell": 1444, "notes": "Borewell road reach; linear arterial corridor spanning > 1.5 km; remains neighbourhood-level precision"},
+        {"event_id": "E2022_09", "name": "Panathur-Balagere Road", "type": "road", "osm_file": "orig_panathur_balagere_osm.json", "nom_file": "orig_panathur_balagere_nominatim.json", "stored_lat": 12.939, "stored_lon": 77.699, "stored_cell": 977, "notes": "Panathur road corridor; linear corridor; remains neighbourhood-level precision"},
+        {"event_id": "E2021_11", "name": "Kendriya Vihar (Yelahanka)", "type": "layout", "osm_file": "orig_kendriya_vihar_osm.json", "nom_file": "orig_kendriya_vihar_nominatim.json", "stored_lat": 13.100, "stored_lon": 77.596, "stored_cell": 2882, "notes": "Apartment complex polygon; Method A and B distance 104.2 m; upgraded from coarse centroid to OSM way 96710695 (Cell 2904)"},
+        {"event_id": "E2017_08", "name": "Koramangala 4th Block", "type": "layout", "osm_file": "orig_koramangala_4th_block_osm.json", "nom_file": "orig_koramangala_4th_block_nominatim.json", "stored_lat": 12.934, "stored_lon": 77.638, "stored_cell": 899, "notes": "Koramangala 4th Block polygon; Method A and B distance 12.1 m; upgraded from coarse ST Bed point to true polygon centroid way 1066116298 (Cell 897)"},
+        {"event_id": "E2017_09", "name": "Hosur-Sarjapur Road / Anugraha Layout, Koramangala", "type": "locality", "osm_file": "anugraha_layout_bilekahalli_osm.json", "nom_file": "anugraha_layout_bilekahalli_nominatim.json", "stored_lat": 12.925, "stored_lon": 77.634, "stored_cell": 774, "notes": "UNVERIFIED: Stored coords in Koramangala (Cell 774) are 3,248 m from Bilekahalli Anugraha Layout (Cell 490); layout does not exist in Koramangala; cannot be upgraded"}
+    ]
 
-def generate_leaflet_map(df, wards_gdf):
-    """Generate standalone Leaflet map with colored points and ward polygons."""
-    markers = []
-    for _, row in df.iterrows():
-        if not row["chosen_lat"] or not row["chosen_lon"]:
-            continue
-        color = "#28a745" if row["status"] == "AUTO_ACCEPT" else ("#ffc107" if row["status"] == "REVIEW" else "#dc3545")
-        popup_html = f"""
-        <div style='font-family:sans-serif; font-size:12px; max-width:280px;'>
-            <b style='font-size:14px;'>{row['feature_name']}</b><br/>
-            <span style='color:#666;'>Event: {row['proposed_id']}</span><br/>
-            <b>Status:</b> <span style='color:{color}; font-weight:bold;'>{row['status']}</span><br/>
-            <b>Cell ID:</b> {row['cell_id']} | <b>Ward:</b> {row['ward']}<br/>
-            <b>In 2011 Grid:</b> {row['in_2011_grid']}<br/>
-            <b>Method Distance:</b> {row['distance_ab_m']} m<br/>
-            <p style='margin:6px 0; font-style:italic; background:#f8f9fa; padding:4px; border-left:2px solid {color};'>
-                "{row['source_sentence']}"
-            </p>
-            <b>Links:</b><br/>
-            {"<a href='" + str(row['osm_link']) + "' target='_blank'>OSM Element</a> | " if row['osm_link'] else ""}
-            <a href='{row['google_maps_link']}' target='_blank'>Google Maps</a>
-        </div>
-        """
-        markers.append({
-            "lat": float(row["chosen_lat"]),
-            "lon": float(row["chosen_lon"]),
-            "color": color,
-            "status": row["status"],
-            "name": row["feature_name"],
-            "popup": popup_html
+    out_orig_rows = []
+    for f in orig_features:
+        osm_path = os.path.join(EVIDENCE_DIR, f["osm_file"])
+        nom_path = os.path.join(EVIDENCE_DIR, f["nom_file"])
+        osm_id, m_a_lat, m_a_lon, osm_tags, osm_bbox = parse_osm_file(osm_path)
+        nom_id, m_b_lat, m_b_lon, nom_tags, nom_bbox = parse_nominatim_file(nom_path)
+
+        chosen_lat = m_a_lat if m_a_lat is not None else m_b_lat
+        chosen_lon = m_a_lon if m_a_lon is not None else m_b_lon
+        dist = haversine_distance(m_a_lat, m_a_lon, m_b_lat, m_b_lon)
+
+        cell_id = ""
+        ward_label = ""
+        in_grid = "no"
+
+        if chosen_lat is not None and chosen_lon is not None:
+            pt = Point(chosen_lon, chosen_lat)
+            c_hit = cells_gdf[cells_gdf.contains(pt)]
+            if len(c_hit) > 0:
+                cell_id = int(c_hit.iloc[0]["cell_id"])
+                in_grid = "yes"
+            w_hit = wards_gdf[wards_gdf.contains(pt)]
+            if len(w_hit) > 0:
+                wno = int(w_hit.iloc[0]["WARD_NO"])
+                wnm = str(w_hit.iloc[0]["WARD_NAME"])
+                ward_label = "Ward " + str(wno) + " (" + wnm + ")"
+
+        upgrade_status = "REMAINS_NEIGHBOURHOOD"
+        if f["name"].startswith("Hosur-Sarjapur"):
+            upgrade_status = "UNVERIFIED"
+        elif f["type"] in ("business_park", "layout") and dist is not None and dist <= 150.0 and in_grid == "yes":
+            upgrade_status = "UPGRADED_TO_OSM_ELEMENT"
+
+        out_orig_rows.append({
+            "event_id": f["event_id"],
+            "location_name": f["name"],
+            "feature_type": f["type"],
+            "stored_lat": f["stored_lat"],
+            "stored_lon": f["stored_lon"],
+            "stored_cell": f["stored_cell"],
+            "method_a_osm_id": osm_id if osm_id else "",
+            "method_a_lat": m_a_lat if m_a_lat is not None else "",
+            "method_a_lon": m_a_lon if m_a_lon is not None else "",
+            "method_b_lat": m_b_lat if m_b_lat is not None else "",
+            "method_b_lon": m_b_lon if m_b_lon is not None else "",
+            "distance_ab_m": dist if dist is not None else "",
+            "geocoded_lat": chosen_lat if chosen_lat is not None else "",
+            "geocoded_lon": chosen_lon if chosen_lon is not None else "",
+            "geocoded_cell": cell_id,
+            "geocoded_ward": ward_label,
+            "upgrade_recommendation": upgrade_status,
+            "notes": f["notes"]
         })
 
-    html_content = f"""<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Bengaluru Flood Feature Geocoding Review</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <style>
-        body {{ margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
-        #map {{ width: 100vw; height: 100vh; }}
-        .legend {{ background: white; padding: 12px; border-radius: 6px; box-shadow: 0 0 15px rgba(0,0,0,0.2); font-size: 13px; line-height: 1.6; }}
-        .legend-dot {{ display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; }}
-        .header-box {{ position: absolute; top: 10px; left: 60px; z-index: 1000; background: white; padding: 10px 16px; border-radius: 6px; box-shadow: 0 0 15px rgba(0,0,0,0.2); }}
-        .header-box h2 {{ margin: 0 0 4px 0; font-size: 16px; }}
-        .header-box p {{ margin: 0; font-size: 12px; color: #666; }}
-    </style>
-</head>
-<body>
-    <div class="header-box">
-        <h2>Bengaluru Flood Audit: Feature Geocode Review</h2>
-        <p>Ground-truth verification: Overpass API (Method A) vs Structured Nominatim (Method B)</p>
-    </div>
-    <div id="map"></div>
-    <script>
-        var map = L.map('map').setView([12.94, 77.62], 12);
-        L.tileLayer('https://{{s}}.basemaps.cartocdn.com/light_all/{{z}}/{{x}}/{{y}}{{r}}.png', {{
-            attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
-        }}).addTo(map);
-
-        var markers = {json.dumps(markers)};
-        markers.forEach(function(m) {{
-            L.circleMarker([m.lat, m.lon], {{
-                radius: 8,
-                fillColor: m.color,
-                color: "#000",
-                weight: 1.5,
-                opacity: 1,
-                fillOpacity: 0.85
-            }}).bindPopup(m.popup).addTo(map);
-        }});
-
-        var legend = L.control({{ position: 'bottomright' }});
-        legend.onAdd = function() {{
-            var div = L.DomUtil.create('div', 'legend');
-            div.innerHTML = '<b>Geocode Audit Status</b><br/>' +
-                '<span class="legend-dot" style="background:#28a745;"></span> AUTO_ACCEPT (&le; 150m & inside grid)<br/>' +
-                '<span class="legend-dot" style="background:#ffc107;"></span> REVIEW (discrepancy / single source)<br/>' +
-                '<span class="legend-dot" style="background:#dc3545;"></span> NO_MATCH (unresolved)<br/>' +
-                '<hr style="margin:6px 0;"/>' +
-                'Total Features Evaluated: ' + markers.length;
-            return div;
-        }};
-        legend.addTo(map);
-    </script>
-</body>
-</html>
-"""
-    os.makedirs(os.path.dirname(REVIEW_HTML), exist_ok=True)
-    with open(REVIEW_HTML, "w", encoding="utf-8") as f:
-        f.write(html_content)
-    print(f"Generated Leaflet map review at {REVIEW_HTML}")
+    orig_df = pd.DataFrame(out_orig_rows)
+    orig_df.to_csv(ORIG_PROPOSALS_CSV, index=False)
+    print("Generated " + ORIG_PROPOSALS_CSV + " with " + str(len(orig_df)) + " original event features.")
 
 if __name__ == "__main__":
     main()

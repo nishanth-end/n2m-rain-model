@@ -1,0 +1,95 @@
+/* Selection */
+::selection {
+  background-color: var(--accent-water-light);
+  color: var(--accent-water);
+}
+
+/* Focus Outline */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-subtle);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-xs);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-muted);
+}
+
+/* Code & Telemetry Elements */
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+code {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-xs);
+  color: var(--ink-secondary);
+}
+
+/* Helper Text Classes */
+.text-serif {
+  font-family: var(--font-serif);
+}
+
+.text-mono {
+  font-family: var(--font-mono);
+}
+
+.text-sans {
+  font-family: var(--font-sans);
+}
+
+.text-water {
+  color: var(--accent-water);
+}
+
+.text-olive {
+  color: var(--accent-olive);
+}
+
+.text-high {
+  color: var(--tier-high);
+}
+
+.text-mod {
+  color: var(--tier-moderate);
+}
+
+.text-dim {
+  color: var(--ink-faint);
+}
+
+.text-muted {
+  color: var(--ink-muted);
+}
+
+/* Loading Spin Keyframe */
+@keyframes n2m-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: n2m-spin 0.9s linear infinite;
+}

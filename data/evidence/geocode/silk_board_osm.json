@@ -1,0 +1,29 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1308 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 5558684110,
+      "lat": 12.9169444,
+      "lon": 77.6212546,
+      "timestamp": "2025-08-16T15:28:59Z",
+      "version": 4,
+      "changeset": 170529015,
+      "user": "Vonter",
+      "uid": 3926189,
+      "tags": {
+        "bus": "yes",
+        "highway": "bus_stop",
+        "name": "Central Silk Board (Towards Madivala)",
+        "network": "BMTC",
+        "network:wikidata": "Q3345039",
+        "operator": "BMTC",
+        "public_transport": "platform"
+      }
+    }
+  ]
+}

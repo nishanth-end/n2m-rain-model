@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 252419210,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 1069600852,
+    "lat": "12.8989298",
+    "lon": "77.6920334",
+    "class": "water",
+    "type": "lake",
+    "place_rank": 20,
+    "importance": 0.1334042778667887,
+    "addresstype": "lake",
+    "name": "Halanayakanahalli Lake",
+    "display_name": "Halanayakanahalli Lake, Halanayakanahalli, Bangalore East, Bengaluru Urban, Karnataka, India",
+    "boundingbox": [
+      "12.8954132",
+      "12.9025759",
+      "77.6885024",
+      "77.6946527"
+    ]
+  }
+]

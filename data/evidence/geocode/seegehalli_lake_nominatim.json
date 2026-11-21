@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 252691705,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "relation",
+    "osm_id": 9432609,
+    "lat": "13.0178414",
+    "lon": "77.7129097",
+    "class": "natural",
+    "type": "water",
+    "place_rank": 22,
+    "importance": 0.10673761120012205,
+    "addresstype": "water",
+    "name": "Seegehalli Lake",
+    "display_name": "Seegehalli Lake, Medahalli, Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, India",
+    "boundingbox": [
+      "13.0152568",
+      "13.0203224",
+      "77.7115211",
+      "77.7149650"
+    ]
+  }
+]

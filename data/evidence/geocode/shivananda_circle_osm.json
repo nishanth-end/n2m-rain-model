@@ -1,0 +1,57 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1318 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 461755301,
+      "lat": 12.9868833,
+      "lon": 77.5791659,
+      "timestamp": "2024-12-18T04:46:38Z",
+      "version": 6,
+      "changeset": 160332737,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 12429469431,
+      "lat": 12.9873771,
+      "lon": 77.5785203,
+      "timestamp": "2024-12-18T04:46:38Z",
+      "version": 1,
+      "changeset": 160332737,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "way",
+      "id": 1087634272,
+      "timestamp": "2026-01-26T05:02:43Z",
+      "version": 5,
+      "changeset": 177705903,
+      "user": "uknown-gryphus",
+      "uid": 2425805,
+      "nodes": [
+        12429469431,
+        461755301
+      ],
+      "tags": {
+        "alt_name": "Hare Krishna Road",
+        "embankment": "yes",
+        "highway": "secondary",
+        "lanes": "2",
+        "name": "Shivananda Circle Flyover",
+        "name:kn": "\u0cb9\u0cb0\u0cc7\u0c95\u0cc3\u0cb7\u0ccd\u0ca3 \u0cb0\u0cb8\u0ccd\u0ca4\u0cc6",
+        "note": "Opened on August 15",
+        "oneway": "yes",
+        "sidewalk": "no",
+        "source": "https://www.thehindu.com/news/cities/bangalore/shivananda-circle-flyover-partially-opened-to-traffic-as-trial-run/article65772184.ece",
+        "surface": "asphalt"
+      }
+    }
+  ]
+}

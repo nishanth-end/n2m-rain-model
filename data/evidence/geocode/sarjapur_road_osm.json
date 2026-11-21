@@ -1,0 +1,83 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1318 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 747663279,
+      "lat": 12.9244834,
+      "lon": 77.6504545,
+      "timestamp": "2013-07-15T09:35:24Z",
+      "version": 4,
+      "changeset": 16959080,
+      "user": "user_634020",
+      "uid": 634020
+    },
+    {
+      "type": "node",
+      "id": 1608973482,
+      "lat": 12.9242769,
+      "lon": 77.6517829,
+      "timestamp": "2024-07-18T08:43:09Z",
+      "version": 7,
+      "changeset": 154089825,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 2388293864,
+      "lat": 12.9244413,
+      "lon": 77.6508966,
+      "timestamp": "2013-07-18T09:49:32Z",
+      "version": 1,
+      "changeset": 16997060,
+      "user": "user_634020",
+      "uid": 634020
+    },
+    {
+      "type": "node",
+      "id": 9857144283,
+      "lat": 12.9242955,
+      "lon": 77.6516743,
+      "timestamp": "2024-07-18T08:43:09Z",
+      "version": 2,
+      "changeset": 154089825,
+      "user": "uknown-gryphus",
+      "uid": 2425805,
+      "tags": {
+        "highway": "traffic_signals",
+        "traffic_signals": "signal"
+      }
+    },
+    {
+      "type": "way",
+      "id": 232401975,
+      "timestamp": "2026-05-12T11:43:10Z",
+      "version": 10,
+      "changeset": 182550754,
+      "user": "dhruvbhat",
+      "uid": 24113031,
+      "nodes": [
+        747663279,
+        2388293864,
+        9857144283,
+        1608973482
+      ],
+      "tags": {
+        "highway": "primary",
+        "lanes": "1",
+        "maxspeed": "30",
+        "name": "Sarjapur Road",
+        "name:etymology:wikidata": "Q7424146",
+        "name:kn": "\u0cb8\u0cb0\u0ccd\u0c9c\u0cbe\u0caa\u0cc1\u0cb0 \u0cb0\u0cb8\u0ccd\u0ca4\u0cc6",
+        "oneway": "yes",
+        "sidewalk": "no",
+        "surface": "asphalt"
+      }
+    }
+  ]
+}

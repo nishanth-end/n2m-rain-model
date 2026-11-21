@@ -1,0 +1,493 @@
+/* ==========================================================================
+   HOME PAGE — CARTOGRAPHIC RESEARCH EDITORIAL
+   ========================================================================== */
+
+.home-flow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+/* 1. EDITORIAL HERO VIEWPORT */
+.hero-editorial-viewport {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: var(--space-10);
+  align-items: center;
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.hero-lead-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--accent-olive);
+  background-color: var(--accent-olive-light);
+  border: 1px solid var(--accent-olive-border);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-xs);
+  width: fit-content;
+}
+
+.hero-headline {
+  font-family: var(--font-serif);
+  font-size: var(--text-hero);
+  font-weight: 700;
+  color: var(--ink-primary);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.hero-subheadline {
+  font-size: var(--text-lg);
+  color: var(--ink-secondary);
+  line-height: var(--leading-relaxed);
+  max-width: 620px;
+  font-weight: 400;
+}
+
+.hero-actions-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.hero-event-note {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--ink-muted);
+  margin-left: var(--space-2);
+}
+
+/* Cartographic Specimen Plate (Right Hero Column) */
+.hero-specimen-plate {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.specimen-header {
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--bg-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--ink-secondary);
+}
+
+.specimen-header-title {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.specimen-coordinates {
+  color: var(--accent-water);
+}
+
+.specimen-canvas {
+  position: relative;
+  background-color: #f5f2ea;
+  background-image: 
+    radial-gradient(#244e6b 0.75px, transparent 0.75px),
+    radial-gradient(#bcb4a3 0.75px, #f5f2ea 0.75px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+  padding: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 240px;
+}
+
+.specimen-compass-icon {
+  color: var(--accent-water);
+  margin-bottom: var(--space-3);
+}
+
+.specimen-canvas-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--ink-primary);
+  margin-bottom: var(--space-1);
+}
+
+.specimen-canvas-desc {
+  font-size: var(--text-xs);
+  color: var(--ink-secondary);
+  max-width: 340px;
+  line-height: var(--leading-normal);
+}
+
+.specimen-footer {
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* 2. TELEMETRY DATA RIBBON (Not 4 identical floating cards) */
+.telemetry-ribbon {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-subtle);
+}
+
+.telemetry-cell {
+  padding: var(--space-5) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  border-right: 1px solid var(--border-subtle);
+}
+
+.telemetry-cell:last-child {
+  border-right: none;
+}
+
+.telemetry-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+
+.telemetry-value {
+  font-family: var(--font-serif);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--ink-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.telemetry-detail {
+  font-size: var(--text-xs);
+  color: var(--ink-secondary);
+  line-height: var(--leading-snug);
+}
+
+/* 3. PROBLEM STATEMENT & DATA COUPLING SPLIT */
+.problem-editorial-split {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.editorial-article {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-subtle);
+}
+
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--accent-olive);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--ink-primary);
+  letter-spacing: -0.01em;
+  line-height: var(--leading-tight);
+}
+
+.article-body-p {
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-secondary);
+}
+
+.article-pullquote {
+  padding: var(--space-4) var(--space-5);
+  background-color: var(--bg-subtle);
+  border-left: 3px solid var(--accent-olive);
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--ink-primary);
+  line-height: var(--leading-relaxed);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+}
+
+.coupling-plate {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.coupling-plate-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.coupling-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--ink-secondary);
+}
+
+.coupling-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.coupling-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.coupling-item-title {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--accent-water);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+}
+
+/* 4. THREE ENGINEERING PILLARS */
+.pillars-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.pillars-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: var(--space-3);
+}
+
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.pillar-editorial-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-subtle);
+}
+
+.pillar-index {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-water);
+  letter-spacing: 0.05em;
+}
+
+.pillar-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.pillar-desc {
+  font-size: var(--text-xs);
+  color: var(--ink-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* 5. MODEL OVERVIEW */
+.model-overview-plate {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-subtle);
+}
+
+.model-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: var(--space-3);
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.model-header-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* 6. METHODOLOGICAL LIMITATIONS */
+.limitations-box {
+  background-color: var(--tier-moderate-light);
+  border: 1px solid var(--tier-moderate-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.limitations-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--tier-moderate);
+}
+
+.limitations-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.limitations-summary {
+  font-size: var(--text-sm);
+  color: var(--ink-secondary);
+  line-height: var(--leading-normal);
+}
+
+.limitations-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
+}
+
+.limitation-item {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--tier-moderate-border);
+  border-radius: var(--radius-xs);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.limitation-num {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--tier-moderate);
+}
+
+.limitation-text {
+  font-size: var(--text-xs);
+  color: var(--ink-secondary);
+  line-height: var(--leading-normal);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .hero-editorial-viewport,
+  .problem-editorial-split {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .telemetry-ribbon {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .telemetry-cell:nth-child(2) {
+    border-right: none;
+  }
+
+  .telemetry-cell:nth-child(1),
+  .telemetry-cell:nth-child(2) {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .pillars-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-headline {
+    font-size: 2.2rem;
+  }
+
+  .telemetry-ribbon,
+  .limitations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .telemetry-cell {
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .telemetry-cell:last-child {
+    border-bottom: none;
+  }
+}

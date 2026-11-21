@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 251874781,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 1309535281,
+    "lat": "12.9475060",
+    "lon": "77.6024109",
+    "class": "highway",
+    "type": "secondary",
+    "place_rank": 26,
+    "importance": 0.0534042778667887,
+    "addresstype": "road",
+    "name": "Bannerghatta Road",
+    "display_name": "Bannerghatta Road, Eramma Layout, Adugodi, Someshwara Nagara, Bengaluru Central City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560027, India",
+    "boundingbox": [
+      "12.9471991",
+      "12.9478074",
+      "77.6023940",
+      "77.6024716"
+    ]
+  }
+]

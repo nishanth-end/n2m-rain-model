@@ -1,0 +1,183 @@
+{
+  "version": "0.6",
+  "generator": "openstreetmap-cgimap 2.1.0 (1316 spike-07.openstreetmap.org)",
+  "copyright": "OpenStreetMap and contributors",
+  "attribution": "http://www.openstreetmap.org/copyright",
+  "license": "http://opendatacommons.org/licenses/odbl/1-0/",
+  "elements": [
+    {
+      "type": "node",
+      "id": 960490336,
+      "lat": 12.9905197,
+      "lon": 77.6871413,
+      "timestamp": "2026-03-24T04:31:39Z",
+      "version": 6,
+      "changeset": 180333944,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 960490337,
+      "lat": 12.9900978,
+      "lon": 77.6869982,
+      "timestamp": "2026-04-16T19:25:43Z",
+      "version": 5,
+      "changeset": 181429013,
+      "user": "ph4ni",
+      "uid": 20599849
+    },
+    {
+      "type": "node",
+      "id": 1533912723,
+      "lat": 12.9894516,
+      "lon": 77.6870515,
+      "timestamp": "2019-05-09T10:53:27Z",
+      "version": 3,
+      "changeset": 70067622,
+      "user": "seena monachan",
+      "uid": 9086401
+    },
+    {
+      "type": "node",
+      "id": 1533912733,
+      "lat": 12.9889356,
+      "lon": 77.6870157,
+      "timestamp": "2026-03-24T04:31:39Z",
+      "version": 3,
+      "changeset": 180333944,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 1533912735,
+      "lat": 12.9896911,
+      "lon": 77.6869946,
+      "timestamp": "2026-03-24T05:52:04Z",
+      "version": 3,
+      "changeset": 180335609,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 1533912740,
+      "lat": 12.9892105,
+      "lon": 77.687074,
+      "timestamp": "2015-05-18T11:07:05Z",
+      "version": 2,
+      "changeset": 31251794,
+      "user": "premkumar",
+      "uid": 2901478
+    },
+    {
+      "type": "node",
+      "id": 2275425146,
+      "lat": 12.9901303,
+      "lon": 77.6870084,
+      "timestamp": "2026-03-24T05:52:04Z",
+      "version": 4,
+      "changeset": 180335609,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 10091996741,
+      "lat": 12.9902236,
+      "lon": 77.6870452,
+      "timestamp": "2026-03-24T05:52:04Z",
+      "version": 2,
+      "changeset": 180335609,
+      "user": "Vonter",
+      "uid": 3926189
+    },
+    {
+      "type": "node",
+      "id": 10092008127,
+      "lat": 12.9899295,
+      "lon": 77.6869829,
+      "timestamp": "2022-10-11T11:39:46Z",
+      "version": 1,
+      "changeset": 127355237,
+      "user": "Pooja Koul",
+      "uid": 16283053
+    },
+    {
+      "type": "node",
+      "id": 10164844201,
+      "lat": 12.9904379,
+      "lon": 77.6871079,
+      "timestamp": "2022-11-07T06:11:05Z",
+      "version": 1,
+      "changeset": 128581290,
+      "user": "nileshdhandak",
+      "uid": 16638013
+    },
+    {
+      "type": "node",
+      "id": 11998247282,
+      "lat": 12.9908095,
+      "lon": 77.6872278,
+      "timestamp": "2024-09-07T16:22:04Z",
+      "version": 2,
+      "changeset": 156319972,
+      "user": "uknown-gryphus",
+      "uid": 2425805
+    },
+    {
+      "type": "node",
+      "id": 13735474374,
+      "lat": 12.9901695,
+      "lon": 77.6870239,
+      "timestamp": "2026-04-16T19:25:43Z",
+      "version": 1,
+      "changeset": 181429013,
+      "user": "ph4ni",
+      "uid": 20599849
+    },
+    {
+      "type": "node",
+      "id": 13735474375,
+      "lat": 12.9900158,
+      "lon": 77.6869737,
+      "timestamp": "2026-04-16T19:25:43Z",
+      "version": 1,
+      "changeset": 181429013,
+      "user": "ph4ni",
+      "uid": 20599849
+    },
+    {
+      "type": "way",
+      "id": 82531990,
+      "timestamp": "2026-04-16T19:25:43Z",
+      "version": 13,
+      "changeset": 181429013,
+      "user": "ph4ni",
+      "uid": 20599849,
+      "nodes": [
+        11998247282,
+        960490336,
+        10164844201,
+        10091996741,
+        13735474374,
+        2275425146,
+        960490337,
+        13735474375,
+        10092008127,
+        1533912735,
+        1533912723,
+        1533912740,
+        1533912733
+      ],
+      "tags": {
+        "highway": "tertiary",
+        "lanes": "2",
+        "lit": "yes",
+        "name": "Kaggadasapura To outer Ring Road",
+        "surface": "asphalt"
+      }
+    }
+  ]
+}

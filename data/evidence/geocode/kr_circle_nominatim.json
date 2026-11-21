@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 249735473,
+    "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 1096077212,
+    "lat": "12.9757084",
+    "lon": "77.5871953",
+    "class": "junction",
+    "type": "yes",
+    "place_rank": 30,
+    "importance": 7.094453345536e-05,
+    "addresstype": "junction",
+    "name": "KR Circle",
+    "display_name": "KR Circle, Sheshadri Road, Sampangirama Nagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560001, India",
+    "boundingbox": [
+      "12.9753167",
+      "12.9761819",
+      "77.5867313",
+      "77.5876933"
+    ]
+  }
+]
