@@ -139,6 +139,7 @@ export default function TelegramPage({ dates = [], selectedDate }) {
                 </span>
                 <div className="terminal-box text-dim" style={{ fontSize: '11px', lineHeight: 1.5 }}>
                   <strong>Operational Mode:</strong> {botStatus?.mode || 'private_academic_demo'}<br />
+                  <strong>Service Status:</strong> {isEnabled ? 'Active (Live Dispatch Enabled)' : 'Disabled (Set TELEGRAM_ENABLED=true in Render)'}<br />
                   <strong>Live Token:</strong> {botStatus?.token_configured ? 'Configured (Server-Side Secret)' : 'Not Set (Sandbox Preview Mode)'}<br />
                   <strong>Authorized Chats:</strong> {botStatus?.authorized_chats_count ?? 0} Evaluator(s) Allowed
                 </div>

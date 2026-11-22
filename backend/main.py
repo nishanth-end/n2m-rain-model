@@ -387,21 +387,22 @@ def send_telegram_demo(req: TelegramSendDemoRequest):
             top_cells=risk["cells"]
         )
         target_chat = req.chat_id or settings.TELEGRAM_CHAT_ID
-        if not target_chat:
+        clean_target = str(target_chat or "").strip().strip('"').strip("'")
+        if not clean_target:
             return {
                 "sent": False,
                 "status": "missing_target_chat",
-                "reason": "No target chat ID configured. Set TELEGRAM_CHAT_ID in .env or provide chat_id in request.",
+                "reason": "No target chat ID configured. Set TELEGRAM_CHAT_ID in Render Environment Variables (or .env locally) or provide chat_id in request.",
                 "formatted_message": formatted
             }
 
         dispatch_res = telegram_service.dispatch_telegram_message(
-            chat_id=str(target_chat).strip(),
+            chat_id=clean_target,
             text=formatted
         )
         return {
             "sent": dispatch_res.get("sent", False),
-            "chat_id": "[AUTHORIZED_CHAT_REDACTED]" if dispatch_res.get("sent") else str(target_chat),
+            "chat_id": "[AUTHORIZED_CHAT_REDACTED]" if dispatch_res.get("sent") else clean_target,
             "reason": dispatch_res.get("reason"),
             "error": dispatch_res.get("error"),
             "formatted_message": formatted

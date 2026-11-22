@@ -41,14 +41,24 @@ class TelegramService:
         self._custom_sender = None  # Hook for deterministic unit testing
 
     @property
+    def clean_bot_token(self) -> str:
+        """Returns sanitized Telegram bot token stripped of whitespace, quotes, and redundant bot prefixes."""
+        token = str(self.cfg.TELEGRAM_BOT_TOKEN or "").strip().strip('"').strip("'")
+        if token.startswith("bot") and ":" in token:
+            token = token[3:]
+        return token
+
+    @property
     def authorized_chat_ids(self) -> Set[str]:
-        """Returns set of authorized chat IDs from configuration."""
+        """Returns set of authorized chat IDs from configuration stripped of quotes and whitespace."""
         auth_set = set()
         if self.cfg.TELEGRAM_CHAT_ID:
-            auth_set.add(str(self.cfg.TELEGRAM_CHAT_ID).strip())
+            cleaned = str(self.cfg.TELEGRAM_CHAT_ID).strip().strip('"').strip("'")
+            if cleaned:
+                auth_set.add(cleaned)
         if self.cfg.TELEGRAM_AUTHORIZED_CHAT_IDS:
-            for cid in self.cfg.TELEGRAM_AUTHORIZED_CHAT_IDS.split(","):
-                cleaned = cid.strip()
+            for cid in str(self.cfg.TELEGRAM_AUTHORIZED_CHAT_IDS).split(","):
+                cleaned = cid.strip().strip('"').strip("'")
                 if cleaned:
                     auth_set.add(cleaned)
         return auth_set
@@ -59,21 +69,23 @@ class TelegramService:
         if not auth_ids:
             # If no chat IDs are configured yet, reject live execution for safety
             return False
-        return str(chat_id).strip() in auth_ids
+        clean_cid = str(chat_id).strip().strip('"').strip("'")
+        return clean_cid in auth_ids
 
     def get_public_status(self) -> Dict[str, Any]:
         """
         Returns safe, non-sensitive configuration status for the API and frontend.
         Never exposes the bot token!
         """
-        is_token_configured = bool(self.cfg.TELEGRAM_BOT_TOKEN and len(self.cfg.TELEGRAM_BOT_TOKEN) > 5)
+        token = self.clean_bot_token
+        is_token_configured = bool(token and len(token) > 5)
         has_auth_chats = len(self.authorized_chat_ids) > 0
 
         return {
             "enabled": self.cfg.TELEGRAM_ENABLED,
-            "configured": is_token_configured and has_auth_chats,
+            "configured": bool(self.cfg.TELEGRAM_ENABLED and is_token_configured and has_auth_chats),
             "token_configured": is_token_configured,
-            "bot_username": self.cfg.TELEGRAM_BOT_USERNAME,
+            "bot_username": str(self.cfg.TELEGRAM_BOT_USERNAME or "").strip().strip("@"),
             "authorized_chats_count": len(self.authorized_chat_ids),
             "mode": "private_academic_demo",
             "safety_rule": "Private demonstration only. Automated operational emergency alerts are strictly forbidden.",
@@ -314,24 +326,26 @@ class TelegramService:
         if not self.cfg.TELEGRAM_ENABLED:
             return {
                 "sent": False,
-                "reason": "Telegram integration is disabled by default. Set TELEGRAM_ENABLED=true in .env to enable."
+                "reason": "Telegram integration is disabled by default. Set TELEGRAM_ENABLED=true in Render Environment Variables (or .env locally) to enable."
             }
 
-        if not self.cfg.TELEGRAM_BOT_TOKEN:
+        token = self.clean_bot_token
+        if not token:
             return {
                 "sent": False,
-                "reason": "Missing TELEGRAM_BOT_TOKEN in environment configuration."
+                "reason": "Missing TELEGRAM_BOT_TOKEN in Render Environment Variables (or .env locally)."
             }
 
-        if not self.is_authorized(chat_id):
+        clean_target_chat = str(chat_id).strip().strip('"').strip("'")
+        if not self.is_authorized(clean_target_chat):
             return {
                 "sent": False,
-                "reason": f"Target chat ID is not in the authorized participants list."
+                "reason": f"Target chat ID is not in the authorized participants list (TELEGRAM_AUTHORIZED_CHAT_IDS)."
             }
 
-        url = f"https://api.telegram.org/bot{self.cfg.TELEGRAM_BOT_TOKEN}/sendMessage"
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
         payload = json.dumps({
-            "chat_id": chat_id,
+            "chat_id": clean_target_chat,
             "text": text
         }).encode("utf-8")
 
@@ -346,21 +360,47 @@ class TelegramService:
                 resp_data = json.loads(resp.read().decode("utf-8"))
                 return {
                     "sent": True,
-                    "chat_id": chat_id,
+                    "chat_id": clean_target_chat,
                     "telegram_response": resp_data
                 }
         except urllib.error.HTTPError as e:
             error_body = e.read().decode("utf-8") if e.fp else str(e)
             logger.error(f"Telegram API HTTP error {e.code}: {error_body}")
+            clean_desc = error_body
+            try:
+                err_json = json.loads(error_body)
+                clean_desc = err_json.get("description", error_body)
+            except Exception:
+                pass
+
+            bot_handle = f"@{self.cfg.TELEGRAM_BOT_USERNAME}" if self.cfg.TELEGRAM_BOT_USERNAME else "the bot"
+            if e.code == 400 and "chat not found" in clean_desc.lower():
+                user_reason = f"Telegram rejected: Chat not found. You must open {bot_handle} in Telegram and click 'Start' first."
+            elif e.code == 401:
+                user_reason = f"Telegram rejected: Invalid bot token (401 Unauthorized). Check TELEGRAM_BOT_TOKEN in Render settings."
+            elif e.code == 403:
+                user_reason = f"Telegram rejected: Forbidden. Make sure you haven't blocked {bot_handle} and initiated /start."
+            else:
+                user_reason = f"Telegram API error {e.code}: {clean_desc}"
+
             return {
                 "sent": False,
                 "status_code": e.code,
-                "error": error_body
+                "reason": user_reason,
+                "error": clean_desc
+            }
+        except urllib.error.URLError as e:
+            logger.error(f"Network error connecting to Telegram API: {str(e)}")
+            return {
+                "sent": False,
+                "reason": f"Network error contacting Telegram API: {str(e.reason)}",
+                "error": str(e)
             }
         except Exception as e:
             logger.error(f"Failed to deliver Telegram message: {str(e)}")
             return {
                 "sent": False,
+                "reason": f"Internal dispatch error: {str(e)}",
                 "error": str(e)
             }
 
