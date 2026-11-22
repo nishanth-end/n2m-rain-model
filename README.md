@@ -20,6 +20,15 @@
 
 ---
 
+## Dedicated Technical Documentation
+
+In addition to this README, deep-dive specifications are available in the [`docs/`](docs/) directory:
+* 📐 **[System Architecture & Diagrams (`docs/ARCHITECTURE.md`)](docs/ARCHITECTURE.md)**: Three Mermaid diagrams (System Architecture, Data Flow, Replay Workflow), component boundaries, and high-FPS Canvas rendering mechanics.
+* 🧠 **[Model Methodology & Scientific Validation (`docs/MODEL_METHODOLOGY.md`)](docs/MODEL_METHODOLOGY.md)**: XGBoost formulation, exact 18 feature descriptions, scale_pos_weight calibration, PR-AUC holdout metrics, and scientific boundaries.
+* 🔌 **[REST API Documentation (`docs/API_DOCUMENTATION.md`)](docs/API_DOCUMENTATION.md)**: Exhaustive endpoint reference, query parameters, error codes, and real JSON response schemas.
+
+---
+
 ## Table of Contents
 
 1. [Project Overview](#1-project-overview)
@@ -42,6 +51,7 @@
 18. [Simulation & Live Scaffolding Details](#18-simulation--live-scaffolding-details)
 19. [Telegram Demonstration Bot Integration](#19-telegram-demonstration-bot-integration)
 20. [Academic Maintainers, Credits & Citations](#20-academic-maintainers-credits--citations)
+21. [Cloud Deployment Guide (Render & Vercel)](#21-cloud-deployment-guide-render--vercel)
 
 ---
 
@@ -391,7 +401,16 @@ All API routes are served from `http://127.0.0.1:8000`.
 - **`GET /api/pipeline/status`**
 - Returns isolation status of experimental live rainfall ingestion scaffolding.
 
-### 8. Telegram Sandbox Preview
+### 8. Live Rainfall Ingestion Context
+- **`GET /api/rainfall/latest[?force_refresh=true]`**
+- Retrieves live daily rainfall observations and short-term forecast context from Open-Meteo for Bengaluru.
+- Computes 8 rolling-window features (`rain_1d`, `rain_3d`, `rain_7d`, `rain_14d`, `lags`) and returns cached/normalized telemetry with prominent scientific disclaimers.
+
+### 9. Rainfall Provider Status & Provenance
+- **`GET /api/rainfall/status`**
+- Returns provider configuration, connectivity status, and spatial comparison notes.
+
+### 10. Telegram Sandbox Preview
 - **`GET /api/telegram/demo-preview?date=YYYY-MM-DD`**
 - Returns in-memory formatted Telegram message payload with prominent safety disclaimers without making external network calls.
 
@@ -481,23 +500,61 @@ The frontend features five dedicated views:
 
 ---
 
-## 18. Simulation & Live Scaffolding Details
+## 18. Rainfall Data Ingestion & Live Context Pipeline
 
-The repository includes a dedicated pipeline scaffolding module (`backend/services/pipeline_scaffold.py`) representing the blueprint for automated rainfall ingestion:
-- **Default State**: Strictly **disabled** (`is_operational: false`, `connected_to_alerts: false`).
-- **Feature Compatibility Guard**: Verifies that any candidate real-time precipitation source matches the 8 exact feature definitions of CHIRPS.
-- **Safety Directive**: Hardcoded system invariant: *Under no circumstances should this pipeline trigger public alerts.*
+The repository integrates a robust, maintainable rainfall ingestion service ([`backend/services/rainfall_service.py`](backend/services/rainfall_service.py)) providing live meteorological telemetry for Bengaluru:
+
+### 1. External Provider Architecture
+- **Provider**: **Open-Meteo Weather API** (`https://api.open-meteo.com/v1/forecast`)
+- **License**: Creative Commons Attribution 4.0 International (CC BY 4.0).
+- **Credentials**: Zero API key required; credentials are never exposed to the client.
+- **Coordinates**: Lat $12.9716^\circ\text{N}$, Lon $77.5946^\circ\text{E}$ (Bengaluru City centroid).
+- **Timezone**: `Asia/Kolkata` (UTC+5:30).
+
+### 2. Temporal & Spatial Data Handling
+- **Spatial Resolution**: ~0.1° (~11 km ECMWF / DWD grid).
+- **Temporal Cadence**: Daily cumulative precipitation sum in millimeters (`mm`).
+- **Classification**: Explicitly separates retrieved historical observations ($t \le \text{today}$) from numerical weather forecasts ($t > \text{today}$).
+- **Feature Computation**: Automatically computes the 8 required rolling features (`rain_1d`, `rain_3d`, `rain_7d`, `rain_14d`, `rain_30d`, `lag1`, `lag2`, `lag3`) for any retrieved sequence.
+- **In-Memory Caching**: Implements a 1-hour TTL cache (`RAINFALL_CACHE_TTL_SECONDS=3600`) to respect provider rate limits and ensure sub-millisecond API response times.
+- **Graceful Offline Degradation**: If the provider is unreachable (or in sandboxed/offline environments), the service returns structured diagnostics without crashing and **strictly avoids fabricating synthetic or unverified weather data**.
+
+### 3. Frontend Research Context & Sensitivity Integration
+In the **Live & Simulation** tab:
+- **Section A**: Displays live provider connectivity status, telemetry timestamp, daily observations, and numerical forecasts.
+- **One-Click Synchronization**: Includes a *"Load Retrieved Values into Sensitivity Lab"* button that populates the 8 slider parameters with today's actual meteorological values.
+- **Scientific Boundaries**: Prominently notes the ~11 km vs ~5.3 km CHIRPS resolution difference, ensuring researchers treat live data as observational context rather than an uncalibrated operational forecast.
 
 ---
 
-## 19. Telegram Demonstration Bot Integration
+## 19. Private Telegram Demonstration Bot Integration
 
-The Telegram service (`backend/services/telegram_service.py`) demonstrates how municipal authorities could receive automated spatial intelligence summaries:
-- **Default Isolation**: `TELEGRAM_ENABLED=false`. No network calls are dispatched to Telegram servers.
-- **Preview Endpoint**: `/api/telegram/demo-preview` formats the alert payload in memory.
-- **Formatting Standards**: Every message is prefixed with prominent warning headers:
-  `⚠️ EXPERIMENTAL DEMO — HISTORICAL/SIMULATED SUSCEPTIBILITY RANKING.`
-  `NOT A FLOOD FORECAST OR EMERGENCY WARNING.`
+The Telegram service ([`backend/services/telegram_service.py`](backend/services/telegram_service.py)) implements an academic research demonstration bot for authorized project evaluators:
+
+### 1. Private Demo Restrictions & Access Control
+- **Strictly Non-Operational**: Designed solely for closed demonstration with historical replay data. Public emergency alerts and automated warning sirens are strictly prohibited.
+- **Access Control Gate**: Bot interaction is restricted to explicitly whitelisted chat IDs (`TELEGRAM_AUTHORIZED_CHAT_IDS`). Unauthorized participants receive an access restricted notice (`⛔ Access Restricted`).
+- **Secret Protection**: `TELEGRAM_BOT_TOKEN` is loaded strictly from server-side environment variables and is **never** sent to the client, returned in responses, or printed in logs.
+
+### 2. Available Bot Commands
+- **`/start`**: Introduces the N²M research demonstration bot, its academic purpose, and its experimental limitations.
+- **`/help`**: Lists available commands and usage instructions.
+- **`/status`**: Displays system operational mode, configured data sources, telemetry status, and prominent simulation notices.
+- **`/demo [YYYY-MM-DD]`**: Dispatches a formatted demonstration alert for the benchmark date (`2022-09-08`) or any requested September 2022 replay date (e.g. `/demo 2022-09-05`).
+
+### 3. Server Configuration Steps
+To run the bot locally for private evaluator demonstration:
+1. In `.env`:
+   ```bash
+   TELEGRAM_ENABLED=true
+   TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
+   TELEGRAM_CHAT_ID=YOUR_PRIVATE_CHAT_ID
+   TELEGRAM_AUTHORIZED_CHAT_IDS=YOUR_PRIVATE_CHAT_ID,ANOTHER_EVALUATOR_ID
+   TELEGRAM_BOT_USERNAME=N2M_Flood_Demo_Bot
+   ```
+2. For webhook integration, point your Telegram Bot webhook to:
+   `https://<your-domain>/api/telegram/webhook`
+3. In the frontend **Telegram** tab, verify the *Live Dispatch Configured* status and use the *"Send Demo Alert"* button to test message dispatch.
 
 ---
 
@@ -525,3 +582,14 @@ Simply edit the clearly marked `[ADD ...]` placeholder strings.
 - **Topography**: NASA Shuttle Radar Topography Mission (SRTM) 1 Arc-Second Global Elevation DEM.
 - **Vector Hydrography**: OpenStreetMap Contributors (ODbL License). Stormwater channels (*rajakaluves*) and lake polygons (*keres*).
 - **Validation Reports**: Karnataka State Natural Disaster Monitoring Centre (KSNDMC) & Bruhat Bengaluru Mahanagara Palike (BBMP) monsoon flood situation reports (September 2022).
+
+---
+
+## 21. Cloud Deployment Guide (Render & Vercel)
+
+The system is fully prepared for decoupled cloud deployment using free-tier services:
+- **Frontend**: Deploy on [Vercel](https://vercel.com) using the included `frontend/vercel.json` or root `vercel.json` SPA build configuration. Configure `VITE_API_BASE_URL` with your Render backend URL.
+- **Backend**: Deploy on [Render](https://render.com) using the included `render.yaml` or standard Web Service command (`uvicorn backend.main:app --host 0.0.0.0 --port $PORT`). Health probe is available at `/health`.
+- **Telegram Bot**: Operates within the backend on Render. Set `TELEGRAM_ENABLED="true"` and register your webhook at `https://<render-domain>/api/telegram/webhook`.
+
+For detailed, step-by-step instructions, see the complete guide in [docs/DEPLOYMENT.md](file:///Users/nishanthgm/Documents/n2m-rain-predictive-model/docs/DEPLOYMENT.md).

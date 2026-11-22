@@ -1,16 +1,18 @@
 import logging
-from typing import Optional
+from typing import Optional, Dict, Any
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
 
 from backend.config import settings
 from backend.data_loader import data_loader
 from backend.services.replay_service import replay_service
 from backend.services.telegram_service import telegram_service
 from backend.services.pipeline_scaffold import live_pipeline_scaffold
+from backend.services.rainfall_service import rainfall_service
 from backend.schemas.responses import (
     RootResponse,
     AboutResponse,
@@ -50,11 +52,34 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Enable CORS for local development and decoupled React frontends
+# Configure CORS for local development and deployed cloud frontends (e.g. Vercel)
+cors_raw = settings.CORS_ORIGINS.strip()
+if cors_raw and cors_raw != "*":
+    allowed_origins = [orig.strip() for orig in cors_raw.split(",") if orig.strip()]
+    for dev_orig in ("http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000", "http://127.0.0.1:3000"):
+        if dev_orig not in allowed_origins:
+            allowed_origins.append(dev_orig)
+    allow_credentials = True
+    allow_origin_regex = r"^https:\/\/.*\.vercel\.app$"
+elif cors_raw == "*":
+    allowed_origins = ["*"]
+    allow_credentials = False
+    allow_origin_regex = None
+else:
+    allowed_origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
+    allow_credentials = True
+    allow_origin_regex = r"^https:\/\/.*\.vercel\.app$"
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_origin_regex=allow_origin_regex,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -76,18 +101,33 @@ def get_root():
         status="ok",
         available_routes=[
             "/",
+            "/health",
             "/api/about",
             "/api/dates",
             "/api/risk",
             "/api/risk/latest",
             "/api/summary",
             "/api/telegram/demo-preview",
+            "/api/telegram/status",
+            "/api/telegram/webhook",
+            "/api/telegram/send-demo",
             "/api/pipeline/status",
+            "/api/rainfall/latest",
+            "/api/rainfall/status",
         ],
         mode=settings.MODE,
         model="flood_xgb_holdout_E2022_09.json (September 2022 Holdout Replay Model)",
         version=settings.API_VERSION
     )
+
+@app.get(
+    "/health",
+    summary="Lightweight Health Check Probe for Cloud Deployments",
+    tags=["Root"]
+)
+def get_health():
+    """Returns simple status payload for hosting platform load balancer probes (Render, Vercel, Docker)."""
+    return {"status": "ok", "project": settings.PROJECT_NAME, "version": settings.API_VERSION}
 
 @app.get(
     "/api/about",
@@ -292,6 +332,87 @@ def preview_telegram_demo(
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
+class TelegramSendDemoRequest(BaseModel):
+    date: str = Field("2022-09-08", description="Replay date in YYYY-MM-DD format")
+    chat_id: Optional[str] = Field(None, description="Optional target authorized chat ID")
+
+@app.get(
+    "/api/telegram/status",
+    summary="Get Private Demonstration Bot Configuration Status",
+    tags=["Telegram Demo"]
+)
+def get_telegram_status():
+    """Returns safe, non-sensitive configuration status for the demonstration bot."""
+    return telegram_service.get_public_status()
+
+@app.post(
+    "/api/telegram/webhook",
+    summary="Handle Incoming Telegram Update for Private Demo Bot",
+    tags=["Telegram Demo"]
+)
+def handle_telegram_webhook(update: Dict[str, Any]):
+    """Processes incoming Telegram updates and dispatches bot commands (/start, /help, /status, /demo)."""
+    def replay_fn(d_str):
+        summary = replay_service.get_summary(date_str=d_str)
+        risk = replay_service.get_risk_records(date_str=d_str, limit=5)
+        return summary, risk["cells"]
+
+    rf_status = rainfall_service.get_live_rainfall(force_refresh=False)
+    result = telegram_service.process_incoming_update(
+        update=update,
+        replay_service_fn=replay_fn,
+        rainfall_status=rf_status
+    )
+    if settings.TELEGRAM_ENABLED and result.get("status") in ("success", "unauthorized"):
+        cid = result.get("chat_id")
+        text = result.get("response_text")
+        if cid and text:
+            telegram_service.dispatch_telegram_message(chat_id=cid, text=text)
+
+    return result
+
+@app.post(
+    "/api/telegram/send-demo",
+    summary="Trigger Dispatch of a Private Demonstration Alert Message",
+    tags=["Telegram Demo"]
+)
+def send_telegram_demo(req: TelegramSendDemoRequest):
+    """Dispatches a demonstration alert message to an authorized tester."""
+    try:
+        summary = replay_service.get_summary(date_str=req.date)
+        risk = replay_service.get_risk_records(date_str=req.date, limit=5)
+        formatted = telegram_service.format_demo_message(
+            date_str=req.date,
+            summary=summary,
+            top_cells=risk["cells"]
+        )
+        target_chat = req.chat_id or settings.TELEGRAM_CHAT_ID
+        if not target_chat:
+            return {
+                "sent": False,
+                "status": "missing_target_chat",
+                "reason": "No target chat ID configured. Set TELEGRAM_CHAT_ID in .env or provide chat_id in request.",
+                "formatted_message": formatted
+            }
+
+        dispatch_res = telegram_service.dispatch_telegram_message(
+            chat_id=str(target_chat).strip(),
+            text=formatted
+        )
+        return {
+            "sent": dispatch_res.get("sent", False),
+            "chat_id": "[AUTHORIZED_CHAT_REDACTED]" if dispatch_res.get("sent") else str(target_chat),
+            "reason": dispatch_res.get("reason"),
+            "error": dispatch_res.get("error"),
+            "formatted_message": formatted
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except KeyError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
 @app.get(
     "/api/pipeline/status",
     summary="Status of Experimental Rainfall Ingestion Scaffolding",
@@ -300,3 +421,33 @@ def preview_telegram_demo(
 def get_pipeline_status():
     """Returns the operational and isolation status of experimental rainfall ingestion scaffolding."""
     return live_pipeline_scaffold.get_pipeline_status()
+
+@app.get(
+    "/api/rainfall/latest",
+    summary="Get Latest Retrieved Rainfall Context for Bengaluru",
+    tags=["Rainfall Ingestion"]
+)
+def get_latest_rainfall(
+    force_refresh: bool = Query(False, description="Bypass cache and force immediate provider fetch")
+):
+    """
+    Fetches actual observed and short-term forecast rainfall data from Open-Meteo for Bengaluru.
+    Returns normalized daily series, computed rolling features, and scientific metadata.
+    """
+    return rainfall_service.get_live_rainfall(force_refresh=force_refresh)
+
+@app.get(
+    "/api/rainfall/status",
+    summary="Get Rainfall Ingestion Provider Status & Provenance",
+    tags=["Rainfall Ingestion"]
+)
+def get_rainfall_status():
+    """Returns configuration and metadata for the external rainfall observation provider."""
+    live_data = rainfall_service.get_live_rainfall(force_refresh=False)
+    return {
+        "status": live_data.get("status", "unknown"),
+        "is_live": live_data.get("is_live", False),
+        "cached": live_data.get("cached", False),
+        "provider": live_data.get("provider", {}),
+        "summary": live_data.get("summary", {})
+    }

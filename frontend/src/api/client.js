@@ -3,7 +3,10 @@
  * Centralized fetch service for the Bengaluru Flood Susceptibility Backend.
  */
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+const rawBase = import.meta.env.VITE_API_BASE_URL;
+// In production, VITE_API_BASE_URL points to the deployed backend (e.g. https://my-backend.onrender.com).
+// Strip any trailing slashes to prevent malformed double-slash endpoints.
+const API_BASE = rawBase ? rawBase.trim().replace(/\/+$/, '') : 'http://127.0.0.1:8000';
 
 async function fetchJson(endpoint, options = {}) {
   const url = `${API_BASE}${endpoint}`;
@@ -78,7 +81,28 @@ export const api = {
     return fetchJson(`/api/telegram/demo-preview?${params.toString()}`);
   },
 
+  async getTelegramStatus() {
+    return fetchJson('/api/telegram/status');
+  },
+
+  async sendTelegramDemo(date, chatId = null) {
+    return fetchJson('/api/telegram/send-demo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ date, chat_id: chatId }),
+    });
+  },
+
   async getPipelineStatus() {
     return fetchJson('/api/pipeline/status');
+  },
+
+  async getLatestRainfall(forceRefresh = false) {
+    const qs = forceRefresh ? '?force_refresh=true' : '';
+    return fetchJson(`/api/rainfall/latest${qs}`);
+  },
+
+  async getRainfallStatus() {
+    return fetchJson('/api/rainfall/status');
   },
 };
