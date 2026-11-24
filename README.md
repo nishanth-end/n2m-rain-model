@@ -568,14 +568,13 @@ frontend/src/config/content.js
 Simply edit the clearly marked `[ADD ...]` placeholder strings.
 
 ### Research Team & Institutional Context
-- **Institution**: `[ADD INSTITUTION NAME: e.g. Dayananda Sagar College of Engineering, Bengaluru]`
-- **Department**: `[ADD DEPARTMENT: e.g. Department of Computer Science & Engineering]`
-- **Faculty Project Advisor**: `[ADD FACULTY GUIDE NAME: e.g. Dr. Faculty Guide Name]`
+- **Institution**: `Dayananda Sagar College of Engineering, Bengaluru`
+- **Department**: `Department of Computer Science & Engineering`
+- **Faculty Project Advisor**: `Prof. Punith Kumar`
 - **Student Contributors**:
-  - `[ADD CREATOR NAME 1]`: Data Pipeline & Hydrological Feature Extraction
-  - `[ADD CREATOR NAME 2]`: Machine Learning Modeling & Holdout Validation
-  - `[ADD CREATOR NAME 3]`: Backend Architecture & Spatial Replay Service
-  - `[ADD CREATOR NAME 4]`: Cartographic UI & Frontend Engineering
+  - `Nishanth G M`: Data Pipeline & Hydrological Feature Extraction
+  - `Mohith M`: Machine Learning Modeling & Holdout Validation
+  - `Nihal Rao`: Cartographic UI & Frontend Engineering
 
 ### Primary Dataset Provenance
 - **Precipitation**: Climate Hazards Center CHIRPS (UC Santa Barbara). *Funk et al. (2015). The climate hazards infrared precipitation with stations—a new environmental record for monitoring extremes. Scientific Data, 2, 150066.*
